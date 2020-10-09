@@ -1,0 +1,9 @@
+node_modules
+.DS_Store
+/lib
+tsdoc-metadata.json
+package-lock.json
+/temp
+/dist
+/test/out
+/docs

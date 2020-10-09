@@ -1,0 +1,16 @@
+.gitignore
+.gitattributes
+.DS_Store
+package-lock.json
+node_modules
+/docs
+/temp
+tsconfig*.json
+.vscode
+/scripts
+api-extractor.json
+.eslint*
+gulpfile.*
+/test
+tsgo.config*
+/src
