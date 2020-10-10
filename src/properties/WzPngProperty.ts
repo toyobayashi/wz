@@ -3,6 +3,9 @@ import { WzObject } from '../WzObject'
 import { WzExtended } from '../WzExtended'
 import { WzBinaryReader } from '../util/WzBinaryReader'
 
+/**
+ * @public
+ */
 export class WzPngProperty extends WzExtended {
   public get propertyType (): WzPropertyType {
     return WzPropertyType.PNG

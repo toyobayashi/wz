@@ -3,6 +3,9 @@ import { WzObject } from '../WzObject'
 import { WzExtended } from '../WzExtended'
 import { WzIntProperty } from './WzIntProperty'
 
+/**
+ * @public
+ */
 export class WzVectorProperty extends WzExtended {
   public get propertyType (): WzPropertyType {
     return WzPropertyType.Vector

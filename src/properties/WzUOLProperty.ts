@@ -5,6 +5,9 @@ import { WzImageProperty } from '../WzImageProperty'
 import { WzImage } from '../WzImage'
 import { WzDirectory } from '../WzDirectory'
 
+/**
+ * @public
+ */
 export class WzUOLProperty extends WzExtended {
   public static UOLRES: boolean = true
 

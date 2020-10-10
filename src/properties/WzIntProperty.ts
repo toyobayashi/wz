@@ -2,6 +2,9 @@ import { WzPropertyType } from '../WzPropertyType'
 import { WzObject } from '../WzObject'
 import { WzImageProperty } from '../WzImageProperty'
 
+/**
+ * @public
+ */
 export class WzIntProperty extends WzImageProperty {
   public get propertyType (): WzPropertyType {
     return WzPropertyType.Int

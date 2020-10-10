@@ -6,6 +6,9 @@ import { WzImageProperty } from '../WzImageProperty'
 import { NotImplementedError } from '../util/NotImplementedError'
 import { WzPngProperty } from './WzPngProperty'
 
+/**
+ * @public
+ */
 export class WzCanvasProperty extends WzExtended implements IPropertyContainer {
   private readonly properties: Set<WzImageProperty> = new Set()
 
