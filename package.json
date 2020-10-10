@@ -1,5 +1,5 @@
 {
-  "name": "wz",
+  "name": "@tybys/wz",
   "version": "0.0.1",
   "description": "",
   "typings": "./lib/cjs-modern/index.d.ts",
