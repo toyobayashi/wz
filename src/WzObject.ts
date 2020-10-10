@@ -24,6 +24,10 @@ export abstract class WzObject implements IDisposable {
 
   public abstract at (name: string): WzObject | null
 
+  public get wzValue (): any {
+    return null
+  }
+
   public getTopMostWzDirectory (): WzObject {
     let parent = this.parent
     if (parent == null) {

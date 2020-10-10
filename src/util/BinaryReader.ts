@@ -183,4 +183,20 @@ export class BinaryReader implements IDisposable {
   public readBigUInt64BE (): bigint {
     return readNumber(this, 'readBigUInt64BE')
   }
+
+  public readFloatLE (): number {
+    return readNumber(this, 'readFloatLE')
+  }
+
+  public readFloatBE (): number {
+    return readNumber(this, 'readFloatBE')
+  }
+
+  public readDoubleLE (): number {
+    return readNumber(this, 'readDoubleLE')
+  }
+
+  public readDoubleBE (): number {
+    return readNumber(this, 'readDoubleBE')
+  }
 }

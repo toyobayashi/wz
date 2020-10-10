@@ -72,7 +72,7 @@ export class WzImage extends WzObject implements IPropertyContainer {
     this.properties.clear()
   }
 
-  set<T extends WzImageProperty> (name: string, value: T): void {
+  public set<T extends WzImageProperty> (name: string, value: T): void {
     if (value != null) {
       value.name = name
       this.addProperty(value)
@@ -153,7 +153,7 @@ export class WzImage extends WzObject implements IPropertyContainer {
     switch (b) {
       case 0x1: {
         if (this.isLuaImage) {
-          const lua = WzImageProperty.ParseLuaProperty(this.offset, reader, this, this)
+          const lua = WzImageProperty.parseLuaProperty(this.offset, reader, this, this)
           this.properties.add(lua)
           this.parsed = true
           return true
@@ -174,9 +174,11 @@ export class WzImage extends WzObject implements IPropertyContainer {
         return false
       }
     }
-    // TODO
-    // const images = WzImageProperty.parsePropertyList(this.offset, reader, this, this)
-    // this.properties.AddRange(images)
+
+    const images = WzImageProperty.parsePropertyList(this.offset, reader, this, this)
+    for (const img of images) {
+      this.properties.add(img)
+    }
 
     this.parsed = true
     return true
