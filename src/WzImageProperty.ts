@@ -7,7 +7,7 @@ import { WzObjectType } from './WzObjectType'
 import { WzPropertyType } from './WzPropertyType'
 
 export abstract class WzImageProperty extends WzObject {
-  public readonly abstract wzProperties: Map<string, WzImageProperty>
+  public readonly abstract wzProperties: Set<WzImageProperty>
   public abstract get propertyType (): WzPropertyType
   public abstract getFromPath (): WzImageProperty
   public abstract at (name: string): WzImageProperty

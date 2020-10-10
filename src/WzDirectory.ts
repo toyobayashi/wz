@@ -5,8 +5,8 @@ import { WzObject } from './WzObject'
 import { WzObjectType } from './WzObjectType'
 
 export class WzDirectory extends WzObject {
-  private readonly images: Map<string, WzImage> = new Map()
-  private readonly subDirs: Map<string, WzDirectory> = new Map()
+  private readonly images: Set<WzImage> = new Set()
+  private readonly subDirs: Set<WzDirectory> = new Set()
   public reader: WzBinaryReader
   public offset: number = 0
   public name: string
@@ -21,10 +21,10 @@ export class WzDirectory extends WzObject {
   public dispose (): void {
     this.name = ''
     // this.reader.dispose()
-    for (const [, img] of this.images) {
+    for (const img of this.images) {
       img.dispose()
     }
-    for (const [, dir] of this.subDirs) {
+    for (const dir of this.subDirs) {
       dir.dispose()
     }
     this.images.clear()
@@ -39,11 +39,11 @@ export class WzDirectory extends WzObject {
     return this.wzFile
   }
 
-  public get wzImages (): Map<string, WzImage> {
+  public get wzImages (): Set<WzImage> {
     return this.images
   }
 
-  public get wzDirectories (): Map<string, WzDirectory> {
+  public get wzDirectories (): Set<WzDirectory> {
     return this.subDirs
   }
 
@@ -57,11 +57,12 @@ export class WzDirectory extends WzObject {
   }
 
   public at (name: string): WzObject | null {
-    if (this.images.has(name)) {
-      return this.images.get(name) ?? null
+    const nameLower = name.toLowerCase()
+    for (const img of this.images) {
+      if (img.name.toLowerCase() === nameLower) return img
     }
-    if (this.subDirs.has(name)) {
-      return this.subDirs.get(name) ?? null
+    for (const dir of this.subDirs) {
+      if (dir.name.toLowerCase() === nameLower) return dir
     }
     return null
   }
@@ -80,47 +81,55 @@ export class WzDirectory extends WzObject {
   }
 
   public addDirectory (dir: WzDirectory): void {
-    this.subDirs.set(dir.name, dir)
+    this.subDirs.add(dir)
     dir.wzFile = this.wzFile
     dir.parent = this
   }
 
   public addImage (img: WzImage): void {
-    this.images.set(img.name, img)
+    this.images.add(img)
     img.parent = this
   }
 
   public clearDirectories (): void {
-    for (const [, dir] of this.subDirs) {
+    for (const dir of this.subDirs) {
       dir.parent = null
     }
     this.subDirs.clear()
   }
 
   public clearImages (): void {
-    for (const [, img] of this.images) {
+    for (const img of this.images) {
       img.parent = null
     }
     this.images.clear()
   }
 
   public getImageByName (name: string): WzImage | null {
-    return this.images.get(name) ?? null
+    const nameLower = name.toLowerCase()
+    for (const img of this.images) {
+      if (img.name.toLowerCase() === nameLower) return img
+    }
+    return null
   }
 
   public getDirectoryByName (name: string): WzDirectory | null {
-    return this.subDirs.get(name) ?? null
+    const nameLower = name.toLowerCase()
+    for (const dir of this.subDirs) {
+      if (dir.name.toLowerCase() === nameLower) return dir
+    }
+    return null
   }
 
-  public getChildImages (): Map<string, WzImage> {
-    const imgFiles = new Map<string, WzImage>()
+  public getChildImages (): Set<WzImage> {
+    const imgFiles = new Set<WzImage>()
     for (const img of this.images) {
-      imgFiles.set(img[0], img[1])
+      imgFiles.add(img)
     }
-    for (const [, subDir] of this.subDirs) {
+    for (const subDir of this.subDirs) {
       const list = subDir.getChildImages()
       for (const img of list) {
-        imgFiles.set(img[0], img[1])
+        imgFiles.add(img)
       }
     }
     return imgFiles
@@ -128,19 +137,19 @@ export class WzDirectory extends WzObject {
 
   public setVersionHash (newHash: number): void {
     this.hash = newHash
-    for (const [, dir] of this.subDirs) {
+    for (const dir of this.subDirs) {
       dir.setVersionHash(newHash)
     }
   }
 
   public parseImages (): void {
-    for (const [, img] of this.images) {
+    for (const img of this.images) {
       if (this.reader.pos !== img.offset) {
         this.reader.pos = img.offset
       }
       img.parseImage()
     }
-    for (const [, subdir] of this.subDirs) {
+    for (const subdir of this.subDirs) {
       if (this.reader.pos !== subdir.offset) {
         this.reader.pos = subdir.offset
       }
@@ -193,7 +202,7 @@ export class WzDirectory extends WzObject {
         subDir.checksum = checksum
         subDir.offset = offset
         subDir.parent = this
-        this.subDirs.set(fname, subDir)
+        this.subDirs.add(subDir)
 
         if (lazyParse) break
       } else {
@@ -201,12 +210,12 @@ export class WzDirectory extends WzObject {
         img.blockSize = fsize
         img.offset = offset
         img.parent = this
-        this.images.set(fname, img)
+        this.images.add(img)
 
         if (lazyParse) break
       }
     }
-    for (const [, subdir] of this.subDirs) {
+    for (const subdir of this.subDirs) {
       reader.pos = subdir.offset
       subdir.parseDirectory()
     }

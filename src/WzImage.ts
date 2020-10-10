@@ -25,8 +25,8 @@ export class WzImage extends WzObject implements IPropertyContainer {
     return this.name.endsWith('.lua')
   }
 
-  private readonly properties: Map<string, WzImageProperty> = new Map()
-  public get wzProperties (): Map<string, WzImageProperty> {
+  private readonly properties: Set<WzImageProperty> = new Set()
+  public get wzProperties (): Set<WzImageProperty> {
     if (!this.parsed) this.parseImage()
     return this.properties
   }
@@ -47,23 +47,23 @@ export class WzImage extends WzObject implements IPropertyContainer {
   public addProperty (prop: WzImageProperty): void {
     prop.parent = this
     if (this.reader != null && !this.parsed) this.parseImage()
-    this.properties.set(prop.name, prop)
+    this.properties.add(prop)
   }
 
   public removeProperty (prop: WzImageProperty): void {
     if (!this.parsed) this.parseImage()
     prop.parent = null
-    this.properties.delete(prop.name)
+    this.properties.delete(prop)
   }
 
-  public addProperties (props: Map<string, WzImageProperty>): void {
-    for (const [, prop] of props) {
+  public addProperties (props: Set<WzImageProperty>): void {
+    for (const prop of props) {
       this.addProperty(prop)
     }
   }
 
   public clearProperties (): void {
-    for (const [, prop] of this.properties) {
+    for (const prop of this.properties) {
       prop.parent = null
     }
     this.properties.clear()
@@ -79,7 +79,7 @@ export class WzImage extends WzObject implements IPropertyContainer {
   public dispose (): void {
     this.name = ''
     // this.reader.dispose()
-    for (const [, prop] of this.properties) {
+    for (const prop of this.properties) {
       prop.dispose()
     }
     this.properties.clear()
@@ -87,7 +87,11 @@ export class WzImage extends WzObject implements IPropertyContainer {
 
   public at (name: string): WzImageProperty | null {
     if (!this.parsed) this.parseImage()
-    return this.properties.get(name) ?? null
+    const nameLower = name.toLowerCase()
+    for (const prop of this.properties) {
+      if (prop.name.toLowerCase() === nameLower) return prop
+    }
+    return null
   }
 
   public get wzFileParent (): WzFile | null {
@@ -104,8 +108,8 @@ export class WzImage extends WzObject implements IPropertyContainer {
     let ret: WzImageProperty | null = null
     for (let x = 0; x < segments.length; x++) {
       let foundChild = false
-      const map: Map<string, WzImageProperty> = (ret == null ? this.properties : ret.wzProperties)
-      for (const [, iwp] of map) {
+      const map: Set<WzImageProperty> = (ret == null ? this.properties : ret.wzProperties)
+      for (const iwp of map) {
         if (iwp.name === segments[x]) {
           ret = iwp
           foundChild = true
@@ -144,7 +148,7 @@ export class WzImage extends WzObject implements IPropertyContainer {
       case 0x1: {
         if (this.isLuaImage) {
           const lua = WzImageProperty.ParseLuaProperty(this.offset, reader, this, this)
-          this.properties.set(lua.name, lua)
+          this.properties.add(lua)
           this.parsed = true
           return true
         }

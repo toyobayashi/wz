@@ -11,7 +11,7 @@ export class WzLuaProperty extends WzImageProperty {
 
   public static USE_IV_KEY: Buffer = MapleCryptoConstants.WZ_MSEAIV
 
-  public wzProperties: Map<string, WzImageProperty> = new Map()
+  public wzProperties: Set<WzImageProperty> = new Set()
   public parent: WzObject | null = null
 
   public constructor (public name: string, public encryptedBytes: Buffer) {
