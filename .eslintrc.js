@@ -13,6 +13,8 @@ module.exports = {
     '@typescript-eslint/no-namespace': 'off',
     '@typescript-eslint/no-var-requires': 'off',
     '@typescript-eslint/method-signature-style': 'off',
+    '@typescript-eslint/no-extraneous-class': 'off',
+    '@typescript-eslint/no-this-alias': 'off',
     '@typescript-eslint/member-delimiter-style': ['error', {
       multiline: {
         delimiter: 'none',
@@ -25,7 +27,7 @@ module.exports = {
     }]
   },
   parserOptions: {
-    ecmaVersion: 2019,
+    ecmaVersion: 2020,
     sourceType: 'module',
     project: './tsconfig.json',
     tsconfigRootDir: __dirname,

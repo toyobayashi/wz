@@ -90,22 +90,32 @@ export class BinaryReader implements IDisposable {
 
   public read (len: number = 1): Buffer {
     const buf = Buffer.alloc(len)
-    fs.readSync(this._fd, buf, 0, len, this.pos)
-    this.pos += len
+    const readLength = fs.readSync(this._fd, buf, 0, len, this.pos)
+    this.pos += readLength
     return buf
   }
 
-  public readString (encoding: 'ascii' | 'utf8' = 'ascii'): string {
-    let l = 0
-    const buf = Buffer.alloc(1)
-    do {
-      fs.readSync(this._fd, buf, 0, 1, this.pos + l)
-      l++
-    } while (buf[0] !== 0)
-    const r = Buffer.alloc(l - 1)
-    fs.readSync(this._fd, r, 0, l - 1, this.pos)
-    this.pos += l
-    return r.toString(encoding)
+  public readToBuffer (buf: Buffer, bufStart: number = 0, len: number = 1): number {
+    const readLength = fs.readSync(this._fd, buf, bufStart, len, this.pos)
+    this.pos += readLength
+    return readLength
+  }
+
+  public readString (encoding: 'ascii' | 'utf8' = 'ascii', length: number = -1): string {
+    if (length === -1) {
+      let l = 0
+      const buf = Buffer.alloc(1)
+      do {
+        const readLength = fs.readSync(this._fd, buf, 0, 1, this.pos + l)
+        if (readLength === 0) break
+        l += readLength
+      } while (buf[0] !== 0)
+      const r = Buffer.alloc(l - 1)
+      fs.readSync(this._fd, r, 0, l - 1, this.pos)
+      this.pos += l
+      return r.toString(encoding)
+    }
+    return this.read(length).toString(encoding)
   }
 
   public readBoolean (): boolean {
