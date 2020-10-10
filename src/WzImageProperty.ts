@@ -1,21 +1,7 @@
-import { WzBinaryProperty } from './properties/WzBinaryProperty'
-import { WzCanvasProperty } from './properties/WzCanvasProperty'
-import { WzConvexProperty } from './properties/WzConvexProperty'
-import { WzDoubleProperty } from './properties/WzDoubleProperty'
-import { WzFloatProperty } from './properties/WzFloatProperty'
-import { WzIntProperty } from './properties/WzIntProperty'
-import { WzLongProperty } from './properties/WzLongProperty'
+import { WzExtended } from './WzExtended'
 import { WzLuaProperty } from './properties/WzLuaProperty'
-import { WzNullProperty } from './properties/WzNullProperty'
-import { WzPngProperty } from './properties/WzPngProperty'
-import { WzShortProperty } from './properties/WzShortProperty'
-import { WzStringProperty } from './properties/WzStringProperty'
-import { WzSubProperty } from './properties/WzSubProperty'
-import { WzUOLProperty } from './properties/WzUOLProperty'
-import { WzVectorProperty } from './properties/WzVectorProperty'
 import { NotImplementedError } from './util/NotImplementedError'
 import { WzBinaryReader } from './util/WzBinaryReader'
-import { WzExtended } from './WzExtended'
 import { WzFile } from './WzFile'
 import { WzImage } from './WzImage'
 import { WzObject } from './WzObject'
@@ -68,7 +54,7 @@ export abstract class WzImageProperty extends WzObject {
     // [compressed int] [bytes]
     const length = reader.readWzInt()
     const rawEncBytes = reader.read(length)
-
+    const WzLuaProperty = require('./properties/WzLuaProperty').WzLuaProperty as typeof import('./properties/WzLuaProperty').WzLuaProperty
     const lua = new WzLuaProperty('Script', rawEncBytes)
     lua.parent = parent
     return lua
@@ -82,6 +68,7 @@ export abstract class WzImageProperty extends WzObject {
       const ptype = reader.readUInt8()
       switch (ptype) {
         case 0: {
+          const WzNullProperty = require('./properties/WzNullProperty').WzNullProperty as typeof import('./properties/WzNullProperty').WzNullProperty
           const p = new WzNullProperty(name)
           p.parent = parent
           properties.add(p)
@@ -89,6 +76,7 @@ export abstract class WzImageProperty extends WzObject {
         }
         case 11:
         case 2: {
+          const WzShortProperty = require('./properties/WzShortProperty').WzShortProperty as typeof import('./properties/WzShortProperty').WzShortProperty
           const p = new WzShortProperty(name, reader.readInt16LE())
           p.parent = parent
           properties.add(p)
@@ -96,20 +84,23 @@ export abstract class WzImageProperty extends WzObject {
         }
         case 3:
         case 19: {
+          const WzIntProperty = require('./properties/WzIntProperty').WzIntProperty as typeof import('./properties/WzIntProperty').WzIntProperty
           const p = new WzIntProperty(name, reader.readWzInt())
           p.parent = parent
           properties.add(p)
           break
         }
         case 20: {
+          const WzLongProperty = require('./properties/WzLongProperty').WzLongProperty as typeof import('./properties/WzLongProperty').WzLongProperty
           const p = new WzLongProperty(name, reader.readWzLong())
           p.parent = parent
           properties.add(p)
           break
         }
         case 4: {
+          const WzFloatProperty = require('./properties/WzFloatProperty').WzFloatProperty as typeof import('./properties/WzFloatProperty').WzFloatProperty
           const type = reader.readUInt8()
-          let p: WzFloatProperty
+          let p: import('./properties/WzFloatProperty').WzFloatProperty
           if (type === 0x80) {
             p = new WzFloatProperty(name, reader.readFloatLE())
             p.parent = parent
@@ -122,12 +113,14 @@ export abstract class WzImageProperty extends WzObject {
           break
         }
         case 5: {
+          const WzDoubleProperty = require('./properties/WzDoubleProperty').WzDoubleProperty as typeof import('./properties/WzDoubleProperty').WzDoubleProperty
           const p = new WzDoubleProperty(name, reader.readDoubleLE())
           p.parent = parent
           properties.add(p)
           break
         }
         case 8: {
+          const WzStringProperty = require('./properties/WzStringProperty').WzStringProperty as typeof import('./properties/WzStringProperty').WzStringProperty
           const p = new WzStringProperty(name, reader.readStringBlock(offset))
           p.parent = parent
           properties.add(p)
@@ -169,6 +162,7 @@ export abstract class WzImageProperty extends WzObject {
 
     switch (iname) {
       case 'Property': {
+        const WzSubProperty = require('./properties/WzSubProperty').WzSubProperty as typeof import('./properties/WzSubProperty').WzSubProperty
         const subProp = new WzSubProperty(name)
         subProp.parent = parent
         reader.pos += 2 // Reserved?
@@ -176,17 +170,21 @@ export abstract class WzImageProperty extends WzObject {
         return subProp
       }
       case 'Canvas': {
+        const WzCanvasProperty = require('./properties/WzCanvasProperty').WzCanvasProperty as typeof import('./properties/WzCanvasProperty').WzCanvasProperty
         const canvasProp = new WzCanvasProperty(name)
         reader.pos++
         if (reader.readUInt8() === 1) {
           reader.pos += 2
           canvasProp.addProperties(WzImageProperty.parsePropertyList(offset, reader, canvasProp, imgParent))
         }
+        const WzPngProperty = require('./properties/WzPngProperty').WzPngProperty as typeof import('./properties/WzPngProperty').WzPngProperty
         canvasProp.pngProperty = new WzPngProperty(reader, imgParent.parseEverything)
         canvasProp.pngProperty.parent = canvasProp
         return canvasProp
       }
       case 'Shape2D#Vector2D': {
+        const WzVectorProperty = require('./properties/WzVectorProperty').WzVectorProperty as typeof import('./properties/WzVectorProperty').WzVectorProperty
+        const WzIntProperty = require('./properties/WzIntProperty').WzIntProperty as typeof import('./properties/WzIntProperty').WzIntProperty
         const vecProp = new WzVectorProperty(name)
         vecProp.parent = parent
         vecProp.x = new WzIntProperty('X', reader.readWzInt())
@@ -196,6 +194,7 @@ export abstract class WzImageProperty extends WzObject {
         return vecProp
       }
       case 'Shape2D#Convex2D': {
+        const WzConvexProperty = require('./properties/WzConvexProperty').WzConvexProperty as typeof import('./properties/WzConvexProperty').WzConvexProperty
         const convexProp = new WzConvexProperty(name)
         convexProp.parent = parent
         const convexEntryCount = reader.readWzInt()
@@ -206,11 +205,13 @@ export abstract class WzImageProperty extends WzObject {
         return convexProp
       }
       case 'Sound_DX8': {
+        const WzBinaryProperty = require('./properties/WzBinaryProperty').WzBinaryProperty as typeof import('./properties/WzBinaryProperty').WzBinaryProperty
         const soundProp = new WzBinaryProperty(name, reader, imgParent.parseEverything)
         soundProp.parent = parent
         return soundProp
       }
-      case 'UOL':
+      case 'UOL': {
+        const WzUOLProperty = require('./properties/WzUOLProperty').WzUOLProperty as typeof import('./properties/WzUOLProperty').WzUOLProperty
         reader.pos++
         switch (reader.readUInt8()) {
           case 0: {
@@ -225,6 +226,7 @@ export abstract class WzImageProperty extends WzObject {
           }
         }
         throw new Error('Unsupported UOL type')
+      }
       default:
         throw new Error('Unknown iname: ' + iname)
     }
