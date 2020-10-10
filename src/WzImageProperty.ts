@@ -1,4 +1,5 @@
 import { WzLuaProperty } from './properties/WzLuaProperty'
+import { NotImplementedError } from './util/NotImplementedError'
 import { WzBinaryReader } from './util/WzBinaryReader'
 import { WzFile } from './WzFile'
 import { WzImage } from './WzImage'
@@ -7,10 +8,22 @@ import { WzObjectType } from './WzObjectType'
 import { WzPropertyType } from './WzPropertyType'
 
 export abstract class WzImageProperty extends WzObject {
-  public readonly abstract wzProperties: Set<WzImageProperty>
+  public get wzProperties (): Set<WzImageProperty> | null {
+    return null
+  }
+
   public abstract get propertyType (): WzPropertyType
-  public abstract getFromPath (): WzImageProperty
-  public abstract at (name: string): WzImageProperty
+  public getFromPath (): WzImageProperty | null {
+    return null
+  }
+
+  public at (_name: string): WzImageProperty | null {
+    return null
+  }
+
+  public set (_name: string, _value: WzImageProperty): void {
+    throw new NotImplementedError()
+  }
 
   public get objectType (): WzObjectType {
     return WzObjectType.Property

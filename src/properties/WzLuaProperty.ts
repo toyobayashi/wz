@@ -1,5 +1,4 @@
 import { MapleCryptoConstants } from '../util/MapleCryptoConstants'
-import { NotImplementedError } from '../util/NotImplementedError'
 import { WzKeyGenerator } from '../util/WzKeyGenerator'
 import { WzMutableKey } from '../util/WzMutableKey'
 import { WzImageProperty } from '../WzImageProperty'
@@ -11,7 +10,6 @@ export class WzLuaProperty extends WzImageProperty {
 
   public static USE_IV_KEY: Buffer = MapleCryptoConstants.WZ_MSEAIV
 
-  public wzProperties: Set<WzImageProperty> = new Set()
   public parent: WzObject | null = null
 
   public constructor (public name: string, public encryptedBytes: Buffer) {
@@ -46,14 +44,6 @@ export class WzLuaProperty extends WzImageProperty {
       newArray[i] = encryptedChar
     }
     return newArray
-  }
-
-  public getFromPath (): WzImageProperty {
-    throw new NotImplementedError()
-  }
-
-  public at (_name: string): WzImageProperty {
-    throw new NotImplementedError()
   }
 
   public dispose (): void {

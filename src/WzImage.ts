@@ -108,12 +108,15 @@ export class WzImage extends WzObject implements IPropertyContainer {
     let ret: WzImageProperty | null = null
     for (let x = 0; x < segments.length; x++) {
       let foundChild = false
-      const map: Set<WzImageProperty> = (ret == null ? this.properties : ret.wzProperties)
-      for (const iwp of map) {
-        if (iwp.name === segments[x]) {
-          ret = iwp
-          foundChild = true
-          break
+      const list: Set<WzImageProperty> | null = (ret == null ? this.properties : ret.wzProperties)
+      if (list != null) {
+        const l: Set<WzImageProperty> = list
+        for (const iwp of l) {
+          if (iwp.name === segments[x]) {
+            ret = iwp
+            foundChild = true
+            break
+          }
         }
       }
       if (!foundChild) {
