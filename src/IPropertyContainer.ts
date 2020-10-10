@@ -1,5 +1,8 @@
 import { WzImageProperty } from './WzImageProperty'
 
+/**
+ * @public
+ */
 export interface IPropertyContainer {
   addProperty(prop: WzImageProperty): void
   addProperties(props: Set<WzImageProperty>): void

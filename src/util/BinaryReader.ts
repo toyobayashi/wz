@@ -1,5 +1,8 @@
 import * as fs from 'fs'
 
+/**
+ * @public
+ */
 export interface IDisposable {
   dispose (): void
 }
@@ -37,6 +40,9 @@ function readNumber<Reader extends BinaryReader> (reader: Reader, method: keyof 
   return buf[method](0)
 }
 
+/**
+ * @public
+ */
 export class BinaryReader implements IDisposable {
   protected readonly _path: string
   protected readonly _size: number

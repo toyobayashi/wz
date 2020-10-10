@@ -5,6 +5,9 @@ import { WzImageProperty } from './WzImageProperty'
 import { WzObject } from './WzObject'
 import { WzObjectType } from './WzObjectType'
 
+/**
+ * @public
+ */
 export class WzImage extends WzObject implements IPropertyContainer {
   public parent: WzObject | null = null
   public name: string = ''

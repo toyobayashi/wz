@@ -5,6 +5,9 @@ import { WzImageProperty } from '../WzImageProperty'
 import { WzObject } from '../WzObject'
 import { WzPropertyType } from '../WzPropertyType'
 
+/**
+ * @public
+ */
 export class WzLuaProperty extends WzImageProperty {
   public wzKey: WzMutableKey
 

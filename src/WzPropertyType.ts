@@ -1,3 +1,6 @@
+/**
+ * @public
+ */
 export enum WzPropertyType {
   // #region Regular
   Null,

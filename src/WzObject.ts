@@ -2,6 +2,9 @@ import { IDisposable } from './util/BinaryReader'
 import { WzFile } from './WzFile'
 import { WzObjectType } from './WzObjectType'
 
+/**
+ * @public
+ */
 export abstract class WzObject implements IDisposable {
   public hcTag: any = null
   public hcTag_spine: any = null

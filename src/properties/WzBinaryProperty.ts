@@ -4,6 +4,9 @@ import { WzExtended } from '../WzExtended'
 import { WzObject } from '../WzObject'
 import { WzPropertyType } from '../WzPropertyType'
 
+/**
+ * @public
+ */
 export class WzBinaryProperty extends WzExtended {
   public static soundHeader = [
     0x02,

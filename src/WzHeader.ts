@@ -1,3 +1,6 @@
+/**
+ * @public
+ */
 export class WzHeader {
   public ident: string = ''
   public fsize: bigint = 0n

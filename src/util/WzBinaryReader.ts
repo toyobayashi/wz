@@ -5,6 +5,9 @@ import { WzKeyGenerator } from './WzKeyGenerator'
 import { WzMutableKey } from './WzMutableKey'
 import { WzTool } from './WzTool'
 
+/**
+ * @public
+ */
 export class WzBinaryReader extends BinaryReader {
   public wzKey: WzMutableKey
   public hash: number

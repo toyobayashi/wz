@@ -1,3 +1,6 @@
+/**
+ * @public
+ */
 export enum WzMapleVersion {
   GMS = 0,
   EMS = 1,

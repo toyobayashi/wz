@@ -7,6 +7,9 @@ import { WzObject } from './WzObject'
 import { WzObjectType } from './WzObjectType'
 import { WzPropertyType } from './WzPropertyType'
 
+/**
+ * @public
+ */
 export abstract class WzImageProperty extends WzObject {
   public get wzProperties (): Set<WzImageProperty> | null {
     return null

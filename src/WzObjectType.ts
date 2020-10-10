@@ -1,3 +1,6 @@
+/**
+ * @public
+ */
 export enum WzObjectType {
   File,
   Image,

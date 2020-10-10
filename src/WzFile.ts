@@ -10,6 +10,9 @@ import { WzMapleVersion } from './WzMapleVersion'
 import { WzObject } from './WzObject'
 import { WzObjectType } from './WzObjectType'
 
+/**
+ * @public
+ */
 export class WzFile extends WzObject {
   public name: string = ''
   public parent: WzObject | null = null

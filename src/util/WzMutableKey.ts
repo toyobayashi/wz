@@ -1,5 +1,8 @@
 import * as crypto from 'crypto'
 
+/**
+ * @public
+ */
 export class WzMutableKey {
   private static readonly _batchSize = 4096
   private _keys: Buffer | null = null

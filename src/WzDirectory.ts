@@ -4,6 +4,9 @@ import { WzImage } from './WzImage'
 import { WzObject } from './WzObject'
 import { WzObjectType } from './WzObjectType'
 
+/**
+ * @public
+ */
 export class WzDirectory extends WzObject {
   private readonly images: Set<WzImage> = new Set()
   private readonly subDirs: Set<WzDirectory> = new Set()
