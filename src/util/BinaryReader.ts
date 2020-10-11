@@ -30,12 +30,24 @@ const methods = {
 
 type MethodsReturnBigInt = 'readBigInt64LE' | 'readBigUInt64LE' | 'readBigInt64BE' | 'readBigUInt64BE'
 
+const enum BinaryType {
+  FILE,
+  BUFFER
+}
+
 function readNumber<Reader extends BinaryReader> (reader: Reader, method: MethodsReturnBigInt): bigint
 function readNumber<Reader extends BinaryReader> (reader: Reader, method: Exclude<keyof typeof methods, MethodsReturnBigInt>): number
 function readNumber<Reader extends BinaryReader> (reader: Reader, method: keyof typeof methods): boolean | number | bigint {
   const buf = Buffer.alloc(methods[method])
+  let readLength: number
   // @ts-expect-error
-  const readLength = fs.readSync(reader._fd, buf, 0, methods[method], reader.pos)
+  if (reader._type === BinaryType.FILE) {
+    // @ts-expect-error
+    readLength = fs.readSync(reader._fd, buf, 0, methods[method], reader.pos)
+  } else {
+    // @ts-expect-error
+    readLength = reader._buffer!.copy(buf, 0, reader.pos, reader.pos + methods[method])
+  }
   reader.pos += readLength
   return buf[method](0)
 }
@@ -47,13 +59,29 @@ export class BinaryReader implements IDisposable {
   protected readonly _path: string
   protected readonly _size: number
   private readonly _fd: number
+  private _buffer: Buffer | null
+  private readonly _type: BinaryType
   public pos!: number
   private _opened: boolean
 
-  public constructor (filePath: string) {
-    this._size = fs.statSync(filePath).size
-    this._path = filePath
-    this._fd = fs.openSync(filePath, 'r')
+  public constructor (filePath: string | Buffer) {
+    if (typeof filePath === 'string') {
+      this._type = BinaryType.FILE
+      this._size = fs.statSync(filePath).size
+      this._path = filePath
+      this._fd = fs.openSync(filePath, 'r')
+      this._buffer = null
+    } else if (Buffer.isBuffer(filePath)) {
+      this._type = BinaryType.BUFFER
+      this._size = filePath.length
+      this._path = ''
+      this._fd = 0
+      this._buffer = filePath
+    } else {
+      throw new TypeError('[BinaryReader] Contructor parameter type error')
+    }
+    this._opened = true
+
     let pos = 0
     Object.defineProperty(this, 'pos', {
       configurable: true,
@@ -72,7 +100,6 @@ export class BinaryReader implements IDisposable {
         pos = v
       }
     })
-    this._opened = true
   }
 
   public seek (pos: number): void {
@@ -85,7 +112,11 @@ export class BinaryReader implements IDisposable {
 
   public close (): void {
     if (this._opened) {
-      fs.closeSync(this._fd)
+      if (this._type === BinaryType.FILE) {
+        this._buffer = null
+      } else {
+        fs.closeSync(this._fd)
+      }
       this._opened = false
     }
   }
@@ -96,13 +127,23 @@ export class BinaryReader implements IDisposable {
 
   public read (len: number = 1): Buffer {
     const buf = Buffer.alloc(len)
-    const readLength = fs.readSync(this._fd, buf, 0, len, this.pos)
+    let readLength: number
+    if (this._type === BinaryType.FILE) {
+      readLength = fs.readSync(this._fd, buf, 0, len, this.pos)
+    } else {
+      readLength = this._buffer!.copy(buf, 0, this.pos, this.pos + len)
+    }
     this.pos += readLength
     return buf
   }
 
   public readToBuffer (buf: Buffer, bufStart: number = 0, len: number = 1): number {
-    const readLength = fs.readSync(this._fd, buf, bufStart, len, this.pos)
+    let readLength: number
+    if (this._type === BinaryType.FILE) {
+      readLength = fs.readSync(this._fd, buf, bufStart, len, this.pos)
+    } else {
+      readLength = this._buffer!.copy(buf, 0, this.pos, this.pos + len)
+    }
     this.pos += readLength
     return readLength
   }
@@ -112,12 +153,22 @@ export class BinaryReader implements IDisposable {
       let l = 0
       const buf = Buffer.alloc(1)
       do {
-        const readLength = fs.readSync(this._fd, buf, 0, 1, this.pos + l)
+        let readLength: number
+        if (this._type === BinaryType.FILE) {
+          readLength = fs.readSync(this._fd, buf, 0, 1, this.pos + l)
+        } else {
+          readLength = this._buffer!.copy(buf, 0, this.pos + l, this.pos + l + 1)
+        }
+        // const readLength = fs.readSync(this._fd, buf, 0, 1, this.pos + l)
         if (readLength === 0) break
         l += readLength
       } while (buf[0] !== 0)
       const r = Buffer.alloc(l - 1)
-      fs.readSync(this._fd, r, 0, l - 1, this.pos)
+      if (this._type === BinaryType.FILE) {
+        fs.readSync(this._fd, r, 0, l - 1, this.pos)
+      } else {
+        this._buffer!.copy(r, 0, this.pos, this.pos + l - 1)
+      }
       this.pos += l
       return r.toString(encoding)
     }
