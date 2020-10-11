@@ -12,19 +12,32 @@ import { WzPropertyType } from './WzPropertyType'
  * @public
  */
 export abstract class WzImageProperty extends WzObject {
+  /**
+   * @virtual
+   */
   public get wzProperties (): Set<WzImageProperty> | null {
     return null
   }
 
   public abstract get propertyType (): WzPropertyType
+
+  /**
+   * @virtual
+   */
   public getFromPath (_path: string): WzImageProperty | null {
     return null
   }
 
+  /**
+   * @virtual
+   */
   public at (_name: string): WzImageProperty | null {
     return null
   }
 
+  /**
+   * @virtual
+   */
   public set (_name: string, _value: WzImageProperty): void {
     throw new NotImplementedError()
   }

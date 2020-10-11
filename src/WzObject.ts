@@ -24,6 +24,9 @@ export abstract class WzObject implements IDisposable {
 
   public abstract at (name: string): WzObject | null
 
+  /**
+   * @virtual
+   */
   public get wzValue (): any {
     return null
   }
