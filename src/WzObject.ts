@@ -6,11 +6,11 @@ import { WzObjectType } from './WzObjectType'
  * @public
  */
 export abstract class WzObject implements IDisposable {
-  public hcTag: any = null
-  public hcTag_spine: any = null
-  public msTag: any = null
-  public msTag_spine: any = null
-  public tag3: any = null
+  // public hcTag: any = null
+  // public hcTag_spine: any = null
+  // public msTag: any = null
+  // public msTag_spine: any = null
+  // public tag3: any = null
 
   public abstract dispose (): void
 
