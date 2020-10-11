@@ -15,3 +15,4 @@ gulpfile.*
 tsgo.config*
 /src
 /lib/**/*.map
+/dist
