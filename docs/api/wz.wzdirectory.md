@@ -31,6 +31,7 @@ export declare class WzDirectory extends WzObject
 |  [parent](./wz.wzdirectory.parent.md) |  | [WzObject](./wz.wzobject.md) \| null |  |
 |  [reader](./wz.wzdirectory.reader.md) |  | [WzBinaryReader](./wz.wzbinaryreader.md) |  |
 |  [wzDirectories](./wz.wzdirectory.wzdirectories.md) |  | Set&lt;[WzDirectory](./wz.wzdirectory.md)<!-- -->&gt; |  |
+|  [wzFile](./wz.wzdirectory.wzfile.md) |  | [WzFile](./wz.wzfile.md) |  |
 |  [wzFileParent](./wz.wzdirectory.wzfileparent.md) |  | [WzFile](./wz.wzfile.md) \| null |  |
 |  [wzImages](./wz.wzdirectory.wzimages.md) |  | Set&lt;[WzImage](./wz.wzimage.md)<!-- -->&gt; |  |
 

@@ -29,5 +29,6 @@ export declare abstract class WzObject implements IDisposable
 |  --- | --- | --- |
 |  [at(name)](./wz.wzobject.at.md) |  |  |
 |  [dispose()](./wz.wzobject.dispose.md) |  |  |
+|  [getBitmap()](./wz.wzobject.getbitmap.md) |  |  |
 |  [getTopMostWzDirectory()](./wz.wzobject.gettopmostwzdirectory.md) |  |  |
 

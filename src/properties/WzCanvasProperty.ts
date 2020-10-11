@@ -3,13 +3,23 @@ import { WzObject } from '../WzObject'
 import { WzExtended } from '../WzExtended'
 import { IPropertyContainer } from '../IPropertyContainer'
 import { WzImageProperty } from '../WzImageProperty'
-import { NotImplementedError } from '../util/NotImplementedError'
 import { WzPngProperty } from './WzPngProperty'
+import * as Jimp from 'jimp'
+import { WzStringProperty } from './WzStringProperty'
+import { WzImage } from '../WzImage'
+import { WzDirectory } from '../WzDirectory'
 
 /**
  * @public
  */
 export class WzCanvasProperty extends WzExtended implements IPropertyContainer {
+  public get inlinkPropertyName (): string { return '_inlink' }
+  public get outlinkPropertyName (): string { return '_outlink' }
+  public get originPropertyName (): string { return 'origin' }
+  public get headPropertyName (): string { return 'head' }
+  public get ltPropertyName (): string { return 'lt' }
+  public get animationDelayPropertyName (): string { return 'delay' }
+
   private readonly properties: Set<WzImageProperty> = new Set()
 
   public get wzProperties (): Set<WzImageProperty> {
@@ -59,12 +69,119 @@ export class WzCanvasProperty extends WzExtended implements IPropertyContainer {
 
   public pngProperty: WzPngProperty | null = null
 
-  public constructor (public name: string = '') {
-    super()
-    // TODO
+  public get wzValue (): WzPngProperty | null {
+    return this.pngProperty
   }
 
-  public setValue (_value: unknown): void {
-    throw new NotImplementedError()
+  public constructor (public name: string = '') {
+    super()
+  }
+
+  public getProperty (name: string): WzImageProperty | null {
+    const nameLower = name.toLowerCase()
+    for (const iwp of this.properties) {
+      if (iwp.name.toLowerCase() === nameLower) return iwp
+    }
+    return null
+  }
+
+  public at (name: string): WzImageProperty | null {
+    if (name === 'PNG') return this.pngProperty
+    const nameLower = name.toLowerCase()
+    for (const iwp of this.properties) {
+      if (iwp.name.toLowerCase() === nameLower) return iwp
+    }
+    return null
+  }
+
+  public set (name: string, value: WzImageProperty | null): void {
+    if (value != null) {
+      if (name === 'PNG') {
+        this.pngProperty = value as WzPngProperty
+        return
+      }
+      value.name = name
+      this.addProperty(value)
+    }
+  }
+
+  public setValue (value: Buffer): void {
+    if (this.pngProperty != null) {
+      this.pngProperty.setValue(value)
+    }
+  }
+
+  public getFromPath (path: string): WzImageProperty | null {
+    const segments = path.split('/')
+    if (segments[0] === '..') {
+      return (this.parent as WzImageProperty).at(path.substring(this.name.indexOf('/') + 1))
+    }
+    let ret: WzImageProperty = this
+    for (let x = 0; x < segments.length; x++) {
+      let foundChild = false
+      if (segments[x] === 'PNG') {
+        return this.pngProperty
+      }
+      const list: Set<WzImageProperty> | null = ret.wzProperties
+      if (list != null) {
+        const l: Set<WzImageProperty> = list
+        for (const iwp of l) {
+          if (iwp.name === segments[x]) {
+            ret = iwp
+            foundChild = true
+            break
+          }
+        }
+      }
+      if (!foundChild) {
+        return null
+      }
+    }
+    return ret
+  }
+
+  public haveInlinkProperty (): boolean {
+    return this.at(this.inlinkPropertyName) != null
+  }
+
+  public haveOutlinkProperty (): boolean {
+    return this.at(this.outlinkPropertyName) != null
+  }
+
+  public async getLinkedWzCanvasBitmap (): Promise<Jimp | null> {
+    const _inlink = (this.at(this.inlinkPropertyName) as WzStringProperty)?.value // could get nexon'd here. In case they place an _inlink that's not WzStringProperty
+    const _outlink = (this.at(this.outlinkPropertyName) as WzStringProperty)?.value // could get nexon'd here. In case they place an _outlink that's not WzStringProperty
+
+    if (_inlink != null) {
+      let currentWzObj: WzObject | null = this // first object to work with
+      while ((currentWzObj = currentWzObj.parent) != null) {
+        if (!(currentWzObj instanceof WzImage)) continue // keep looping if its not a WzImage
+
+        const wzImageParent = currentWzObj
+        const foundProperty = wzImageParent.getFromPath(_inlink)
+        if (foundProperty != null && foundProperty instanceof WzImageProperty) {
+          return await foundProperty.getBitmap()
+        }
+      }
+    } else if (_outlink != null) {
+      let currentWzObj: WzObject | null = this // first object to work with
+      while ((currentWzObj = currentWzObj.parent) != null) {
+        if (!(currentWzObj instanceof WzDirectory)) continue // keep looping if its not a WzImage
+
+        const wzFileParent = (currentWzObj).wzFile
+        const foundProperty = wzFileParent.getObjectFromPath(_outlink)
+        if (foundProperty != null && foundProperty instanceof WzImageProperty) {
+          return await foundProperty.getBitmap()
+        }
+      }
+    }
+    return await this.getBitmap()
+  }
+
+  public async getBitmap (): Promise<Jimp | null> {
+    if (this.pngProperty != null) {
+      return await this.pngProperty.getBitmap()
+    }
+    return null
   }
 }

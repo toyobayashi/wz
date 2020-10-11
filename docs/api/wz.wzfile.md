@@ -40,6 +40,7 @@ export declare class WzFile extends WzObject
 |  [at(name)](./wz.wzfile.at.md) |  |  |
 |  [checkAndGetVersionHash(wzVersionHeader, maplestoryPatchVersion)](./wz.wzfile.checkandgetversionhash.md) |  |  |
 |  [dispose()](./wz.wzfile.dispose.md) |  |  |
+|  [getObjectFromPath(path, checkFirstDirectoryName)](./wz.wzfile.getobjectfrompath.md) |  |  |
 |  [lazyParseWzFile(out)](./wz.wzfile.lazyparsewzfile.md) |  |  |
 |  [parseMainWzDirectory(out, lazyParse)](./wz.wzfile.parsemainwzdirectory.md) |  |  |
 |  [parseWzFile(out, wzIv)](./wz.wzfile.parsewzfile.md) |  |  |

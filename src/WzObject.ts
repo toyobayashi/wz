@@ -36,7 +36,7 @@ export abstract class WzObject implements IDisposable {
   /**
    * @virtual
    */
-  public getBitmap (): Jimp | null {
+  public getBitmap (): Promise<Jimp | null> {
     throw new NotImplementedError()
   }
 

@@ -16,26 +16,32 @@ export declare class WzPngProperty extends WzExtended
 
 |  Constructor | Modifiers | Description |
 |  --- | --- | --- |
-|  [(constructor)(reader, parseNow)](./wz.wzpngproperty._constructor_.md) |  | Constructs a new instance of the <code>WzPngProperty</code> class |
+|  [(constructor)(reader)](./wz.wzpngproperty._constructor_.md) |  | Constructs a new instance of the <code>WzPngProperty</code> class |
 
 ## Properties
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [format](./wz.wzpngproperty.format.md) |  | number |  |
+|  [format1](./wz.wzpngproperty.format1.md) |  | number |  |
 |  [format2](./wz.wzpngproperty.format2.md) |  | number |  |
 |  [height](./wz.wzpngproperty.height.md) |  | number |  |
 |  [name](./wz.wzpngproperty.name.md) |  | string |  |
 |  [offs](./wz.wzpngproperty.offs.md) |  | number |  |
 |  [parent](./wz.wzpngproperty.parent.md) |  | [WzObject](./wz.wzobject.md) \| null |  |
+|  [png](./wz.wzpngproperty.png.md) |  | Jimp \| null |  |
 |  [propertyType](./wz.wzpngproperty.propertytype.md) |  | [WzPropertyType](./wz.wzpropertytype.md) |  |
 |  [width](./wz.wzpngproperty.width.md) |  | number |  |
-|  [wzValue](./wz.wzpngproperty.wzvalue.md) |  | any |  |
+|  [wzValue](./wz.wzpngproperty.wzvalue.md) |  | Promise&lt;Jimp&gt; |  |
 
 ## Methods
 
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
 |  [dispose()](./wz.wzpngproperty.dispose.md) |  |  |
-|  [setValue(\_value)](./wz.wzpngproperty.setvalue.md) |  |  |
+|  [getBitmap()](./wz.wzpngproperty.getbitmap.md) |  |  |
+|  [getCompressedBytes(saveInMemory)](./wz.wzpngproperty.getcompressedbytes.md) |  |  |
+|  [getImage(saveInMemory)](./wz.wzpngproperty.getimage.md) |  |  |
+|  [getPixelDataBgra4444(rawData, width, height)](./wz.wzpngproperty.getpixeldatabgra4444.md) |  |  |
+|  [saveToFile(file)](./wz.wzpngproperty.savetofile.md) |  |  |
+|  [setValue(value)](./wz.wzpngproperty.setvalue.md) |  |  |
 

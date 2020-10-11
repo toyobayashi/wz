@@ -87,9 +87,9 @@ export class WzUOLProperty extends WzExtended {
     return this.val
   }
 
-  public getBitmap (): Jimp | null {
+  public async getBitmap (): Promise<Jimp | null> {
     if (this.linkValue != null) {
-      return this.linkValue.getBitmap()
+      return await this.linkValue.getBitmap()
     }
     return null
   }

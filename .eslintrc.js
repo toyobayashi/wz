@@ -16,6 +16,7 @@ module.exports = {
     '@typescript-eslint/no-extraneous-class': 'off',
     '@typescript-eslint/no-this-alias': 'off',
     '@typescript-eslint/no-non-null-assertion': 'off',
+    '@typescript-eslint/promise-function-async': 'off',
     '@typescript-eslint/member-delimiter-style': ['error', {
       multiline: {
         delimiter: 'none',

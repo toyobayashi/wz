@@ -9,7 +9,7 @@ Constructs a new instance of the `WzPngProperty` class
 <b>Signature:</b>
 
 ```typescript
-constructor(reader: WzBinaryReader, parseNow: boolean);
+constructor(reader: WzBinaryReader);
 ```
 
 ## Parameters
@@ -17,5 +17,4 @@ constructor(reader: WzBinaryReader, parseNow: boolean);
 |  Parameter | Type | Description |
 |  --- | --- | --- |
 |  reader | [WzBinaryReader](./wz.wzbinaryreader.md) |  |
-|  parseNow | boolean |  |
 

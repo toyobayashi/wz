@@ -37,6 +37,7 @@ export declare class WzUOLProperty extends WzExtended
 |  --- | --- | --- |
 |  [at(name)](./wz.wzuolproperty.at.md) |  |  |
 |  [dispose()](./wz.wzuolproperty.dispose.md) |  |  |
+|  [getBitmap()](./wz.wzuolproperty.getbitmap.md) |  |  |
 |  [getFromPath(path)](./wz.wzuolproperty.getfrompath.md) |  |  |
 |  [setValue(value)](./wz.wzuolproperty.setvalue.md) |  |  |
 |  [toString()](./wz.wzuolproperty.tostring.md) |  |  |

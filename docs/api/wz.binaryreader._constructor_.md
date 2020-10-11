@@ -9,12 +9,12 @@ Constructs a new instance of the `BinaryReader` class
 <b>Signature:</b>
 
 ```typescript
-constructor(filePath: string);
+constructor(filePath: string | Buffer);
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  filePath | string |  |
+|  filePath | string \| Buffer |  |
 

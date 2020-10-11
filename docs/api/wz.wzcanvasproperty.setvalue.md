@@ -7,14 +7,14 @@
 <b>Signature:</b>
 
 ```typescript
-setValue(_value: unknown): void;
+setValue(value: Buffer): void;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  \_value | unknown |  |
+|  value | Buffer |  |
 
 <b>Returns:</b>
 

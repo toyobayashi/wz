@@ -24,11 +24,18 @@ export declare class WzCanvasProperty extends WzExtended implements IPropertyCon
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
+|  [animationDelayPropertyName](./wz.wzcanvasproperty.animationdelaypropertyname.md) |  | string |  |
+|  [headPropertyName](./wz.wzcanvasproperty.headpropertyname.md) |  | string |  |
+|  [inlinkPropertyName](./wz.wzcanvasproperty.inlinkpropertyname.md) |  | string |  |
+|  [ltPropertyName](./wz.wzcanvasproperty.ltpropertyname.md) |  | string |  |
 |  [name](./wz.wzcanvasproperty.name.md) |  | string |  |
+|  [originPropertyName](./wz.wzcanvasproperty.originpropertyname.md) |  | string |  |
+|  [outlinkPropertyName](./wz.wzcanvasproperty.outlinkpropertyname.md) |  | string |  |
 |  [parent](./wz.wzcanvasproperty.parent.md) |  | [WzObject](./wz.wzobject.md) \| null |  |
 |  [pngProperty](./wz.wzcanvasproperty.pngproperty.md) |  | [WzPngProperty](./wz.wzpngproperty.md) \| null |  |
 |  [propertyType](./wz.wzcanvasproperty.propertytype.md) |  | [WzPropertyType](./wz.wzpropertytype.md) |  |
 |  [wzProperties](./wz.wzcanvasproperty.wzproperties.md) |  | Set&lt;[WzImageProperty](./wz.wzimageproperty.md)<!-- -->&gt; |  |
+|  [wzValue](./wz.wzcanvasproperty.wzvalue.md) |  | [WzPngProperty](./wz.wzpngproperty.md) \| null |  |
 
 ## Methods
 
@@ -36,8 +43,16 @@ export declare class WzCanvasProperty extends WzExtended implements IPropertyCon
 |  --- | --- | --- |
 |  [addProperties(props)](./wz.wzcanvasproperty.addproperties.md) |  |  |
 |  [addProperty(prop)](./wz.wzcanvasproperty.addproperty.md) |  |  |
+|  [at(name)](./wz.wzcanvasproperty.at.md) |  |  |
 |  [clearProperties()](./wz.wzcanvasproperty.clearproperties.md) |  |  |
 |  [dispose()](./wz.wzcanvasproperty.dispose.md) |  |  |
+|  [getBitmap()](./wz.wzcanvasproperty.getbitmap.md) |  |  |
+|  [getFromPath(path)](./wz.wzcanvasproperty.getfrompath.md) |  |  |
+|  [getLinkedWzCanvasBitmap()](./wz.wzcanvasproperty.getlinkedwzcanvasbitmap.md) |  |  |
+|  [getProperty(name)](./wz.wzcanvasproperty.getproperty.md) |  |  |
+|  [haveInlinkProperty()](./wz.wzcanvasproperty.haveinlinkproperty.md) |  |  |
+|  [haveOutlinkProperty()](./wz.wzcanvasproperty.haveoutlinkproperty.md) |  |  |
 |  [removeProperty(prop)](./wz.wzcanvasproperty.removeproperty.md) |  |  |
-|  [setValue(\_value)](./wz.wzcanvasproperty.setvalue.md) |  |  |
+|  [set(name, value)](./wz.wzcanvasproperty.set.md) |  |  |
+|  [setValue(value)](./wz.wzcanvasproperty.setvalue.md) |  |  |
 

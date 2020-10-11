@@ -191,7 +191,7 @@ export abstract class WzImageProperty extends WzObject {
           canvasProp.addProperties(WzImageProperty.parsePropertyList(offset, reader, canvasProp, imgParent))
         }
         const WzPngProperty = require('./properties/WzPngProperty').WzPngProperty as typeof import('./properties/WzPngProperty').WzPngProperty
-        canvasProp.pngProperty = new WzPngProperty(reader, imgParent.parseEverything)
+        canvasProp.pngProperty = new WzPngProperty(reader/* , imgParent.parseEverything */)
         canvasProp.pngProperty.parent = canvasProp
         return canvasProp
       }
