@@ -2,7 +2,7 @@
   "extends": "./node_modules/@tybys/tsgo/tsconfig/tsconfig.json",
   "compilerOptions": {
     "outDir": "./lib/cjs-modern",
-    "sourceMap": false,
+    "sourceMap": true,
     "target": "es2020"
   },
   "include": [

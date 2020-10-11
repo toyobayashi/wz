@@ -47,14 +47,13 @@ export class WzMutableKey {
         for (let j = 0; j < block.length; j++) {
           block[j] = this._iv[j % 4]
         }
-        aes.update(block)
+        const buf = aes.update(block)
+        buf.copy(ms, i, 0)
       } else {
-        aes.update(newKeys.slice(i - 16, i))
+        const buf = aes.update(newKeys.slice(i - 16, i))
+        buf.copy(ms, i, 0)
       }
     }
-
-    const finalBuffer = aes.final()
-    finalBuffer.copy(ms, 0, 0)
 
     this._keys = newKeys
   }
