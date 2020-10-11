@@ -6,4 +6,5 @@ package-lock.json
 /temp
 /dist
 /test/out
+/test/**/*.mp3
 /docs

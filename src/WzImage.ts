@@ -17,8 +17,8 @@ export class WzImage extends WzObject implements IPropertyContainer {
   public offset: number = 0
   public blockStart: number
 
-  public tempFileStart: bigint = 0n
-  public tempFileEnd: bigint = 0n
+  public tempFileStart: bigint = BigInt(0)
+  public tempFileEnd: bigint = BigInt(0)
   public changed: boolean = false
   public parseEverything: boolean = false
 

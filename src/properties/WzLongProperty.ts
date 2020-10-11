@@ -12,7 +12,7 @@ export class WzLongProperty extends WzImageProperty {
 
   public dispose (): void {
     this.name = ''
-    this.val = 0n
+    this.val = BigInt(0)
   }
 
   public get value (): bigint {
@@ -25,7 +25,7 @@ export class WzLongProperty extends WzImageProperty {
 
   public parent: WzObject | null = null
 
-  public constructor (public name: string = '', private val: bigint = 0n) {
+  public constructor (public name: string = '', private val: bigint = BigInt(0)) {
     super()
   }
 

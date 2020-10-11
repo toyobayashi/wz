@@ -4,6 +4,9 @@
   "description": "",
   "typings": "./lib/cjs-modern/index.d.ts",
   "main": "./lib/cjs-modern/index.js",
+  "engines": {
+    "node": ">= 10.20.0"
+  },
   "scripts": {
     "prepare": "npm run build",
     "cjs": "tsgo cjs",
@@ -23,10 +26,10 @@
     "access": "public"
   },
   "devDependencies": {
-    "@tybys/tsgo": "^0.3.2",
+    "@tybys/tsgo": "^0.3.3",
     "@types/node": "^12.12.36",
-    "@typescript-eslint/eslint-plugin": "^4.3.0",
-    "@typescript-eslint/parser": "^4.3.0",
+    "@typescript-eslint/eslint-plugin": "^4.4.0",
+    "@typescript-eslint/parser": "^4.4.0",
     "eslint": "^7.10.0",
     "eslint-config-standard-with-typescript": "^19.0.1",
     "eslint-plugin-import": "^2.22.1",

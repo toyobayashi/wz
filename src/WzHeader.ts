@@ -3,7 +3,7 @@
  */
 export class WzHeader {
   public ident: string = ''
-  public fsize: bigint = 0n
+  public fsize: bigint = BigInt(0)
   public fstart: number = 0
   public copyright: string = ''
 
@@ -16,7 +16,7 @@ export class WzHeader {
     header.ident = 'PKG1'
     header.copyright = 'Package file v1.0 Copyright 2002 Wizet, ZMS'
     header.fstart = 60
-    header.fsize = 0n
+    header.fsize = BigInt(0)
     return header
   }
 }
