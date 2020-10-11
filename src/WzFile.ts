@@ -1,4 +1,8 @@
 import * as path from 'path'
+import { WzCanvasProperty } from './properties/WzCanvasProperty'
+import { WzConvexProperty } from './properties/WzConvexProperty'
+import { WzSubProperty } from './properties/WzSubProperty'
+import { WzVectorProperty } from './properties/WzVectorProperty'
 import { BinaryReader } from './util/BinaryReader'
 import { WzBinaryReader } from './util/WzBinaryReader'
 import { WzKeyGenerator } from './util/WzKeyGenerator'
@@ -6,9 +10,11 @@ import { WzTool } from './util/WzTool'
 import { WzDirectory } from './WzDirectory'
 import { WzHeader } from './WzHeader'
 import { WzImage } from './WzImage'
+import { WzImageProperty } from './WzImageProperty'
 import { WzMapleVersion } from './WzMapleVersion'
 import { WzObject } from './WzObject'
 import { WzObjectType } from './WzObjectType'
+import { WzPropertyType } from './WzPropertyType'
 
 /**
  * @public
@@ -184,5 +190,52 @@ export class WzFile extends WzObject {
     if (wzVersionHeader === DecryptedVersionNumber) return (VersionHash >>> 0)
 
     return 0
+  }
+
+  public getObjectFromPath (path: string, checkFirstDirectoryName: boolean = true): WzObject | null {
+    if (this.wzDir == null) return null
+    const seperatedPath = path.split('/')
+
+    if (checkFirstDirectoryName) {
+      if (seperatedPath[0].toLowerCase() !== this.wzDir.name.toLowerCase() && seperatedPath[0].toLowerCase() !== this.wzDir.name.substring(0, this.wzDir.name.length - 3).toLowerCase()) return null
+    }
+
+    if (seperatedPath.length === 1) return this.wzDirectory
+    let curObj: WzObject | null = this.wzDirectory
+    for (let i = 1; i < seperatedPath.length; i++) {
+      if (curObj == null) {
+        return null
+      }
+      switch (curObj.objectType) {
+        case WzObjectType.Directory:
+          curObj = (curObj as WzDirectory).at(seperatedPath[i])
+          continue
+        case WzObjectType.Image:
+          curObj = (curObj as WzImage).at(seperatedPath[i])
+          continue
+        case WzObjectType.Property:
+          switch ((curObj as WzImageProperty).propertyType) {
+            case WzPropertyType.Canvas:
+              curObj = (curObj as WzCanvasProperty).at(seperatedPath[i])
+              continue
+            case WzPropertyType.Convex:
+              curObj = (curObj as WzConvexProperty).at(seperatedPath[i])
+              continue
+            case WzPropertyType.SubProperty:
+              curObj = (curObj as WzSubProperty).at(seperatedPath[i])
+              continue
+            case WzPropertyType.Vector:
+              if (seperatedPath[i] === 'X') return (curObj as WzVectorProperty).x
+              else if (seperatedPath[i] === 'Y') return (curObj as WzVectorProperty).y
+              else return null
+            default: // Wut?
+              return null
+          }
+      }
+    }
+    if (curObj == null) {
+      return null
+    }
+    return curObj
   }
 }

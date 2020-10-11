@@ -19,7 +19,7 @@ export class WzDirectory extends WzObject {
   // private offsetSize: number = 0
   private readonly wzIv: Buffer
   public parent: WzObject | null = null
-  private wzFile: WzFile
+  public wzFile: WzFile
 
   public dispose (): void {
     this.name = ''

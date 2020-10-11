@@ -1,6 +1,8 @@
 import { IDisposable } from './util/BinaryReader'
+import { NotImplementedError } from './util/NotImplementedError'
 import { WzFile } from './WzFile'
 import { WzObjectType } from './WzObjectType'
+import * as Jimp from 'jimp'
 
 /**
  * @public
@@ -29,6 +31,13 @@ export abstract class WzObject implements IDisposable {
    */
   public get wzValue (): any {
     return null
+  }
+
+  /**
+   * @virtual
+   */
+  public getBitmap (): Jimp | null {
+    throw new NotImplementedError()
   }
 
   public getTopMostWzDirectory (): WzObject {

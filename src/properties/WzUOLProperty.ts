@@ -4,6 +4,7 @@ import { WzExtended } from '../WzExtended'
 import { WzImageProperty } from '../WzImageProperty'
 import { WzImage } from '../WzImage'
 import { WzDirectory } from '../WzDirectory'
+import * as Jimp from 'jimp'
 
 /**
  * @public
@@ -84,5 +85,12 @@ export class WzUOLProperty extends WzExtended {
 
   public toString (): string {
     return this.val
+  }
+
+  public getBitmap (): Jimp | null {
+    if (this.linkValue != null) {
+      return this.linkValue.getBitmap()
+    }
+    return null
   }
 }
