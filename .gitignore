@@ -7,4 +7,3 @@ package-lock.json
 /dist
 /test/out
 /test/**/*.mp3
-/docs
