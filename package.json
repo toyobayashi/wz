@@ -40,7 +40,6 @@
     "typescript": "3.9.7"
   },
   "dependencies": {
-    "jimp": "^0.16.1",
-    "tslib": "2.0.1"
+    "jimp": "^0.16.1"
   }
 }
