@@ -2,9 +2,11 @@ const { walkWzFile, WzMapleVersion, WzObjectType, WzBinaryProperty, ErrorLogger 
 const path = require('path')
 
 /**
- * @param {string} dir - Directory path
+ * @param {string} wzFilePath - WZ file path
+ * @param {WzMapleVersion} mapleVersion - MapleStory version
+ * @param {string} dir - Output directory path
  */
-function saveSounds (wzFilePath, dir) {
+function saveSounds (wzFilePath, mapleVersion, dir) {
   let n = 0
 
   /**
@@ -20,10 +22,10 @@ function saveSounds (wzFilePath, dir) {
       obj.saveToFile(file)
       n++
     }
-    return false
+    return false // continue walking
   }
 
-  walkWzFile(wzFilePath, WzMapleVersion.GMS, callback)
+  walkWzFile(wzFilePath, mapleVersion, callback)
 
   console.log(`Total files: ${n}`)
 
@@ -32,4 +34,4 @@ function saveSounds (wzFilePath, dir) {
   }
 }
 
-saveSounds('C:\\Nexon\\MapleRoyals\\Sound.wz', 'Sound')
+saveSounds('C:\\Nexon\\MapleRoyals\\Sound.wz', WzMapleVersion.GMS, 'Sound')
