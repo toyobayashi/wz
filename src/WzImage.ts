@@ -1,4 +1,5 @@
 import { IPropertyContainer } from './IPropertyContainer'
+import { ErrorLevel, ErrorLogger } from './util/ErrorLogger'
 import { WzBinaryReader } from './util/WzBinaryReader'
 import { WzFile } from './WzFile'
 import { WzImageProperty } from './WzImageProperty'
@@ -170,7 +171,7 @@ export class WzImage extends WzObject implements IPropertyContainer {
         break
       }
       default: {
-        console.error(`[WzImage] New Wz image header found. b = ${b}`)
+        ErrorLogger.log(ErrorLevel.MissingFeature, `[WzImage] New Wz image header found. b = ${b}`)
         return false
       }
     }

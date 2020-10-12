@@ -1,4 +1,5 @@
 import * as fs from 'fs'
+import { dirname } from 'path'
 import { WzBinaryReader } from '../util/WzBinaryReader'
 import { WzExtended } from '../WzExtended'
 import { WzObject } from '../WzObject'
@@ -83,6 +84,9 @@ export class WzBinaryProperty extends WzExtended {
   }
 
   public saveToFile (file: string): void {
+    try {
+      fs.mkdirSync(dirname(file), { recursive: true })
+    } catch (_) {}
     fs.writeFileSync(file, this.getBytes(false))
   }
 

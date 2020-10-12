@@ -4,6 +4,7 @@ import { WzConvexProperty } from './properties/WzConvexProperty'
 import { WzSubProperty } from './properties/WzSubProperty'
 import { WzVectorProperty } from './properties/WzVectorProperty'
 import { BinaryReader } from './util/BinaryReader'
+import { ErrorLevel, ErrorLogger } from './util/ErrorLogger'
 import { WzBinaryReader } from './util/WzBinaryReader'
 import { WzKeyGenerator } from './util/WzKeyGenerator'
 import { WzTool } from './util/WzTool'
@@ -101,7 +102,9 @@ export class WzFile extends WzObject {
 
   private parseMainWzDirectory (out: IWzParseResult, lazyParse: boolean = false): boolean {
     if (this.filepath === '') {
-      out.message = 'Invalid path'
+      const msg = 'Invalid path: ""'
+      ErrorLogger.log(ErrorLevel.Critical, msg)
+      out.message = msg
       return false
     }
 
@@ -157,7 +160,7 @@ export class WzFile extends WzObject {
                 return true
               }
               default: {
-                console.error(`New Wz image header found. checkByte = ${checkByte}`)
+                ErrorLogger.log(ErrorLevel.MissingFeature, `New Wz image header found. checkByte = ${checkByte}`)
                 break
               }
             }

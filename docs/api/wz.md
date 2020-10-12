@@ -11,6 +11,7 @@ MapleStory WZ reader.
 |  Class | Description |
 |  --- | --- |
 |  [BinaryReader](./wz.binaryreader.md) |  |
+|  [ErrorLogger](./wz.errorlogger.md) |  |
 |  [NotImplementedError](./wz.notimplementederror.md) |  |
 |  [WzBinaryProperty](./wz.wzbinaryproperty.md) |  |
 |  [WzBinaryReader](./wz.wzbinaryreader.md) |  |
@@ -18,6 +19,7 @@ MapleStory WZ reader.
 |  [WzConvexProperty](./wz.wzconvexproperty.md) |  |
 |  [WzDirectory](./wz.wzdirectory.md) |  |
 |  [WzDoubleProperty](./wz.wzdoubleproperty.md) |  |
+|  [WzError](./wz.wzerror.md) |  |
 |  [WzExtended](./wz.wzextended.md) |  |
 |  [WzFile](./wz.wzfile.md) |  |
 |  [WzFloatProperty](./wz.wzfloatproperty.md) |  |
@@ -41,6 +43,7 @@ MapleStory WZ reader.
 
 |  Enumeration | Description |
 |  --- | --- |
+|  [ErrorLevel](./wz.errorlevel.md) |  |
 |  [WzBinaryPropertyType](./wz.wzbinarypropertytype.md) |  |
 |  [WzMapleVersion](./wz.wzmapleversion.md) |  |
 |  [WzObjectType](./wz.wzobjecttype.md) |  |

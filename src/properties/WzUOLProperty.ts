@@ -5,6 +5,7 @@ import { WzImageProperty } from '../WzImageProperty'
 import { WzImage } from '../WzImage'
 import { WzDirectory } from '../WzDirectory'
 import * as Jimp from 'jimp'
+import { ErrorLevel, ErrorLogger } from '../util/ErrorLogger'
 
 /**
  * @public
@@ -64,7 +65,7 @@ export class WzUOLProperty extends WzExtended {
           } else if (this.linkVal instanceof WzDirectory) {
             this.linkVal = this.linkVal.at(path)
           } else {
-            console.error(`UOL got nexon'd at property: ${this.fullPath}`)
+            ErrorLogger.log(ErrorLevel.Critical, `UOL got nexon'd at property: ${this.fullPath}`)
             return null
           }
         }
