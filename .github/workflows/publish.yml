@@ -16,6 +16,7 @@ jobs:
         node-version: '12.x'
         registry-url: 'https://registry.npmjs.org/'
         scope: '@tybys'
+    - run: npm install
     - run: npm publish --@tybys:registry=https://registry.npmjs.org/ --access public
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
