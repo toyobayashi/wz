@@ -7,7 +7,7 @@ Incompletely port from [lastbattle/Harepacker-resurrected/MapleLib/WzLib](https:
 ## Example
 
 ``` bash
-npm install toyobayashi/wz
+npm install @tybys/wz
 ```
 
 ``` js
@@ -53,5 +53,5 @@ function saveSounds (wzFilePath, mapleVersion, dir) {
   }
 }
 
-saveSounds('C:\\Nexon\\MapleRoyals\\Sound.wz', WzMapleVersion.GMS, 'Sound')
+saveSounds('C:\\Nexon\\MapleStory\\Sound.wz', WzMapleVersion.BMS, 'Sound')
 ```

@@ -34,4 +34,4 @@ function saveSounds (wzFilePath, mapleVersion, dir) {
   }
 }
 
-saveSounds('C:\\Nexon\\MapleRoyals\\Sound.wz', WzMapleVersion.GMS, 'Sound')
+saveSounds('C:\\Nexon\\MapleStory\\Sound.wz', WzMapleVersion.BMS, 'Sound')
