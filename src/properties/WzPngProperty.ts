@@ -5,9 +5,8 @@ import { WzBinaryReader } from '../util/WzBinaryReader'
 import * as Jimp from 'jimp'
 import * as zlib from 'zlib'
 import { BinaryReader } from '../util/BinaryReader'
-import { Transform } from 'stream'
-import { NotImplementedError } from '../util/NotImplementedError'
 import { Color } from '../util/Color'
+import { ErrorLevel, ErrorLogger } from '../util/ErrorLogger'
 
 /**
  * @public
@@ -212,7 +211,8 @@ export class WzPngProperty extends WzExtended {
         break
       }
       default: {
-        throw new NotImplementedError(`PNG format: ${format}.`)
+        ErrorLogger.log(ErrorLevel.MissingFeature, `Unknown PNG format ${this.format1} ${this.format2}`)
+        break
       }
     }
   }
@@ -413,7 +413,7 @@ export class WzPngProperty extends WzExtended {
 }
 
 // eslint-disable-next-line @typescript-eslint/promise-function-async
-function writeAsync (stream: Transform, data: Buffer): Promise<void> {
+function writeAsync (stream: zlib.Inflate, data: Buffer): Promise<void> {
   return new Promise<void>((resolve, reject) => {
     const r = stream.write(data, 'binary', (err) => {
       if (err != null) {
