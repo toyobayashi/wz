@@ -19,7 +19,18 @@ import { WzPropertyType } from './WzPropertyType'
 /**
  * @public
  */
+export interface IWzParseResult {
+  message: string
+}
+
+/**
+ * @public
+ */
 export class WzFile extends WzObject {
+  public static createParseResult (): IWzParseResult {
+    return { message: '' }
+  }
+
   public name: string = ''
   public parent: WzObject | null = null
   public filepath: string
@@ -77,18 +88,18 @@ export class WzFile extends WzObject {
     return this.wzDirectory != null ? this.wzDirectory.name : ''
   }
 
-  public parseWzFile (out: { message: string }, wzIv: Buffer | null = null): boolean {
+  public parseWzFile (out: IWzParseResult, wzIv: Buffer | null = null): boolean {
     if (wzIv != null) {
       this.wzIv = wzIv
     }
     return this.parseMainWzDirectory(out, false)
   }
 
-  public lazyParseWzFile (out: { message: string }): boolean {
+  public lazyParseWzFile (out: IWzParseResult): boolean {
     return this.parseMainWzDirectory(out, true)
   }
 
-  public parseMainWzDirectory (out: { message: string }, lazyParse: boolean = false): boolean {
+  private parseMainWzDirectory (out: IWzParseResult, lazyParse: boolean = false): boolean {
     if (this.filepath === '') {
       out.message = 'Invalid path'
       return false
@@ -171,7 +182,7 @@ export class WzFile extends WzObject {
     return true
   }
 
-  public checkAndGetVersionHash (wzVersionHeader: number, maplestoryPatchVersion: number): number {
+  private checkAndGetVersionHash (wzVersionHeader: number, maplestoryPatchVersion: number): number {
     const VersionNumber = maplestoryPatchVersion
     let VersionHash = 0
     const VersionNumberStr = VersionNumber.toString()

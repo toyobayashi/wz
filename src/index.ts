@@ -34,4 +34,6 @@ export { WzImageProperty } from './WzImageProperty'
 export { WzExtended } from './WzExtended'
 export { WzImage } from './WzImage'
 export { WzDirectory } from './WzDirectory'
-export { WzFile } from './WzFile'
+export { IWzParseResult, WzFile } from './WzFile'
+
+export { walkWzFile, walkWzFileAsync } from './walk'

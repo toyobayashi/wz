@@ -46,10 +46,18 @@ MapleStory WZ reader.
 |  [WzObjectType](./wz.wzobjecttype.md) |  |
 |  [WzPropertyType](./wz.wzpropertytype.md) |  |
 
+## Functions
+
+|  Function | Description |
+|  --- | --- |
+|  [walkWzFile(filepath, mapleVersion, callback)](./wz.walkwzfile.md) |  |
+|  [walkWzFileAsync(filepath, mapleVersion, callback)](./wz.walkwzfileasync.md) |  |
+
 ## Interfaces
 
 |  Interface | Description |
 |  --- | --- |
 |  [IDisposable](./wz.idisposable.md) |  |
 |  [IPropertyContainer](./wz.ipropertycontainer.md) |  |
+|  [IWzParseResult](./wz.iwzparseresult.md) |  |
 

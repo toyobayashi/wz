@@ -7,16 +7,14 @@
 <b>Signature:</b>
 
 ```typescript
-lazyParseWzFile(out: {
-        message: string;
-    }): boolean;
+lazyParseWzFile(out: IWzParseResult): boolean;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  out | { message: string; } |  |
+|  out | [IWzParseResult](./wz.iwzparseresult.md) |  |
 
 <b>Returns:</b>
 
