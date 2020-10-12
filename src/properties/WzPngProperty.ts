@@ -156,7 +156,7 @@ export class WzPngProperty extends WzExtended {
         const decoded = WzPngProperty.getPixelDataBgra4444(decBuf, this.width, this.height)
         const img = new Jimp(this.width, this.height)
         // img.colorType(6)
-        bgra8888(img, decoded)
+        bgra8888(img, decoded, decoded.length)
         this.png = img
         break
       }
@@ -168,7 +168,7 @@ export class WzPngProperty extends WzExtended {
         inflateStream.close()
 
         const img = new Jimp(this.width, this.height)
-        bgra8888(img, decBuf)
+        bgra8888(img, decBuf, decBuf.length)
         this.png = img
         break
       }
@@ -181,7 +181,33 @@ export class WzPngProperty extends WzExtended {
 
         const decoded = WzPngProperty.getPixelDataDXT3(decBuf, this.width, this.height)
         const img = new Jimp(this.width, this.height)
-        bgra8888(img, decoded)
+        bgra8888(img, decoded, this.width * this.height)
+        this.png = img
+        break
+      }
+      case 1026: {
+        const inflateStream = zlib.createInflate()
+        const uncompressedSize = this.width * this.height * 4
+        await writeAsync(inflateStream, data)
+        const decBuf = inflateStream.read(uncompressedSize)
+        inflateStream.close()
+
+        const decoded = WzPngProperty.getPixelDataDXT3(decBuf, this.width, this.height)
+        const img = new Jimp(this.width, this.height)
+        bgra8888(img, decoded, decoded.length)
+        this.png = img
+        break
+      }
+      case 2050: {
+        const inflateStream = zlib.createInflate()
+        const uncompressedSize = this.width * this.height
+        await writeAsync(inflateStream, data)
+        const decBuf = inflateStream.read(uncompressedSize)
+        inflateStream.close()
+
+        const decoded = WzPngProperty.getPixelDataDXT5(decBuf, this.width, this.height)
+        const img = new Jimp(this.width, this.height)
+        bgra8888(img, decoded, decoded.length)
         this.png = img
         break
       }
@@ -222,6 +248,72 @@ export class WzPngProperty extends WzExtended {
       argb[i * 2 + 1] = (g >>> 0) & 0xff
     }
     return argb
+  }
+
+  private static getPixelDataDXT5 (rawData: Buffer, width: number, height: number): Buffer {
+    const pixel = Buffer.alloc(width * height * 4)
+
+    const colorTable = [
+      Color.fromRgb(0, 0, 0),
+      Color.fromRgb(0, 0, 0),
+      Color.fromRgb(0, 0, 0),
+      Color.fromRgb(0, 0, 0)
+    ]
+    const colorIdxTable = Array(16).fill(0)
+    const alphaTable = Buffer.alloc(8)
+    const alphaIdxTable = Array(16).fill(0)
+
+    for (let y = 0; y < height; y += 4) {
+      for (let x = 0; x < width; x += 4) {
+        const off = x * 4 + y * width
+        WzPngProperty.expandAlphaTableDXT5(alphaTable, rawData[off + 0], rawData[off + 1])
+        WzPngProperty.expandAlphaIndexTableDXT5(alphaIdxTable, rawData, off + 2)
+        const u0 = rawData.readUInt16LE(off + 8)
+        const u1 = rawData.readUInt16LE(off + 10)
+        WzPngProperty.expandColorTable(colorTable, u0, u1)
+        WzPngProperty.expandColorIndexTable(colorIdxTable, rawData, off + 12)
+
+        for (let j = 0; j < 4; j++) {
+          for (let i = 0; i < 4; i++) {
+            WzPngProperty.setPixel(pixel,
+              x + i,
+              y + j,
+              width,
+              colorTable[colorIdxTable[j * 4 + i]],
+              alphaTable[alphaIdxTable[j * 4 + i]])
+          }
+        }
+      }
+    }
+    return pixel
+  }
+
+  private static expandAlphaTableDXT5 (alpha: Buffer, a0: number, a1: number): void {
+    alpha[0] = a0
+    alpha[1] = a1
+    if (a0 > a1) {
+      for (let i = 2; i < 8; i++) {
+        alpha[i] = ((parseInt as any)(((8 - i) * a0 + (i - 1) * a1 + 3) / 7) >>> 0) & 0xff
+      }
+    } else {
+      for (let i = 2; i < 6; i++) {
+        alpha[i] = ((parseInt as any)(((6 - i) * a0 + (i - 1) * a1 + 2) / 5) >>> 0) & 0xff
+      }
+      alpha[6] = 0
+      alpha[7] = 255
+    }
+  }
+
+  private static expandAlphaIndexTableDXT5 (alphaIndex: number[], rawData: Buffer, offset: number): void {
+    for (let i = 0; i < 16; i += 8, offset += 3) {
+      const flags = rawData[offset] |
+                    (rawData[offset + 1] << 8) |
+                    (rawData[offset + 2] << 16)
+      for (let j = 0; j < 8; j++) {
+        const mask = 0x07 << (3 * j)
+        alphaIndex[i + j] = (flags & mask) >> (3 * j)
+      }
+    }
   }
 
   private static getPixelDataDXT3 (rawData: Buffer, width: number, height: number): Buffer {
@@ -340,11 +432,11 @@ function writeAsync (stream: Transform, data: Buffer): Promise<void> {
   })
 }
 
-function bgra8888 (img: Jimp, data: Buffer): void {
+function bgra8888 (img: Jimp, data: Buffer, length: number): void {
   let x = 0
   let y = 0
   const width = img.getWidth()
-  for (let i = 0; i < data.length; i += 4) {
+  for (let i = 0; i < length; i += 4) {
     img.setPixelColor(Jimp.rgbaToInt(data[i + 2], data[i + 1], data[i + 0], data[i + 3]), x, y)
     x++
     if (x >= width) { x = 0; y++ }
