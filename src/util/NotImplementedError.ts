@@ -2,7 +2,7 @@
  * @public
  */
 export class NotImplementedError extends Error {
-  constructor () {
-    super('Not implemented')
+  constructor (where?: string) {
+    super(`${typeof where === 'string' ? (where + ' ') : ''}Not implemented`)
   }
 }

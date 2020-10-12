@@ -57,7 +57,7 @@ export class WzConvexProperty extends WzExtended implements IPropertyContainer {
   }
 
   public setValue (_value: unknown): void {
-    throw new NotImplementedError()
+    throw new NotImplementedError('[WzConvexProperty#setValue]')
   }
 
   public at (name: string): WzImageProperty | null {

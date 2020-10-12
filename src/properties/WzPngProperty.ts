@@ -172,8 +172,7 @@ export class WzPngProperty extends WzExtended {
         break
       }
       default: {
-        console.error(`PNG format: ${format}`)
-        throw new NotImplementedError()
+        throw new NotImplementedError(`PNG format: ${format}.`)
       }
     }
   }

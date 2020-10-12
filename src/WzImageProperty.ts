@@ -39,7 +39,7 @@ export abstract class WzImageProperty extends WzObject {
    * @virtual
    */
   public set (_name: string, _value: WzImageProperty): void {
-    throw new NotImplementedError()
+    throw new NotImplementedError('[WzImageProperty#set]')
   }
 
   public get objectType (): WzObjectType {

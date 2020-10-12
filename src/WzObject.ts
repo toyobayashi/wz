@@ -37,7 +37,7 @@ export abstract class WzObject implements IDisposable {
    * @virtual
    */
   public getBitmap (): Promise<Jimp | null> {
-    throw new NotImplementedError()
+    throw new NotImplementedError('[WzObject#getBitmap]')
   }
 
   public getTopMostWzDirectory (): WzObject {

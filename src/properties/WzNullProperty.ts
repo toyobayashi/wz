@@ -22,6 +22,6 @@ export class WzNullProperty extends WzImageProperty {
   }
 
   public setValue (_value: unknown): void {
-    throw new NotImplementedError()
+    throw new NotImplementedError('[WzNullProperty#setValue]')
   }
 }

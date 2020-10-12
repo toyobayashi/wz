@@ -16,5 +16,5 @@ export declare class NotImplementedError extends Error
 
 |  Constructor | Modifiers | Description |
 |  --- | --- | --- |
-|  [(constructor)()](./wz.notimplementederror._constructor_.md) |  | Constructs a new instance of the <code>NotImplementedError</code> class |
+|  [(constructor)(where)](./wz.notimplementederror._constructor_.md) |  | Constructs a new instance of the <code>NotImplementedError</code> class |
 

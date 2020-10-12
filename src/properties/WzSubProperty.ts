@@ -57,7 +57,7 @@ export class WzSubProperty extends WzExtended implements IPropertyContainer {
   }
 
   public setValue (_value: unknown): void {
-    throw new NotImplementedError()
+    throw new NotImplementedError('[WzSubProperty#setValue]')
   }
 
   public set<T extends WzImageProperty> (name: string, value: T): void {

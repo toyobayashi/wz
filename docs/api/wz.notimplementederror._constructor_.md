@@ -9,5 +9,12 @@ Constructs a new instance of the `NotImplementedError` class
 <b>Signature:</b>
 
 ```typescript
-constructor();
+constructor(where?: string);
 ```
+
+## Parameters
+
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  where | string |  |
+
