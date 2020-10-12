@@ -41,7 +41,6 @@ export declare class WzPngProperty extends WzExtended
 |  [getBitmap()](./wz.wzpngproperty.getbitmap.md) |  |  |
 |  [getCompressedBytes(saveInMemory)](./wz.wzpngproperty.getcompressedbytes.md) |  |  |
 |  [getImage(saveInMemory)](./wz.wzpngproperty.getimage.md) |  |  |
-|  [getPixelDataBgra4444(rawData, width, height)](./wz.wzpngproperty.getpixeldatabgra4444.md) |  |  |
 |  [saveToFile(file)](./wz.wzpngproperty.savetofile.md) |  |  |
 |  [setValue(value)](./wz.wzpngproperty.setvalue.md) |  |  |
 
