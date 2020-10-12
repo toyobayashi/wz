@@ -31,7 +31,7 @@ export declare class WzPngProperty extends WzExtended
 |  [png](./wz.wzpngproperty.png.md) |  | Jimp \| null |  |
 |  [propertyType](./wz.wzpngproperty.propertytype.md) |  | [WzPropertyType](./wz.wzpropertytype.md) |  |
 |  [width](./wz.wzpngproperty.width.md) |  | number |  |
-|  [wzValue](./wz.wzpngproperty.wzvalue.md) |  | Promise&lt;Jimp&gt; |  |
+|  [wzValue](./wz.wzpngproperty.wzvalue.md) |  | Promise&lt;Jimp \| null&gt; |  |
 
 ## Methods
 

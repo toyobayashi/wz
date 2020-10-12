@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-getImage(saveInMemory?: boolean): Promise<Jimp>;
+getImage(saveInMemory?: boolean): Promise<Jimp | null>;
 ```
 
 ## Parameters
@@ -18,5 +18,5 @@ getImage(saveInMemory?: boolean): Promise<Jimp>;
 
 <b>Returns:</b>
 
-Promise&lt;Jimp&gt;
+Promise&lt;Jimp \| null&gt;
 

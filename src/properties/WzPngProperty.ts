@@ -23,7 +23,7 @@ export class WzPngProperty extends WzExtended {
     }
   }
 
-  public get wzValue (): Promise<Jimp> {
+  public get wzValue (): Promise<Jimp | null> {
     return this.getImage(false)
   }
 
@@ -85,10 +85,16 @@ export class WzPngProperty extends WzExtended {
     this.compressedImageBytes = value
   }
 
-  public async getImage (saveInMemory: boolean = false): Promise<Jimp> {
+  public async getImage (saveInMemory: boolean = false): Promise<Jimp | null> {
     if (this.png == null) {
       this.compressedImageBytes = this.getCompressedBytes(saveInMemory)
       await this.parsePng()
+      if (!saveInMemory) {
+        this.compressedImageBytes = null
+        const img = this.png
+        this.png = null
+        return img
+      }
     }
     return this.png as Jimp
   }
@@ -399,7 +405,7 @@ export class WzPngProperty extends WzExtended {
     }
   }
 
-  public getBitmap (): Promise<Jimp> {
+  public getBitmap (): Promise<Jimp | null> {
     return this.getImage(false)
   }
 
@@ -408,13 +414,18 @@ export class WzPngProperty extends WzExtended {
       await this.png.writeAsync(file)
       return true
     }
+    const png = await this.getImage(false)
+    if (png != null) {
+      await png.writeAsync(file)
+      return true
+    }
     return false
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/promise-function-async
 function writeAsync (stream: zlib.Inflate, data: Buffer): Promise<void> {
   return new Promise<void>((resolve, reject) => {
+    stream.once('error', reject)
     const r = stream.write(data, 'binary', (err) => {
       if (err != null) {
         reject(err)

@@ -7,9 +7,9 @@
 <b>Signature:</b>
 
 ```typescript
-getBitmap(): Promise<Jimp>;
+getBitmap(): Promise<Jimp | null>;
 ```
 <b>Returns:</b>
 
-Promise&lt;Jimp&gt;
+Promise&lt;Jimp \| null&gt;
 
