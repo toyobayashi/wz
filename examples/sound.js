@@ -15,6 +15,7 @@ function saveSounds (wzFilePath, mapleVersion, dir) {
    * @returns {boolean | undefined}
    */
   function callback (obj) {
+    // obj is available only in this scope
     if (obj.objectType === WzObjectType.Property && obj instanceof WzBinaryProperty) {
       const relativePath = path.win32.relative(wzFilePath, obj.fullPath).replace(/\\/g, '/')
       const file = path.join(dir, path.extname(relativePath) === '' ? `${relativePath}.mp3` : relativePath)

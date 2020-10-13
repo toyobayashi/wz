@@ -8,6 +8,7 @@ let n = 0
  * @returns {boolean | undefined}
  */
 function callback (obj) {
+  // obj is available only in this scope
   if (n > 5) return true
   if (obj.objectType === WzObjectType.Image) {
     console.log(`Image     \t ${obj.fullPath}`)
