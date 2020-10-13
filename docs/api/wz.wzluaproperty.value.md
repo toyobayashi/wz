@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-get value(): Buffer;
+get value(): Buffer | null;
 ```

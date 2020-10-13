@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-static USE_IV_KEY: Buffer;
+static readonly USE_IV_KEY: Buffer;
 ```

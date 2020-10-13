@@ -22,21 +22,20 @@ export declare class WzLuaProperty extends WzImageProperty
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [encryptedBytes](./wz.wzluaproperty.encryptedbytes.md) |  | Buffer |  |
+|  [encryptedBytes](./wz.wzluaproperty.encryptedbytes.md) |  | Buffer \| null |  |
 |  [name](./wz.wzluaproperty.name.md) |  | string |  |
 |  [parent](./wz.wzluaproperty.parent.md) |  | [WzObject](./wz.wzobject.md) \| null |  |
 |  [propertyType](./wz.wzluaproperty.propertytype.md) |  | [WzPropertyType](./wz.wzpropertytype.md) |  |
 |  [USE\_IV\_KEY](./wz.wzluaproperty.use_iv_key.md) | <code>static</code> | Buffer |  |
-|  [value](./wz.wzluaproperty.value.md) |  | Buffer |  |
+|  [value](./wz.wzluaproperty.value.md) |  | Buffer \| null |  |
 |  [wzKey](./wz.wzluaproperty.wzkey.md) |  | [WzMutableKey](./wz.wzmutablekey.md) |  |
-|  [wzValue](./wz.wzluaproperty.wzvalue.md) |  | Buffer |  |
+|  [wzValue](./wz.wzluaproperty.wzvalue.md) |  | Buffer \| null |  |
 
 ## Methods
 
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
 |  [dispose()](./wz.wzluaproperty.dispose.md) |  |  |
-|  [encodeDecode(input)](./wz.wzluaproperty.encodedecode.md) |  |  |
 |  [setValue(value)](./wz.wzluaproperty.setvalue.md) |  |  |
 |  [toString()](./wz.wzluaproperty.tostring.md) |  |  |
 

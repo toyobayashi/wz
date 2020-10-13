@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-encryptedBytes: Buffer;
+encryptedBytes: Buffer | null;
 ```

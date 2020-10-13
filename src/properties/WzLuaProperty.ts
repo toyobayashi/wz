@@ -11,11 +11,11 @@ import { WzPropertyType } from '../WzPropertyType'
 export class WzLuaProperty extends WzImageProperty {
   public wzKey: WzMutableKey
 
-  public static USE_IV_KEY: Buffer = MapleCryptoConstants.WZ_MSEAIV
+  public static readonly USE_IV_KEY: Buffer = MapleCryptoConstants.WZ_MSEAIV
 
   public parent: WzObject | null = null
 
-  public constructor (public name: string, public encryptedBytes: Buffer) {
+  public constructor (public name: string, public encryptedBytes: Buffer | null) {
     super()
     this.wzKey = WzKeyGenerator.generateWzKey(WzLuaProperty.USE_IV_KEY)
   }
@@ -24,11 +24,11 @@ export class WzLuaProperty extends WzImageProperty {
     this.encryptedBytes = value
   }
 
-  public get wzValue (): Buffer {
+  public get wzValue (): Buffer | null {
     return this.value
   }
 
-  public get value (): Buffer {
+  public get value (): Buffer | null {
     return this.encryptedBytes
   }
 
@@ -37,10 +37,11 @@ export class WzLuaProperty extends WzImageProperty {
   }
 
   public toString (): string {
+    if (this.encryptedBytes == null) return ''
     return this.encodeDecode(this.encryptedBytes).toString('ascii')
   }
 
-  public encodeDecode (input: Buffer): Buffer {
+  private encodeDecode (input: Buffer): Buffer {
     const newArray = Buffer.alloc(input.length)
     for (let i = 0; i < input.length; i++) {
       const encryptedChar = ((input[i] ^ this.wzKey.at(i)) & 0xFF)
@@ -51,6 +52,6 @@ export class WzLuaProperty extends WzImageProperty {
 
   public dispose (): void {
     this.name = ''
-    this.encryptedBytes = Buffer.alloc(0)
+    this.encryptedBytes = null
   }
 }

@@ -28,7 +28,6 @@ export declare class WzPngProperty extends WzExtended
 |  [name](./wz.wzpngproperty.name.md) |  | string |  |
 |  [offs](./wz.wzpngproperty.offs.md) |  | number |  |
 |  [parent](./wz.wzpngproperty.parent.md) |  | [WzObject](./wz.wzobject.md) \| null |  |
-|  [png](./wz.wzpngproperty.png.md) |  | Jimp \| null |  |
 |  [propertyType](./wz.wzpngproperty.propertytype.md) |  | [WzPropertyType](./wz.wzpropertytype.md) |  |
 |  [width](./wz.wzpngproperty.width.md) |  | number |  |
 |  [wzValue](./wz.wzpngproperty.wzvalue.md) |  | Promise&lt;Jimp \| null&gt; |  |
@@ -42,5 +41,5 @@ export declare class WzPngProperty extends WzExtended
 |  [getCompressedBytes(saveInMemory)](./wz.wzpngproperty.getcompressedbytes.md) |  |  |
 |  [getImage(saveInMemory)](./wz.wzpngproperty.getimage.md) |  |  |
 |  [saveToFile(file)](./wz.wzpngproperty.savetofile.md) |  |  |
-|  [setValue(value)](./wz.wzpngproperty.setvalue.md) |  |  |
+|  [setValue(\_value)](./wz.wzpngproperty.setvalue.md) |  |  |
 

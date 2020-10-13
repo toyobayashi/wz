@@ -7,6 +7,7 @@ import * as zlib from 'zlib'
 import { BinaryReader } from '../util/BinaryReader'
 import { Color } from '../util/Color'
 import { ErrorLevel, ErrorLogger } from '../util/ErrorLogger'
+import { NotImplementedError } from '../util/NotImplementedError'
 
 /**
  * @public
@@ -41,7 +42,7 @@ export class WzPngProperty extends WzExtended {
   private readonly wzReader: WzBinaryReader
 
   private compressedImageBytes: Buffer | null = null
-  public png: Jimp | null = null
+  private png: Jimp | null = null
   private listWzUsed: boolean = false
 
   public constructor (reader: WzBinaryReader/* , parseNow: boolean = false */) {
@@ -81,22 +82,21 @@ export class WzPngProperty extends WzExtended {
     })
   }
 
-  public setValue (value: Buffer): void {
-    this.compressedImageBytes = value
+  public setValue (_value: Buffer): void {
+    throw new NotImplementedError('[WzPngProperty#setValue]')
   }
 
   public async getImage (saveInMemory: boolean = false): Promise<Jimp | null> {
     if (this.png == null) {
-      this.compressedImageBytes = this.getCompressedBytes(saveInMemory)
-      await this.parsePng()
-      if (!saveInMemory) {
-        this.compressedImageBytes = null
-        const img = this.png
-        this.png = null
-        return img
-      }
+      const compressedImageBytes = this.getCompressedBytes(saveInMemory)
+      this.png = await this.parsePng(compressedImageBytes)
     }
-    return this.png as Jimp
+    if (!saveInMemory) {
+      const png = this.png
+      this.png = null
+      return png
+    }
+    return this.png
   }
 
   public getCompressedBytes (saveInMemory: boolean = false): Buffer {
@@ -111,33 +111,33 @@ export class WzPngProperty extends WzExtended {
 
       this.wzReader.pos += 1
 
-      if (len > 0) this.compressedImageBytes = this.wzReader.read(len)
+      /* if (len > 0) */ this.compressedImageBytes = this.wzReader.read(len)
       this.wzReader.pos = pos
-
-      if (!saveInMemory) {
-        // were removing the referance to compressedBytes, so a backup for the ret value is needed
-        const returnBytes = this.compressedImageBytes as Buffer
-        this.compressedImageBytes = null
-        return returnBytes
-      }
     }
-    return this.compressedImageBytes as Buffer
+    if (!saveInMemory) {
+      // were removing the referance to compressedBytes, so a backup for the ret value is needed
+      const returnBytes = this.compressedImageBytes
+      this.compressedImageBytes = null
+      return returnBytes
+    }
+
+    return this.compressedImageBytes
   }
 
-  private async parsePng (): Promise<void> {
-    const reader = new BinaryReader(this.compressedImageBytes!)
+  private async parsePng (compressedImageBytes: Buffer): Promise<Jimp | null> {
+    const reader = new BinaryReader(compressedImageBytes)
 
     const header = reader.readUInt16LE()
     this.listWzUsed = header !== 0x9C78 && header !== 0xDA78 && header !== 0x0178 && header !== 0x5E78
 
     let data: Buffer
     if (!this.listWzUsed) {
-      data = this.compressedImageBytes!
+      data = compressedImageBytes
     } else {
       reader.pos -= 2
       const dataStream: number[] = []
       let blocksize = 0
-      const endOfPng = this.compressedImageBytes!.length
+      const endOfPng = compressedImageBytes.length
 
       while (reader.pos < endOfPng) {
         blocksize = reader.readInt32LE()
@@ -162,8 +162,7 @@ export class WzPngProperty extends WzExtended {
         const img = new Jimp(this.width, this.height)
         // img.colorType(6)
         bgra8888(img, decoded, decoded.length)
-        this.png = img
-        break
+        return img
       }
       case 2: {
         const inflateStream = zlib.createInflate()
@@ -174,8 +173,7 @@ export class WzPngProperty extends WzExtended {
 
         const img = new Jimp(this.width, this.height)
         bgra8888(img, decBuf, decBuf.length)
-        this.png = img
-        break
+        return img
       }
       case 3: {
         const inflateStream = zlib.createInflate()
@@ -187,8 +185,7 @@ export class WzPngProperty extends WzExtended {
         const decoded = WzPngProperty.getPixelDataDXT3(decBuf, this.width, this.height)
         const img = new Jimp(this.width, this.height)
         bgra8888(img, decoded, this.width * this.height)
-        this.png = img
-        break
+        return img
       }
       case 513: {
         const inflateStream = zlib.createInflate()
@@ -199,8 +196,7 @@ export class WzPngProperty extends WzExtended {
 
         const img = new Jimp(this.width, this.height)
         rgb565(img, decBuf, decBuf.length)
-        this.png = img
-        break
+        return img
       }
       case 517: {
         const inflateStream = zlib.createInflate()
@@ -212,8 +208,7 @@ export class WzPngProperty extends WzExtended {
         const decoded = WzPngProperty.getPixelDataForm517(decBuf, this.width, this.height)
         const img = new Jimp(this.width, this.height)
         rgb565(img, decoded, decoded.length)
-        this.png = img
-        break
+        return img
       }
       case 1026: {
         const inflateStream = zlib.createInflate()
@@ -225,8 +220,7 @@ export class WzPngProperty extends WzExtended {
         const decoded = WzPngProperty.getPixelDataDXT3(decBuf, this.width, this.height)
         const img = new Jimp(this.width, this.height)
         bgra8888(img, decoded, decoded.length)
-        this.png = img
-        break
+        return img
       }
       case 2050: {
         const inflateStream = zlib.createInflate()
@@ -238,12 +232,11 @@ export class WzPngProperty extends WzExtended {
         const decoded = WzPngProperty.getPixelDataDXT5(decBuf, this.width, this.height)
         const img = new Jimp(this.width, this.height)
         bgra8888(img, decoded, decoded.length)
-        this.png = img
-        break
+        return img
       }
       default: {
         ErrorLogger.log(ErrorLevel.MissingFeature, `Unknown PNG format ${this.format1} ${this.format2}`)
-        break
+        return null
       }
     }
   }
