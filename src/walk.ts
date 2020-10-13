@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 
-import { IPropertyContainer } from './IPropertyContainer'
+import { WzUOLProperty } from './properties/WzUOLProperty'
 import { WzDirectory } from './WzDirectory'
 import { WzFile } from './WzFile'
+import { WzImage } from './WzImage'
 import { WzImageProperty } from './WzImageProperty'
 import { WzMapleVersion } from './WzMapleVersion'
 import { WzObject } from './WzObject'
@@ -24,40 +25,37 @@ export function walkWzFile (filepath: string, mapleVersion: WzMapleVersion, call
 
   wz.dispose()
 
-  function walkPropertyContainer (container: WzImageProperty | IPropertyContainer, callback: <T extends WzObject>(obj: T) => boolean | undefined): void {
-    if (container.wzProperties == null) return
-    for (const prop of container.wzProperties) {
-      // console.log(prop.fullPath, WzPropertyType[prop.propertyType])
-      stop = !!callback(prop)
-      if (stop) return
-      if (prop.wzProperties != null) {
+  function walkPropertyContainer (container: WzImageProperty | WzImage, callback: <T extends WzObject>(obj: T) => boolean | undefined): void {
+    stop = !!(callback(container))
+    if (!stop && !(container instanceof WzUOLProperty) && container.wzProperties != null) {
+      for (const prop of container.wzProperties) {
         walkPropertyContainer(prop, callback)
-        prop.dispose()
-        if (stop) return
+        if (stop) break
       }
     }
-    if (typeof (container as any).dispose === 'function') {
-      (container as any).dispose()
-    }
+    container.dispose()
   }
 
   function walkDirectory (dir: WzDirectory, callback: <T extends WzObject>(obj: T) => boolean | undefined): void {
     stop = !!callback(dir)
-    if (stop) return
-    for (const img of dir.wzImages) {
-      img.parseImage()
-      stop = !!callback(img)
-      if (stop) return
-      walkPropertyContainer(img, callback)
-      img.dispose()
-      if (stop) return
+    if (stop) {
+      dir.dispose()
+      return
     }
     for (const subdir of dir.wzDirectories) {
-      stop = !!callback(subdir)
-      if (stop) return
       walkDirectory(subdir, callback)
-      subdir.dispose()
-      if (stop) return
+      if (stop) {
+        dir.dispose()
+        return
+      }
+    }
+    for (const img of dir.wzImages) {
+      img.parseImage()
+      walkPropertyContainer(img, callback)
+      if (stop) {
+        dir.dispose()
+        return
+      }
     }
     dir.dispose()
   }
@@ -80,40 +78,37 @@ export async function walkWzFileAsync (filepath: string, mapleVersion: WzMapleVe
 
   wz.dispose()
 
-  async function walkPropertyContainer (container: WzImageProperty | IPropertyContainer, callback: <T extends WzObject>(obj: T) => boolean | undefined | Promise<boolean | undefined>): Promise<void> {
-    if (container.wzProperties == null) return
-    for (const prop of container.wzProperties) {
-      // console.log(prop.fullPath, WzPropertyType[prop.propertyType])
-      stop = !!(await Promise.resolve(callback(prop)))
-      if (stop) return
-      if (prop.wzProperties != null) {
+  async function walkPropertyContainer (container: WzImageProperty | WzImage, callback: <T extends WzObject>(obj: T) => boolean | undefined | Promise<boolean | undefined>): Promise<void> {
+    stop = !!(await Promise.resolve(callback(container)))
+    if (!stop && !(container instanceof WzUOLProperty) && container.wzProperties != null) {
+      for (const prop of container.wzProperties) {
         await walkPropertyContainer(prop, callback)
-        prop.dispose()
-        if (stop) return
+        if (stop) break
       }
     }
-    if (typeof (container as any).dispose === 'function') {
-      (container as any).dispose()
-    }
+    container.dispose()
   }
 
   async function walkDirectory (dir: WzDirectory, callback: <T extends WzObject>(obj: T) => boolean | undefined | Promise<boolean | undefined>): Promise<void> {
     stop = !!(await Promise.resolve(callback(dir)))
-    if (stop) return
-    for (const img of dir.wzImages) {
-      img.parseImage()
-      stop = !!(await Promise.resolve(callback(img)))
-      if (stop) return
-      await walkPropertyContainer(img, callback)
-      img.dispose()
-      if (stop) return
+    if (stop) {
+      dir.dispose()
+      return
     }
     for (const subdir of dir.wzDirectories) {
-      stop = !!(await Promise.resolve(callback(subdir)))
-      if (stop) return
       await walkDirectory(subdir, callback)
-      subdir.dispose()
-      if (stop) return
+      if (stop) {
+        dir.dispose()
+        return
+      }
+    }
+    for (const img of dir.wzImages) {
+      img.parseImage()
+      await walkPropertyContainer(img, callback)
+      if (stop) {
+        dir.dispose()
+        return
+      }
     }
     dir.dispose()
   }

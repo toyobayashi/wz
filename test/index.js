@@ -58,27 +58,58 @@ const { WzFile, WzMapleVersion, WzImage, WzBinaryProperty, WzCanvasProperty, WzP
 //   wz2.dispose()
 // }
 
-const type = [3, 513, 1026, 2050]
-const path = process.argv[2]
+const type = [
+  // 1,
+  // 2,
+  3,
+  // 513,
+  517,
+  // 1026,
+  // 2050
+]
+const filepath = process.argv[2]
 const ver = process.argv[3] === undefined ? WzMapleVersion.BMS : process.argv[3]
 
 async function main () {
-  if (path === undefined || path === '') {
+  if (filepath === undefined || filepath === '') {
     throw new Error('Path is null')
   }
+  // const wz = new WzFile(filepath, ver)
+  // wz.parseWzFile({ message: '' })
+  // const target = wz.wzDirectory.at('Obj').at('hoyoung.img')
+  // target.parseImage()
+  // const canvas = target.at('town').at('foothold').at('0').at('0')
+  // await canvas.pngProperty.saveToFile('./test5.png')
+
+  // const wz = new WzFile(filepath, ver)
+  // wz.parseWzFile({ message: '' })
+  // const target = wz.wzDirectory.at('WorldMap').at('WorldMap000.img')
+  // target.parseImage()
+  // const canvas = target.at('BaseImg').at('0')
+  // await canvas.pngProperty.saveToFile('./test6.png')
+
+  // console.log(canvas)
   let n = 0
-  await walkWzFileAsync(path, ver, async (obj) => {
+  await walkWzFileAsync(filepath, ver, async (obj) => {
     // if (n > 10000) return true
+    if (obj.fullPath === 'C:\\Nexon\\MapleStory\\Map.wz\\Obj\\etc.img\\coconut2') {
+      console.log(obj)
+    }
     if (obj.objectType === WzObjectType.Property && obj instanceof WzCanvasProperty) {
       n++
-      console.log(n)
+      console.log(n, obj.fullPath)
 
       // const img = await obj.pngProperty.getImage(false)
-      const format = obj.pngProperty.format1 + obj.pngProperty.format2
+      try {
+        var format = obj.pngProperty.format1 + obj.pngProperty.format2
+      } catch (error) {
+        console.log(obj.fullPath)
+        throw error
+      }
       if (type.indexOf(format) !== -1) {
         console.log(`${obj.fullPath}`)
         console.log(`${format}`)
-        const r = await obj.pngProperty.saveToFile('./test3.png')
+        const r = await obj.pngProperty.saveToFile(`./${format}.png`)
         return r
       }
       // console.log(img)

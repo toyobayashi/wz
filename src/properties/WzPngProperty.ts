@@ -152,11 +152,14 @@ export class WzPngProperty extends WzExtended {
     const format = this.format1 + this.format2
     switch (format) {
       case 1: {
-        const inflateStream = zlib.createInflate()
+        // const inflateStream = zlib.createInflate()
+        // const uncompressedSize = this.width * this.height * 2
+        // await writeAsync(inflateStream, data)
+        // const decBuf: Buffer = inflateStream.read(uncompressedSize)
+        // inflateStream.close()
+
         const uncompressedSize = this.width * this.height * 2
-        await writeAsync(inflateStream, data)
-        const decBuf: Buffer = inflateStream.read(uncompressedSize)
-        inflateStream.close()
+        const decBuf = await inflate(data, uncompressedSize)
 
         const decoded = WzPngProperty.getPixelDataBgra4444(decBuf, this.width, this.height)
         const img = new Jimp(this.width, this.height)
@@ -165,22 +168,28 @@ export class WzPngProperty extends WzExtended {
         return img
       }
       case 2: {
-        const inflateStream = zlib.createInflate()
+        // const inflateStream = zlib.createInflate()
+        // const uncompressedSize = this.width * this.height * 4
+        // await writeAsync(inflateStream, data)
+        // const decBuf = inflateStream.read(uncompressedSize)
+        // inflateStream.close()
+
         const uncompressedSize = this.width * this.height * 4
-        await writeAsync(inflateStream, data)
-        const decBuf = inflateStream.read(uncompressedSize)
-        inflateStream.close()
+        const decBuf = await inflate(data, uncompressedSize)
 
         const img = new Jimp(this.width, this.height)
         bgra8888(img, decBuf, decBuf.length)
         return img
       }
       case 3: {
-        const inflateStream = zlib.createInflate()
+        // const inflateStream = zlib.createInflate()
+        // const uncompressedSize = this.width * this.height * 4
+        // await writeAsync(inflateStream, data)
+        // const decBuf = inflateStream.read(uncompressedSize)
+        // inflateStream.close()
+
         const uncompressedSize = this.width * this.height * 4
-        await writeAsync(inflateStream, data)
-        const decBuf = inflateStream.read(uncompressedSize)
-        inflateStream.close()
+        const decBuf = await inflate(data, uncompressedSize)
 
         const decoded = WzPngProperty.getPixelDataDXT3(decBuf, this.width, this.height)
         const img = new Jimp(this.width, this.height)
@@ -188,22 +197,28 @@ export class WzPngProperty extends WzExtended {
         return img
       }
       case 513: {
-        const inflateStream = zlib.createInflate()
+        // const inflateStream = zlib.createInflate()
+        // const uncompressedSize = this.width * this.height * 2
+        // await writeAsync(inflateStream, data)
+        // const decBuf: Buffer = inflateStream.read(uncompressedSize)
+        // inflateStream.close()
+
         const uncompressedSize = this.width * this.height * 2
-        await writeAsync(inflateStream, data)
-        const decBuf: Buffer = inflateStream.read(uncompressedSize)
-        inflateStream.close()
+        const decBuf = await inflate(data, uncompressedSize)
 
         const img = new Jimp(this.width, this.height)
         rgb565(img, decBuf, decBuf.length)
         return img
       }
       case 517: {
-        const inflateStream = zlib.createInflate()
+        // const inflateStream = zlib.createInflate()
+        // const uncompressedSize: number = (parseInt as any)(this.width * this.height / 128)
+        // await writeAsync(inflateStream, data)
+        // const decBuf: Buffer = inflateStream.read(uncompressedSize)
+        // inflateStream.close()
+
         const uncompressedSize: number = (parseInt as any)(this.width * this.height / 128)
-        await writeAsync(inflateStream, data)
-        const decBuf: Buffer = inflateStream.read(uncompressedSize)
-        inflateStream.close()
+        const decBuf = await inflate(data, uncompressedSize)
 
         const decoded = WzPngProperty.getPixelDataForm517(decBuf, this.width, this.height)
         const img = new Jimp(this.width, this.height)
@@ -211,11 +226,8 @@ export class WzPngProperty extends WzExtended {
         return img
       }
       case 1026: {
-        const inflateStream = zlib.createInflate()
         const uncompressedSize = this.width * this.height * 4
-        await writeAsync(inflateStream, data)
-        const decBuf = inflateStream.read(uncompressedSize)
-        inflateStream.close()
+        const decBuf = await inflate(data, uncompressedSize)
 
         const decoded = WzPngProperty.getPixelDataDXT3(decBuf, this.width, this.height)
         const img = new Jimp(this.width, this.height)
@@ -223,11 +235,14 @@ export class WzPngProperty extends WzExtended {
         return img
       }
       case 2050: {
-        const inflateStream = zlib.createInflate()
+        // const inflateStream = zlib.createInflate()
+        // const uncompressedSize = this.width * this.height
+        // await writeAsync(inflateStream, data)
+        // const decBuf = inflateStream.read(uncompressedSize)
+        // inflateStream.close()
+
         const uncompressedSize = this.width * this.height
-        await writeAsync(inflateStream, data)
-        const decBuf = inflateStream.read(uncompressedSize)
-        inflateStream.close()
+        const decBuf = await inflate(data, uncompressedSize)
 
         const decoded = WzPngProperty.getPixelDataDXT5(decBuf, this.width, this.height)
         const img = new Jimp(this.width, this.height)
@@ -452,7 +467,7 @@ export class WzPngProperty extends WzExtended {
   }
 }
 
-function writeAsync (stream: zlib.Inflate, data: Buffer): Promise<void> {
+/* function writeAsync (stream: zlib.Inflate, data: Buffer): Promise<void> {
   return new Promise<void>((resolve, reject) => {
     stream.once('error', onError)
     const r = stream.write(data, 'binary', (err) => {
@@ -480,6 +495,27 @@ function writeAsync (stream: zlib.Inflate, data: Buffer): Promise<void> {
       stream.off('error', onError)
       resolve()
     }
+  })
+} */
+
+function inflate (data: Buffer, len: number): Promise<Buffer> {
+  return new Promise<Buffer>((resolve, reject) => {
+    const inflateStream = zlib.createInflate()
+    const buf = Buffer.alloc(len)
+    const chunks: Buffer[] = []
+    inflateStream.once('error', reject)
+    inflateStream.on('data', (chunk: Buffer) => {
+      chunks.push(chunk)
+    })
+
+    inflateStream.on('finish', () => {
+      const chunk = Buffer.concat(chunks)
+      chunk.copy(buf, 0, 0, Math.min(chunk.length, len))
+      resolve(buf)
+      inflateStream.close()
+    })
+
+    inflateStream.end(data)
   })
 }
 
