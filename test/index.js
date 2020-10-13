@@ -58,16 +58,26 @@ const { WzFile, WzMapleVersion, WzImage, WzBinaryProperty, WzCanvasProperty, WzP
 //   wz2.dispose()
 // }
 
+const type = [3, 513, 1026, 2050]
+const path = process.argv[2]
+const ver = process.argv[3] === undefined ? WzMapleVersion.BMS : process.argv[3]
+
 async function main () {
+  if (path === undefined || path === '') {
+    throw new Error('Path is null')
+  }
   let n = 0
-  await walkWzFileAsync('C:\\Nexon\\MapleStory\\UI.wz', WzMapleVersion.BMS, async (obj) => {
-    if (n > 10000) return true
+  await walkWzFileAsync(path, ver, async (obj) => {
+    // if (n > 10000) return true
     if (obj.objectType === WzObjectType.Property && obj instanceof WzCanvasProperty) {
       n++
+      console.log(n)
 
       // const img = await obj.pngProperty.getImage(false)
-      if ((obj.pngProperty.format1 + obj.pngProperty.format2) === 1) {
+      const format = obj.pngProperty.format1 + obj.pngProperty.format2
+      if (type.indexOf(format) !== -1) {
         console.log(`${obj.fullPath}`)
+        console.log(`${format}`)
         const r = await obj.pngProperty.saveToFile('./test3.png')
         return r
       }

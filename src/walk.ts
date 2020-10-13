@@ -32,8 +32,12 @@ export function walkWzFile (filepath: string, mapleVersion: WzMapleVersion, call
       if (stop) return
       if (prop.wzProperties != null) {
         walkPropertyContainer(prop, callback)
+        prop.dispose()
         if (stop) return
       }
+    }
+    if (typeof (container as any).dispose === 'function') {
+      (container as any).dispose()
     }
   }
 
@@ -45,14 +49,17 @@ export function walkWzFile (filepath: string, mapleVersion: WzMapleVersion, call
       stop = !!callback(img)
       if (stop) return
       walkPropertyContainer(img, callback)
+      img.dispose()
       if (stop) return
     }
     for (const subdir of dir.wzDirectories) {
       stop = !!callback(subdir)
       if (stop) return
       walkDirectory(subdir, callback)
+      subdir.dispose()
       if (stop) return
     }
+    dir.dispose()
   }
 }
 
@@ -81,8 +88,12 @@ export async function walkWzFileAsync (filepath: string, mapleVersion: WzMapleVe
       if (stop) return
       if (prop.wzProperties != null) {
         await walkPropertyContainer(prop, callback)
+        prop.dispose()
         if (stop) return
       }
+    }
+    if (typeof (container as any).dispose === 'function') {
+      (container as any).dispose()
     }
   }
 
@@ -94,13 +105,16 @@ export async function walkWzFileAsync (filepath: string, mapleVersion: WzMapleVe
       stop = !!(await Promise.resolve(callback(img)))
       if (stop) return
       await walkPropertyContainer(img, callback)
+      img.dispose()
       if (stop) return
     }
     for (const subdir of dir.wzDirectories) {
       stop = !!(await Promise.resolve(callback(subdir)))
       if (stop) return
       await walkDirectory(subdir, callback)
+      subdir.dispose()
       if (stop) return
     }
+    dir.dispose()
   }
 }
