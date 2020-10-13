@@ -190,6 +190,31 @@ export class WzPngProperty extends WzExtended {
         this.png = img
         break
       }
+      case 513: {
+        const inflateStream = zlib.createInflate()
+        const uncompressedSize = this.width * this.height * 2
+        await writeAsync(inflateStream, data)
+        const decBuf: Buffer = inflateStream.read(uncompressedSize)
+        inflateStream.close()
+
+        const img = new Jimp(this.width, this.height)
+        rgb565(img, decBuf, decBuf.length)
+        this.png = img
+        break
+      }
+      case 517: {
+        const inflateStream = zlib.createInflate()
+        const uncompressedSize: number = (parseInt as any)(this.width * this.height / 128)
+        await writeAsync(inflateStream, data)
+        const decBuf: Buffer = inflateStream.read(uncompressedSize)
+        inflateStream.close()
+
+        const decoded = WzPngProperty.getPixelDataForm517(decBuf, this.width, this.height)
+        const img = new Jimp(this.width, this.height)
+        rgb565(img, decoded, decoded.length)
+        this.png = img
+        break
+      }
       case 1026: {
         const inflateStream = zlib.createInflate()
         const uncompressedSize = this.width * this.height * 4
@@ -223,20 +248,6 @@ export class WzPngProperty extends WzExtended {
     }
   }
 
-  private static rgb565ToColor (val: number): Color {
-    const rgb565maskR = 0xf800
-    const rgb565maskG = 0x07e0
-    const rgb565maskB = 0x001f
-    const r = (val & rgb565maskR) >> 11
-    const g = (val & rgb565maskG) >> 5
-    const b = (val & rgb565maskB)
-    var c = Color.fromRgb(
-      (r << 3) | (r >> 2),
-      (g << 2) | (g >> 4),
-      (b << 3) | (b >> 2))
-    return c
-  }
-
   private static getPixelDataBgra4444 (rawData: Buffer, width: number, height: number): Buffer {
     let b: number, g: number
 
@@ -254,6 +265,31 @@ export class WzPngProperty extends WzExtended {
       argb[i * 2 + 1] = (g >>> 0) & 0xff
     }
     return argb
+  }
+
+  private static getPixelDataForm517 (rawData: Buffer, width: number, height: number): Buffer {
+    const pixel = Buffer.alloc(width * height * 2)
+    let lineIndex = 0
+    for (let j0 = 0, j1 = parseInt((height / 16) as any); j0 < j1; j0++) {
+      let dstIndex = lineIndex
+      for (let i0 = 0, i1 = parseInt((width / 16) as any); i0 < i1; i0++) {
+        const idx = (i0 + j0 * i1) * 2
+        const b0 = rawData[idx]
+        const b1 = rawData[idx + 1]
+        for (let k = 0; k < 16; k++) {
+          pixel[dstIndex++] = b0
+          pixel[dstIndex++] = b1
+        }
+      }
+
+      for (let k = 1; k < 16; k++) {
+        pixel.copy(pixel, dstIndex, lineIndex, lineIndex + (width * 2))
+        dstIndex += width * 2
+      }
+
+      lineIndex += width * 32
+    }
+    return pixel
   }
 
   private static getPixelDataDXT5 (rawData: Buffer, width: number, height: number): Buffer {
@@ -376,8 +412,8 @@ export class WzPngProperty extends WzExtended {
   }
 
   private static expandColorTable (color: Color[], c0: number, c1: number): void {
-    color[0] = WzPngProperty.rgb565ToColor(c0)
-    color[1] = WzPngProperty.rgb565ToColor(c1)
+    color[0] = rgb565ToColor(c0)
+    color[1] = rgb565ToColor(c1)
     if (c0 > c1) {
       color[2] = Color.fromArgb(0xff,
         (parseInt as any)((color[0].r * 2 + color[1].r + 1) / 3),
@@ -425,22 +461,47 @@ export class WzPngProperty extends WzExtended {
 
 function writeAsync (stream: zlib.Inflate, data: Buffer): Promise<void> {
   return new Promise<void>((resolve, reject) => {
-    stream.once('error', reject)
+    stream.once('error', onError)
     const r = stream.write(data, 'binary', (err) => {
       if (err != null) {
+        stream.off('error', onError)
+        stream.off('drain', onDrain)
         reject(err)
       } else {
         if (r) {
+          stream.off('error', onError)
+          stream.off('drain', onDrain)
           resolve()
         }
       }
     })
     if (!r) {
-      stream.once('drain', () => {
-        resolve()
-      })
+      stream.once('drain', onDrain)
+    }
+
+    function onError (err: Error): void {
+      stream.off('drain', onDrain)
+      reject(err)
+    }
+    function onDrain (): void {
+      stream.off('error', onError)
+      resolve()
     }
   })
+}
+
+function rgb565ToColor (val: number): Color {
+  const rgb565maskR = 0xf800
+  const rgb565maskG = 0x07e0
+  const rgb565maskB = 0x001f
+  const r = (val & rgb565maskR) >> 11
+  const g = (val & rgb565maskG) >> 5
+  const b = (val & rgb565maskB)
+  var c = Color.fromRgb(
+    (r << 3) | (r >> 2),
+    (g << 2) | (g >> 4),
+    (b << 3) | (b >> 2))
+  return c
 }
 
 function bgra8888 (img: Jimp, data: Buffer, length: number): void {
@@ -449,6 +510,20 @@ function bgra8888 (img: Jimp, data: Buffer, length: number): void {
   const width = img.getWidth()
   for (let i = 0; i < length; i += 4) {
     img.setPixelColor(Jimp.rgbaToInt(data[i + 2], data[i + 1], data[i + 0], data[i + 3]), x, y)
+    x++
+    if (x >= width) { x = 0; y++ }
+  }
+}
+
+function rgb565 (img: Jimp, data: Buffer, length: number): void {
+  // rrrrrggg gggbbbbb
+  let x = 0
+  let y = 0
+  const width = img.getWidth()
+  for (let i = 0; i < length; i += 2) {
+    const ushort = data.readUInt16LE(i)
+    const c = rgb565ToColor(ushort)
+    img.setPixelColor(Jimp.rgbaToInt(c.r, c.g, c.b, c.a), x, y)
     x++
     if (x >= width) { x = 0; y++ }
   }
