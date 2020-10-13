@@ -95,7 +95,9 @@ export class BinaryReader implements IDisposable {
           throw new RangeError(`Position out of range: ${v} < 0`)
         }
         if (v > this._size) {
-          throw new RangeError(`Position out of range: ${v} > ${this._size}`)
+          console.warn(`Position out of range: ${v} > ${this._size}, set position to the end`)
+          pos = this._size
+          return
         }
         pos = v
       }
@@ -126,6 +128,9 @@ export class BinaryReader implements IDisposable {
   }
 
   public read (len: number = 1): Buffer {
+    if (this.pos + len > this._size) {
+      len = this._size - this.pos
+    }
     const buf = Buffer.alloc(len)
     let readLength: number
     if (this._type === BinaryType.FILE) {
