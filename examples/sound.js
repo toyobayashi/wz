@@ -9,6 +9,8 @@ const path = require('path')
 function saveSounds (wzFilePath, mapleVersion, dir) {
   let n = 0
 
+  // let _doNotUseMe
+
   /**
    * @template {import('..').WzObject} T
    * @param {T} obj - wz object
@@ -16,6 +18,7 @@ function saveSounds (wzFilePath, mapleVersion, dir) {
    */
   function callback (obj) {
     // obj is available only in this scope
+    // _doNotUseMe = obj // ! do not do this
     if (obj.objectType === WzObjectType.Property && obj instanceof WzBinaryProperty) {
       const relativePath = path.win32.relative(wzFilePath, obj.fullPath).replace(/\\/g, '/')
       const file = path.join(dir, path.extname(relativePath) === '' ? `${relativePath}.mp3` : relativePath)

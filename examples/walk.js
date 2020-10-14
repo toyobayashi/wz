@@ -2,6 +2,8 @@ const { walkWzFile, walkWzFileAsync, WzMapleVersion, WzPropertyType, WzObjectTyp
 
 let n = 0
 
+// let _doNotUseMe
+
 /**
  * @template {import('..').WzObject} T
  * @param {T} obj - wz object
@@ -9,6 +11,7 @@ let n = 0
  */
 function callback (obj) {
   // obj is available only in this scope
+  // _doNotUseMe = obj // ! do not do this
   if (n > 5) return true
   if (obj.objectType === WzObjectType.Image) {
     console.log(`Image     \t ${obj.fullPath}`)
