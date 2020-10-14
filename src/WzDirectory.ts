@@ -160,7 +160,12 @@ export class WzDirectory extends WzObject {
     }
   }
 
-  public parseDirectory (lazyParse: boolean = false): void {
+  public parseDirectory (/* lazyParse: boolean = false */): void {
+    this.subDirs.clear()
+    this.images.clear()
+    if (this.reader.pos !== this.offset) {
+      this.reader.pos = this.offset
+    }
     const reader = this.reader
     const entryCount = reader.readWzInt()
     if (entryCount < 0 || entryCount > 100000) throw new Error('Invalid wz version used for decryption, try parsing other version numbers.')
@@ -207,7 +212,7 @@ export class WzDirectory extends WzObject {
         subDir.parent = this
         this.subDirs.add(subDir)
 
-        if (lazyParse) break
+        // if (lazyParse) break
       } else {
         const img = new WzImage(fname, reader, checksum)
         img.blockSize = fsize
@@ -215,7 +220,7 @@ export class WzDirectory extends WzObject {
         img.parent = this
         this.images.add(img)
 
-        if (lazyParse) break
+        // if (lazyParse) break
       }
     }
     for (const subdir of this.subDirs) {

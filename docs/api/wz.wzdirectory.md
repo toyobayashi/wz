@@ -48,7 +48,7 @@ export declare class WzDirectory extends WzObject
 |  [getChildImages()](./wz.wzdirectory.getchildimages.md) |  |  |
 |  [getDirectoryByName(name)](./wz.wzdirectory.getdirectorybyname.md) |  |  |
 |  [getImageByName(name)](./wz.wzdirectory.getimagebyname.md) |  |  |
-|  [parseDirectory(lazyParse)](./wz.wzdirectory.parsedirectory.md) |  |  |
+|  [parseDirectory()](./wz.wzdirectory.parsedirectory.md) |  |  |
 |  [parseImages()](./wz.wzdirectory.parseimages.md) |  |  |
 |  [set(name, value)](./wz.wzdirectory.set.md) |  |  |
 |  [setVersionHash(newHash)](./wz.wzdirectory.setversionhash.md) |  |  |

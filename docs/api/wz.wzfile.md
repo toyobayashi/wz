@@ -41,6 +41,5 @@ export declare class WzFile extends WzObject
 |  [createParseResult()](./wz.wzfile.createparseresult.md) | <code>static</code> |  |
 |  [dispose()](./wz.wzfile.dispose.md) |  |  |
 |  [getObjectFromPath(path, checkFirstDirectoryName)](./wz.wzfile.getobjectfrompath.md) |  |  |
-|  [lazyParseWzFile(out)](./wz.wzfile.lazyparsewzfile.md) |  |  |
 |  [parseWzFile(out, wzIv)](./wz.wzfile.parsewzfile.md) |  |  |
 

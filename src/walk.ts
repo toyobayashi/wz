@@ -19,7 +19,6 @@ export function walkWzFile (filepath: string, mapleVersion: WzMapleVersion, call
     throw new Error(result.message)
   }
 
-  // wz.wzDirectory.parseImages()
   let stop = false
   walkDirectory(wz.wzDirectory as WzDirectory, callback)
 

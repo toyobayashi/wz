@@ -93,14 +93,14 @@ export class WzFile extends WzObject {
     if (wzIv != null) {
       this.wzIv = wzIv
     }
-    return this.parseMainWzDirectory(out, false)
+    return this.parseMainWzDirectory(out/* , false */)
   }
 
-  public lazyParseWzFile (out: IWzParseResult): boolean {
+  /* public lazyParseWzFile (out: IWzParseResult): boolean {
     return this.parseMainWzDirectory(out, true)
-  }
+  } */
 
-  private parseMainWzDirectory (out: IWzParseResult, lazyParse: boolean = false): boolean {
+  private parseMainWzDirectory (out: IWzParseResult/* , lazyParse: boolean = false */): boolean {
     if (this.filepath === '') {
       const msg = 'Invalid path: ""'
       ErrorLogger.log(ErrorLevel.Critical, msg)
@@ -132,7 +132,8 @@ export class WzFile extends WzObject {
         let testDirectory: WzDirectory
         try {
           testDirectory = new WzDirectory(reader, this.name, this.versionHash, this.wzIv, this)
-          testDirectory.parseDirectory(lazyParse)
+          testDirectory.offset = reader.pos
+          testDirectory.parseDirectory(/* lazyParse */)
         } catch (_) {
           reader.pos = position
           continue
@@ -153,7 +154,8 @@ export class WzFile extends WzObject {
               case 0x73:
               case 0x1b: {
                 const directory = new WzDirectory(reader, this.name, this.versionHash, this.wzIv, this)
-                directory.parseDirectory(lazyParse)
+                directory.offset = reader.pos
+                directory.parseDirectory(/* lazyParse */)
                 this.wzDir = directory
 
                 out.message = 'Success'
@@ -177,6 +179,7 @@ export class WzFile extends WzObject {
       this.versionHash = this.checkAndGetVersionHash(this.version, this.mapleStoryPatchVersion)
       reader.hash = this.versionHash
       const directory = new WzDirectory(reader, this.name, this.versionHash, this.wzIv, this)
+      directory.offset = reader.pos
       directory.parseDirectory()
       this.wzDir = directory
     }
