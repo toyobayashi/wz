@@ -36,15 +36,15 @@ export class WzFile extends WzObject {
   public parent: WzObject | null = null
   public filepath: string
   public header: WzHeader = WzHeader.getDefault()
-  private version: number = 0
-  private versionHash: number = 0
+  private _version: number = 0
+  private _versionHash: number = 0
   public mapleStoryPatchVersion: number = 0
   public maplepLocalVersion: WzMapleVersion
-  private wzIv: Buffer
-  private wzDir: WzDirectory | null = null
+  private _wzIv: Buffer
+  private _wzDir: WzDirectory | null = null
 
   public get wzDirectory (): WzDirectory | null {
-    return this.wzDir
+    return this._wzDir
   }
 
   public constructor (filepath: string, version: WzMapleVersion, gameVersion: number = -1) {
@@ -56,19 +56,19 @@ export class WzFile extends WzObject {
 
     if (version === WzMapleVersion.GETFROMZLZ) {
       const r = new BinaryReader(path.join(path.dirname(filepath), 'ZLZ.dll'))
-      this.wzIv = WzKeyGenerator.getIvFromZlz(r)
+      this._wzIv = WzKeyGenerator.getIvFromZlz(r)
       r.close()
     } else {
-      this.wzIv = WzTool.getIvByMapleVersion(version)
+      this._wzIv = WzTool.getIvByMapleVersion(version)
     }
   }
 
   public dispose (): void {
     if (this._disposed) return
-    if (this.wzDir != null) {
-      this.wzDir.reader.dispose()
-      this.wzDir.dispose()
-      this.wzDir = null
+    if (this._wzDir != null) {
+      this._wzDir.reader.dispose()
+      this._wzDir.dispose()
+      this._wzDir = null
     }
     this.header = WzHeader.getDefault()
     this._disposed = true
@@ -83,7 +83,7 @@ export class WzFile extends WzObject {
   }
 
   public at (name: string): WzObject | null {
-    return this.wzDir != null ? this.wzDir.at(name) : null
+    return this._wzDir != null ? this._wzDir.at(name) : null
   }
 
   public get fullPath (): string {
@@ -91,17 +91,21 @@ export class WzFile extends WzObject {
   }
 
   public parseWzFile (out: IWzParseResult, wzIv: Buffer | null = null): boolean {
-    if (wzIv != null) {
-      this.wzIv = wzIv
+    if (this._wzDir != null) {
+      out.message = 'Already parsed wz file'
+      return true
     }
-    return this.parseMainWzDirectory(out/* , false */)
+    if (wzIv != null) {
+      this._wzIv = wzIv
+    }
+    return this._parseMainWzDirectory(out/* , false */)
   }
 
   /* public lazyParseWzFile (out: IWzParseResult): boolean {
     return this.parseMainWzDirectory(out, true)
   } */
 
-  private parseMainWzDirectory (out: IWzParseResult/* , lazyParse: boolean = false */): boolean {
+  private _parseMainWzDirectory (out: IWzParseResult/* , lazyParse: boolean = false */): boolean {
     if (this.filepath === '') {
       const msg = 'Invalid path: ""'
       ErrorLogger.log(ErrorLevel.Critical, msg)
@@ -109,7 +113,7 @@ export class WzFile extends WzObject {
       return false
     }
 
-    const reader = new WzBinaryReader(this.filepath, this.wzIv)
+    const reader = new WzBinaryReader(this.filepath, this._wzIv)
     this.header = new WzHeader()
     this.header.ident = reader.readString('ascii', 4)
     this.header.fsize = reader.readBigUInt64LE()
@@ -118,21 +122,21 @@ export class WzFile extends WzObject {
 
     reader.read(this.header.fstart - reader.pos)
     reader.header = this.header
-    this.version = reader.readInt16LE()
+    this._version = reader.readInt16LE()
 
     if (this.mapleStoryPatchVersion === -1) {
       const MAX_PATCH_VERSION = 10000
       for (let j = 0; j < MAX_PATCH_VERSION; j++) {
         this.mapleStoryPatchVersion = j
-        this.versionHash = this.checkAndGetVersionHash(this.version, this.mapleStoryPatchVersion)
-        if (this.versionHash === 0) {
+        this._versionHash = this._checkAndGetVersionHash(this._version, this.mapleStoryPatchVersion)
+        if (this._versionHash === 0) {
           continue
         }
-        reader.hash = this.versionHash
+        reader.hash = this._versionHash
         const position = reader.pos // save position to rollback to, if should parsing fail from here
         let testDirectory: WzDirectory
         try {
-          testDirectory = new WzDirectory(reader, this.name, this.versionHash, this.wzIv, this)
+          testDirectory = new WzDirectory(reader, this.name, this._versionHash, this._wzIv, this)
           testDirectory.offset = reader.pos
           testDirectory.parseDirectory(/* lazyParse */)
         } catch (_) {
@@ -154,10 +158,10 @@ export class WzFile extends WzObject {
             switch (checkByte) {
               case 0x73:
               case 0x1b: {
-                const directory = new WzDirectory(reader, this.name, this.versionHash, this.wzIv, this)
+                const directory = new WzDirectory(reader, this.name, this._versionHash, this._wzIv, this)
                 directory.offset = reader.pos
                 directory.parseDirectory(/* lazyParse */)
-                this.wzDir = directory
+                this._wzDir = directory
 
                 out.message = 'Success'
                 return true
@@ -177,19 +181,19 @@ export class WzFile extends WzObject {
         testDirectory.dispose()
       }
     } else {
-      this.versionHash = this.checkAndGetVersionHash(this.version, this.mapleStoryPatchVersion)
-      reader.hash = this.versionHash
-      const directory = new WzDirectory(reader, this.name, this.versionHash, this.wzIv, this)
+      this._versionHash = this._checkAndGetVersionHash(this._version, this.mapleStoryPatchVersion)
+      reader.hash = this._versionHash
+      const directory = new WzDirectory(reader, this.name, this._versionHash, this._wzIv, this)
       directory.offset = reader.pos
       directory.parseDirectory()
-      this.wzDir = directory
+      this._wzDir = directory
     }
 
     out.message = 'Success'
     return true
   }
 
-  private checkAndGetVersionHash (wzVersionHeader: number, maplestoryPatchVersion: number): number {
+  private _checkAndGetVersionHash (wzVersionHeader: number, maplestoryPatchVersion: number): number {
     const VersionNumber = maplestoryPatchVersion
     let VersionHash = 0
     const VersionNumberStr = VersionNumber.toString()
@@ -211,11 +215,11 @@ export class WzFile extends WzObject {
   }
 
   public getObjectFromPath (path: string, checkFirstDirectoryName: boolean = true): WzObject | null {
-    if (this.wzDir == null) return null
+    if (this._wzDir == null) return null
     const seperatedPath = path.split('/')
 
     if (checkFirstDirectoryName) {
-      if (seperatedPath[0].toLowerCase() !== this.wzDir.name.toLowerCase() && seperatedPath[0].toLowerCase() !== this.wzDir.name.substring(0, this.wzDir.name.length - 3).toLowerCase()) return null
+      if (seperatedPath[0].toLowerCase() !== this._wzDir.name.toLowerCase() && seperatedPath[0].toLowerCase() !== this._wzDir.name.substring(0, this._wzDir.name.length - 3).toLowerCase()) return null
     }
 
     if (seperatedPath.length === 1) return this.wzDirectory
