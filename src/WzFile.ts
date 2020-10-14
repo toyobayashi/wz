@@ -92,7 +92,7 @@ export class WzFile extends WzObject {
 
   public parseWzFile (out: IWzParseResult, wzIv: Buffer | null = null): boolean {
     if (this._wzDir != null) {
-      out.message = 'Already parsed wz file'
+      if (out != null) out.message = 'Already parsed wz file'
       return true
     }
     if (wzIv != null) {
@@ -109,7 +109,7 @@ export class WzFile extends WzObject {
     if (this.filepath === '') {
       const msg = 'Invalid path: ""'
       ErrorLogger.log(ErrorLevel.Critical, msg)
-      out.message = msg
+      if (out != null) out.message = msg
       return false
     }
 
@@ -163,7 +163,7 @@ export class WzFile extends WzObject {
                 directory.parseDirectory(/* lazyParse */)
                 this._wzDir = directory
 
-                out.message = 'Success'
+                if (out != null) out.message = 'Success'
                 return true
               }
               default: {
@@ -189,7 +189,7 @@ export class WzFile extends WzObject {
       this._wzDir = directory
     }
 
-    out.message = 'Success'
+    if (out != null) out.message = 'Success'
     return true
   }
 
