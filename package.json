@@ -1,7 +1,7 @@
 {
   "name": "@tybys/wz",
-  "version": "0.0.5",
-  "description": "",
+  "version": "0.0.6",
+  "description": "MapleStory wz reader.",
   "typings": "./lib/cjs-modern/index.d.ts",
   "main": "./lib/cjs-modern/index.js",
   "engines": {
@@ -19,8 +19,11 @@
     "lint": "tsgo lint",
     "fix": "tsgo fix"
   },
-  "keywords": [],
-  "author": "toyo",
+  "keywords": [
+    "maplestory",
+    "wz"
+  ],
+  "author": "toyobayashi",
   "license": "MIT",
   "publishConfig": {
     "access": "public"

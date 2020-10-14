@@ -200,9 +200,9 @@ export abstract class WzImageProperty extends WzObject {
         const WzIntProperty = require('./properties/WzIntProperty').WzIntProperty as typeof import('./properties/WzIntProperty').WzIntProperty
         const vecProp = new WzVectorProperty(name)
         vecProp.parent = parent
-        vecProp.x = new WzIntProperty('X', reader.readWzInt())
+        vecProp.x = new WzIntProperty('x', reader.readWzInt())
         vecProp.x.parent = vecProp
-        vecProp.y = new WzIntProperty('Y', reader.readWzInt())
+        vecProp.y = new WzIntProperty('y', reader.readWzInt())
         vecProp.y.parent = vecProp
         return vecProp
       }

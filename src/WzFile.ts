@@ -239,8 +239,8 @@ export class WzFile extends WzObject {
               curObj = (curObj as WzSubProperty).at(seperatedPath[i])
               continue
             case WzPropertyType.Vector:
-              if (seperatedPath[i] === 'X') return (curObj as WzVectorProperty).x
-              else if (seperatedPath[i] === 'Y') return (curObj as WzVectorProperty).y
+              if (seperatedPath[i] === 'x') return (curObj as WzVectorProperty).x
+              else if (seperatedPath[i] === 'y') return (curObj as WzVectorProperty).y
               else return null
             default: // Wut?
               return null
