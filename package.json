@@ -1,6 +1,6 @@
 {
   "name": "@tybys/wz",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "MapleStory wz reader.",
   "typings": "./lib/cjs-modern/index.d.ts",
   "main": "./lib/cjs-modern/index.js",
@@ -24,6 +24,14 @@
     "wz"
   ],
   "author": "toyobayashi",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/toyobayashi/wz.git"
+  },
+  "bugs": {
+    "url": "https://github.com/toyobayashi/wz/issues"
+  },
+  "homepage": "https://github.com/toyobayashi/wz#readme",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
