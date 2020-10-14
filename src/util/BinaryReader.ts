@@ -1,11 +1,5 @@
 import * as fs from 'fs'
-
-/**
- * @public
- */
-export interface IDisposable {
-  dispose (): void
-}
+import { IDisposable } from './IDisposable'
 
 const methods = {
   readInt8: 1,

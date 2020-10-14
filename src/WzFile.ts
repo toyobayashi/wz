@@ -64,13 +64,14 @@ export class WzFile extends WzObject {
   }
 
   public dispose (): void {
+    if (this._disposed) return
     if (this.wzDir != null) {
       this.wzDir.reader.dispose()
       this.wzDir.dispose()
+      this.wzDir = null
     }
     this.header = WzHeader.getDefault()
-    this.filepath = ''
-    this.name = ''
+    this._disposed = true
   }
 
   public get objectType (): WzObjectType {

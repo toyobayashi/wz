@@ -12,7 +12,8 @@ export class WzNullProperty extends WzImageProperty {
   }
 
   public dispose (): void {
-    this.name = ''
+    if (this._disposed) return
+    this._disposed = true
   }
 
   public parent: WzObject | null = null

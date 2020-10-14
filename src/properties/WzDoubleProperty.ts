@@ -11,8 +11,8 @@ export class WzDoubleProperty extends WzImageProperty {
   }
 
   public dispose (): void {
-    this.name = ''
-    this.val = 0
+    if (this._disposed) return
+    this._disposed = true
   }
 
   public get value (): number {

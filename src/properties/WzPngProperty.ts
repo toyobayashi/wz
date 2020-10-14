@@ -18,10 +18,12 @@ export class WzPngProperty extends WzExtended {
   }
 
   public dispose (): void {
+    if (this._disposed) return
     this.compressedImageBytes = null
     if (this.png != null) {
       this.png = null
     }
+    this._disposed = true
   }
 
   public get wzValue (): Promise<Jimp | null> {

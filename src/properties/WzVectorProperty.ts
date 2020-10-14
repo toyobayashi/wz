@@ -12,7 +12,7 @@ export class WzVectorProperty extends WzExtended {
   }
 
   public dispose (): void {
-    this.name = ''
+    if (this._disposed) return
     if (this.x != null) {
       this.x.dispose()
       this.x = null
@@ -21,6 +21,7 @@ export class WzVectorProperty extends WzExtended {
       this.y.dispose()
       this.y = null
     }
+    this._disposed = true
   }
 
   public get wzValue (): { x: number; y: number } {

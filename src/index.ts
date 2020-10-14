@@ -4,8 +4,9 @@
  * @packageDocumentation
  */
 
+export { IDisposable } from './util/IDisposable'
 export { ErrorLevel, ErrorLogger, WzError } from './util/ErrorLogger'
-export { BinaryReader, IDisposable } from './util/BinaryReader'
+export { BinaryReader } from './util/BinaryReader'
 export { WzMutableKey } from './util/WzMutableKey'
 export { WzBinaryReader } from './util/WzBinaryReader'
 export { NotImplementedError } from './util/NotImplementedError'

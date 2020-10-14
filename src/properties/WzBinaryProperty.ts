@@ -95,7 +95,8 @@ export class WzBinaryProperty extends WzExtended {
   }
 
   public dispose (): void {
-    this.name = ''
+    if (this._disposed) return
     this.mp3bytes = null
+    this._disposed = true
   }
 }

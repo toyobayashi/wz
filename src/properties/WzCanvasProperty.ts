@@ -54,7 +54,7 @@ export class WzCanvasProperty extends WzExtended implements IPropertyContainer {
   }
 
   public dispose (): void {
-    this.name = ''
+    if (this._disposed) return
     for (const prop of this.properties) {
       prop.dispose()
     }
@@ -63,6 +63,7 @@ export class WzCanvasProperty extends WzExtended implements IPropertyContainer {
       this.pngProperty.dispose()
       this.pngProperty = null
     }
+    this._disposed = true
   }
 
   public parent: WzObject | null = null

@@ -20,8 +20,8 @@ export class WzUOLProperty extends WzExtended {
   private linkVal: WzObject | null = null
 
   public dispose (): void {
-    this.name = ''
-    this.val = ''
+    if (this._disposed) return
+    this._disposed = true
   }
 
   public get value (): string {

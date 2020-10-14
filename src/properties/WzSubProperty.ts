@@ -43,11 +43,12 @@ export class WzSubProperty extends WzExtended implements IPropertyContainer {
   }
 
   public dispose (): void {
-    this.name = ''
+    if (this._disposed) return
     for (const prop of this.properties) {
       prop.dispose()
     }
     this.properties.clear()
+    this._disposed = true
   }
 
   public parent: WzObject | null = null

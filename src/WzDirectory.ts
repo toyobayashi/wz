@@ -22,8 +22,7 @@ export class WzDirectory extends WzObject {
   public wzFile: WzFile
 
   public dispose (): void {
-    this.name = ''
-    // this.reader.dispose()
+    if (this._disposed) return
     for (const img of this.images) {
       img.dispose()
     }
@@ -32,6 +31,7 @@ export class WzDirectory extends WzObject {
     }
     this.images.clear()
     this.subDirs.clear()
+    this._disposed = true
   }
 
   public get objectType (): WzObjectType {

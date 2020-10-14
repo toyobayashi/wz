@@ -16,6 +16,7 @@ export declare abstract class WzObject implements IDisposable
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
+|  [\_disposed](./wz.wzobject._disposed.md) |  | boolean |  |
 |  [fullPath](./wz.wzobject.fullpath.md) |  | string |  |
 |  [name](./wz.wzobject.name.md) |  | string |  |
 |  [objectType](./wz.wzobject.objecttype.md) |  | [WzObjectType](./wz.wzobjecttype.md) |  |

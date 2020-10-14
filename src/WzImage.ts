@@ -81,12 +81,12 @@ export class WzImage extends WzObject implements IPropertyContainer {
   }
 
   public dispose (): void {
-    this.name = ''
-    // this.reader.dispose()
+    if (this._disposed) return
     for (const prop of this.properties) {
       prop.dispose()
     }
     this.properties.clear()
+    this._disposed = true
   }
 
   public at (name: string): WzImageProperty | null {

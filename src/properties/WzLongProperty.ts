@@ -11,8 +11,8 @@ export class WzLongProperty extends WzImageProperty {
   }
 
   public dispose (): void {
-    this.name = ''
-    this.val = BigInt(0)
+    if (this._disposed) return
+    this._disposed = true
   }
 
   public get value (): bigint {

@@ -1,4 +1,4 @@
-import { IDisposable } from './util/BinaryReader'
+import { IDisposable } from './util/IDisposable'
 import { NotImplementedError } from './util/NotImplementedError'
 import { WzFile } from './WzFile'
 import { WzObjectType } from './WzObjectType'
@@ -13,6 +13,8 @@ export abstract class WzObject implements IDisposable {
   // public msTag: any = null
   // public msTag_spine: any = null
   // public tag3: any = null
+
+  protected _disposed: boolean = false
 
   public abstract dispose (): void
 

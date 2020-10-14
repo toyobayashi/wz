@@ -51,7 +51,8 @@ export class WzLuaProperty extends WzImageProperty {
   }
 
   public dispose (): void {
-    this.name = ''
+    if (this._disposed) return
     this.encryptedBytes = null
+    this._disposed = true
   }
 }
