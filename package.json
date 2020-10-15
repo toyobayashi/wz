@@ -1,6 +1,6 @@
 {
   "name": "@tybys/wz",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "MapleStory wz reader.",
   "typings": "./lib/cjs-modern/index.d.ts",
   "main": "./lib/cjs-modern/index.js",
@@ -50,6 +50,7 @@
     "typescript": "3.9.7"
   },
   "dependencies": {
+    "@tybys/binreader": "^0.1.0",
     "jimp": "^0.16.1"
   }
 }

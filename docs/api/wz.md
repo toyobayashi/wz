@@ -10,7 +10,6 @@ MapleStory WZ reader.
 
 |  Class | Description |
 |  --- | --- |
-|  [BinaryReader](./wz.binaryreader.md) |  |
 |  [ErrorLogger](./wz.errorlogger.md) |  |
 |  [NotImplementedError](./wz.notimplementederror.md) |  |
 |  [WzBinaryProperty](./wz.wzbinaryproperty.md) |  |

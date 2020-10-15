@@ -4,7 +4,7 @@ import { WzExtended } from '../WzExtended'
 import { WzBinaryReader } from '../util/WzBinaryReader'
 import * as Jimp from 'jimp'
 import * as zlib from 'zlib'
-import { BinaryReader } from '../util/BinaryReader'
+import { BinaryReader } from '@tybys/binreader'
 import { Color } from '../util/Color'
 import { ErrorLevel, ErrorLogger } from '../util/ErrorLogger'
 import { NotImplementedError } from '../util/NotImplementedError'
@@ -113,7 +113,7 @@ export class WzPngProperty extends WzExtended {
 
       this.wzReader.pos += 1
 
-      /* if (len > 0) */ this.compressedImageBytes = this.wzReader.read(len)
+      /* if (len > 0) */ this.compressedImageBytes = Buffer.from(this.wzReader.read(len))
       this.wzReader.pos = pos
     }
     if (!saveInMemory) {

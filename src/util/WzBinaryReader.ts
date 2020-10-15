@@ -1,14 +1,15 @@
 import { WzHeader } from '../WzHeader'
-import { BinaryReader } from './BinaryReader'
+import { BinaryReader } from '@tybys/binreader'
 import { MapleCryptoConstants } from './MapleCryptoConstants'
 import { WzKeyGenerator } from './WzKeyGenerator'
 import { WzMutableKey } from './WzMutableKey'
 import { WzTool } from './WzTool'
+import { IDisposable } from './IDisposable'
 
 /**
  * @public
  */
-export class WzBinaryReader extends BinaryReader {
+export class WzBinaryReader extends BinaryReader implements IDisposable {
   public wzKey: WzMutableKey
   public hash: number
   public header: WzHeader

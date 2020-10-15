@@ -45,13 +45,13 @@ export class WzBinaryProperty extends WzExtended {
     const wavFormatLen = this.wzReader.readUInt8()
     this.wzReader.pos = headerOff
 
-    this.header = this.wzReader.read(WzBinaryProperty.soundHeader.length + 1 + wavFormatLen)
+    this.header = Buffer.from(this.wzReader.read(WzBinaryProperty.soundHeader.length + 1 + wavFormatLen))
     // this.parseWzSoundPropertyHeader()
 
     // sound file offs
     this.offs = this.wzReader.pos
     if (parseNow) {
-      this.mp3bytes = this.wzReader.read(this.soundDataLen)
+      this.mp3bytes = Buffer.from(this.wzReader.read(this.soundDataLen))
     } else {
       this.wzReader.pos += this.soundDataLen
     }
@@ -72,7 +72,7 @@ export class WzBinaryProperty extends WzExtended {
 
     const currentPos = this.wzReader.pos
     this.wzReader.pos = this.offs
-    this.mp3bytes = this.wzReader.read(this.soundDataLen)
+    this.mp3bytes = Buffer.from(this.wzReader.read(this.soundDataLen))
     this.wzReader.pos = currentPos
     if (saveInMemory) {
       return this.mp3bytes

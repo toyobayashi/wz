@@ -1,11 +1,11 @@
-import { BinaryReader } from './BinaryReader'
+import { BinaryReader } from '@tybys/binreader'
 import { MapleCryptoConstants } from './MapleCryptoConstants'
 import { WzMutableKey } from './WzMutableKey'
 
 export class WzKeyGenerator {
   public static getIvFromZlz (zlzStream: BinaryReader): Buffer {
     zlzStream.seek(0x10040)
-    const iv = zlzStream.read(4)
+    const iv = Buffer.from(zlzStream.read(4))
     return iv
   }
 
