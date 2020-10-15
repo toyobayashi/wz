@@ -23,6 +23,11 @@ export class WzDirectory extends WzObject {
 
   public dispose (): void {
     if (this._disposed) return
+    this._clearAllChildren()
+    this._disposed = true
+  }
+
+  private _clearAllChildren (): void {
     for (const img of this.images) {
       img.dispose()
     }
@@ -31,7 +36,6 @@ export class WzDirectory extends WzObject {
     }
     this.images.clear()
     this.subDirs.clear()
-    this._disposed = true
   }
 
   public get objectType (): WzObjectType {
@@ -161,8 +165,7 @@ export class WzDirectory extends WzObject {
   }
 
   public parseDirectory (/* lazyParse: boolean = false */): void {
-    this.subDirs.clear()
-    this.images.clear()
+    this._clearAllChildren()
     if (this.reader.pos !== this.offset) {
       this.reader.pos = this.offset
     }
