@@ -109,9 +109,9 @@ export class BinaryReader implements IDisposable {
   public close (): void {
     if (this._opened) {
       if (this._type === BinaryType.FILE) {
-        this._buffer = null
-      } else {
         fs.closeSync(this._fd)
+      } else {
+        this._buffer = null
       }
       this._opened = false
     }
@@ -137,11 +137,14 @@ export class BinaryReader implements IDisposable {
   }
 
   public readToBuffer (buf: Buffer, bufStart: number = 0, len: number = 1): number {
+    if (this.pos + len > this._size) {
+      len = this._size - this.pos
+    }
     let readLength: number
     if (this._type === BinaryType.FILE) {
       readLength = fs.readSync(this._fd, buf, bufStart, len, this.pos)
     } else {
-      readLength = this._buffer!.copy(buf, 0, this.pos, this.pos + len)
+      readLength = this._buffer!.copy(buf, bufStart, this.pos, this.pos + len)
     }
     this.pos += readLength
     return readLength
