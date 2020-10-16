@@ -120,12 +120,12 @@ export class WzBinaryReader extends BinaryReader implements IDisposable {
   public readWzOffset (): number {
     let offset = this.pos
     offset = ((offset - this.header.fstart) ^ 0xFFFFFFFF) >>> 0
-    offset = (offset * this.hash) & 0xFFFFFFFF
+    offset = ((offset * this.hash) & 0xFFFFFFFF) >>> 0
     offset -= MapleCryptoConstants.WZ_OffsetConstant
-    offset = WzTool.rotateLeft(offset, offset & 0x1F)
+    offset = WzTool.rotateLeft(offset, offset & 0x1F) & 0xFFFFFFFF
     const encryptedOffset = this.readUInt32LE()
-    offset = (offset ^ encryptedOffset) >>> 0
-    offset = (offset + this.header.fstart * 2) & 0xFFFFFFFF
+    offset = ((offset ^ encryptedOffset) & 0xFFFFFFFF) >>> 0
+    offset = ((offset + this.header.fstart * 2) & 0xFFFFFFFF) >>> 0
     return offset
   }
 
