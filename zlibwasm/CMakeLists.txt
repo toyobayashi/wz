@@ -38,9 +38,9 @@ endif()
 
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/deps/zlib")
 
-message(${CMAKE_CURRENT_BINARY_DIR}/deps/zlib)
+# message(${CMAKE_CURRENT_BINARY_DIR}/deps/zlib)
 target_include_directories(${EXE_NAME} PUBLIC "deps/zlib" ${CMAKE_CURRENT_BINARY_DIR}/deps/zlib)
 
-target_link_libraries(${EXE_NAME} PRIVATE zlib)
+target_link_libraries(${EXE_NAME} PRIVATE zlibstatic)
 
 target_compile_options(${EXE_NAME} PRIVATE -sDISABLE_EXCEPTION_CATCHING=0)
