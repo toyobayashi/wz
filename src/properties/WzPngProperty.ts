@@ -9,7 +9,6 @@ import { Color } from '../util/Color'
 import { ErrorLevel, ErrorLogger } from '../util/ErrorLogger'
 import { NotImplementedError } from '../util/NotImplementedError'
 import { _Buffer } from '../util/node'
-import { wasminit } from '../util/wasminit'
 import * as zlibwasm from '../util/zlibwasm'
 
 /**
@@ -472,7 +471,7 @@ function inflate (data: Uint8Array, len: number): Promise<Uint8Array> {
 }
 
 async function inflateWasm (data: Uint8Array, len: number): Promise<Uint8Array> {
-  const mod = await wasminit(zlibwasm)
+  const mod = await zlibwasm.init()
   const buf = mod.inflate(data, len)
   return buf
 }
