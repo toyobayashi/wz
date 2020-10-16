@@ -66,7 +66,7 @@ export abstract class WzImageProperty extends WzObject {
     // 28 71 4F EF 1B 65 F9 1F A7 48 8D 11 73 E7 F0 27 55 09 DD 3C 07 32 D7 38 21 57 84 70 C1 79 9A 3F 49 F7 79 03 41 F4 9D B9 1B 5F CF 26 80 3D EC 25 5F 9C
     // [compressed int] [bytes]
     const length = reader.readWzInt()
-    const rawEncBytes = Buffer.from(reader.read(length))
+    const rawEncBytes = reader.read(length)
     const WzLuaProperty = require('./properties/WzLuaProperty').WzLuaProperty as typeof import('./properties/WzLuaProperty').WzLuaProperty
     const lua = new WzLuaProperty('Script', rawEncBytes)
     lua.parent = parent

@@ -4,6 +4,7 @@ import { WzMutableKey } from '../util/WzMutableKey'
 import { WzImageProperty } from '../WzImageProperty'
 import { WzObject } from '../WzObject'
 import { WzPropertyType } from '../WzPropertyType'
+import { asciiTextDecoder } from '../util/node'
 
 /**
  * @public
@@ -11,24 +12,24 @@ import { WzPropertyType } from '../WzPropertyType'
 export class WzLuaProperty extends WzImageProperty {
   public wzKey: WzMutableKey
 
-  public static readonly USE_IV_KEY: Buffer = MapleCryptoConstants.WZ_MSEAIV
+  public static readonly USE_IV_KEY: Uint8Array = MapleCryptoConstants.WZ_MSEAIV
 
   public parent: WzObject | null = null
 
-  public constructor (public name: string, public encryptedBytes: Buffer | null) {
+  public constructor (public name: string, public encryptedBytes: Uint8Array | null) {
     super()
     this.wzKey = WzKeyGenerator.generateWzKey(WzLuaProperty.USE_IV_KEY)
   }
 
-  public setValue (value: Buffer): void {
+  public setValue (value: Uint8Array): void {
     this.encryptedBytes = value
   }
 
-  public get wzValue (): Buffer | null {
+  public get wzValue (): Uint8Array | null {
     return this.value
   }
 
-  public get value (): Buffer | null {
+  public get value (): Uint8Array | null {
     return this.encryptedBytes
   }
 
@@ -38,11 +39,11 @@ export class WzLuaProperty extends WzImageProperty {
 
   public toString (): string {
     if (this.encryptedBytes == null) return ''
-    return this.encodeDecode(this.encryptedBytes).toString('ascii')
+    return asciiTextDecoder.decode(this.encodeDecode(this.encryptedBytes))
   }
 
-  private encodeDecode (input: Buffer): Buffer {
-    const newArray = Buffer.alloc(input.length)
+  private encodeDecode (input: Uint8Array): Uint8Array {
+    const newArray = new Uint8Array(input.length)
     for (let i = 0; i < input.length; i++) {
       const encryptedChar = ((input[i] ^ this.wzKey.at(i)) & 0xFF)
       newArray[i] = encryptedChar

@@ -130,7 +130,7 @@ export class WzImage extends WzObject implements IPropertyContainer {
     return ret
   }
 
-  public calculateAndSetImageChecksum (bytes: Buffer): void {
+  public calculateAndSetImageChecksum (bytes: Uint8Array): void {
     this.checksum = 0
     for (let i = 0; i < bytes.length; i++) {
       this.checksum += bytes[i]

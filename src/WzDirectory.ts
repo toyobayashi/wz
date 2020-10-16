@@ -17,7 +17,7 @@ export class WzDirectory extends WzObject {
   public blockSize: number = 0
   public checksum: number = 0
   // private offsetSize: number = 0
-  private readonly wzIv: Buffer
+  private readonly wzIv: Uint8Array
   public parent: WzObject | null = null
   public wzFile: WzFile
 
@@ -54,7 +54,7 @@ export class WzDirectory extends WzObject {
     return this.subDirs
   }
 
-  public constructor (reader: WzBinaryReader, name: string, hash: number, wzIv: Buffer, wzFile: WzFile) {
+  public constructor (reader: WzBinaryReader, name: string, hash: number, wzIv: Uint8Array, wzFile: WzFile) {
     super()
     this.reader = reader
     this.name = name

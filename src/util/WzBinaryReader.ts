@@ -5,6 +5,7 @@ import { WzKeyGenerator } from './WzKeyGenerator'
 import { WzMutableKey } from './WzMutableKey'
 import { WzTool } from './WzTool'
 import { IDisposable } from './IDisposable'
+import { asciiTextDecoder, utf16leTextDecoder } from './node'
 
 /**
  * @public
@@ -14,7 +15,7 @@ export class WzBinaryReader extends BinaryReader implements IDisposable {
   public hash: number
   public header: WzHeader
 
-  public constructor (filePath: string, wzIv: Buffer) {
+  public constructor (filePath: string, wzIv: Uint8Array) {
     super(filePath)
     this.wzKey = WzKeyGenerator.generateWzKey(wzIv)
     this.hash = 0
@@ -61,7 +62,7 @@ export class WzBinaryReader extends BinaryReader implements IDisposable {
         u8arr.push(encryptedChar >>> 16)
         mask++
       }
-      return Buffer.from(u8arr).toString('utf16le')
+      return utf16leTextDecoder.decode(new Uint8Array(u8arr))
     } else { // ASCII
       let mask = 0xAA
       if (smallLength === -128) {
@@ -80,7 +81,7 @@ export class WzBinaryReader extends BinaryReader implements IDisposable {
         u8arr.push(encryptedChar)
         mask++
       }
-      return Buffer.from(u8arr).toString('ascii')
+      return asciiTextDecoder.decode(new Uint8Array(u8arr))
     }
   }
 

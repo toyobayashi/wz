@@ -1,6 +1,7 @@
-import * as fs from 'fs'
-import { dirname } from 'path'
-import { EOL } from 'os'
+import { fs, path, os } from '../util/node'
+import { NotImplementedError } from './NotImplementedError'
+
+const EOL = os.EOL
 
 /** @public */
 export enum ErrorLevel {
@@ -34,13 +35,16 @@ export class ErrorLogger {
   }
 
   public static saveToFile (file: string): void {
+    if (typeof window !== 'undefined') {
+      throw new NotImplementedError('Can not save to file in browser')
+    }
     try {
-      fs.mkdirSync(dirname(file), { recursive: true })
+      fs.mkdirSync(path.dirname(file), { recursive: true })
     } catch (_) {}
     const fd = fs.openSync(file, 'w')
-    fs.writeSync(fd, Buffer.from(`Starting error log on ${new Date().toLocaleString()}${EOL}`))
+    fs.writeSync(fd, `Starting error log on ${new Date().toLocaleString()}${EOL}`)
     for (const err of this._errorList) {
-      fs.writeSync(fd, Buffer.from(`[${ErrorLevel[err.level]}] ${err.message}${EOL}`))
+      fs.writeSync(fd, `[${ErrorLevel[err.level]}] ${err.message}${EOL}`)
     }
     fs.closeSync(fd)
   }

@@ -1,4 +1,4 @@
-import * as path from 'path'
+import { path } from './util/node'
 import { WzCanvasProperty } from './properties/WzCanvasProperty'
 import { WzConvexProperty } from './properties/WzConvexProperty'
 import { WzSubProperty } from './properties/WzSubProperty'
@@ -40,7 +40,7 @@ export class WzFile extends WzObject {
   private _versionHash: number = 0
   public mapleStoryPatchVersion: number = 0
   public maplepLocalVersion: WzMapleVersion
-  private _wzIv: Buffer
+  private _wzIv: Uint8Array
   private _wzDir: WzDirectory | null = null
 
   public get wzDirectory (): WzDirectory | null {
@@ -90,7 +90,7 @@ export class WzFile extends WzObject {
     return this.wzDirectory != null ? this.wzDirectory.name : ''
   }
 
-  public parseWzFile (out: IWzParseResult, wzIv: Buffer | null = null): boolean {
+  public parseWzFile (out: IWzParseResult, wzIv: Uint8Array | null = null): boolean {
     if (this._wzDir != null) {
       if (out != null) out.message = 'Already parsed wz file'
       return true

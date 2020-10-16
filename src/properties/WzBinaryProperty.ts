@@ -1,9 +1,9 @@
-import * as fs from 'fs'
-import { dirname } from 'path'
+import { NotImplementedError } from '../util/NotImplementedError'
 import { WzBinaryReader } from '../util/WzBinaryReader'
 import { WzExtended } from '../WzExtended'
 import { WzObject } from '../WzObject'
 import { WzPropertyType } from '../WzPropertyType'
+import { fs, path } from '../util/node'
 
 /**
  * @public
@@ -23,11 +23,11 @@ export class WzBinaryProperty extends WzExtended {
 
   private readonly wzReader: WzBinaryReader
 
-  private mp3bytes: Buffer | null = null
+  private mp3bytes: Uint8Array | null = null
 
   private readonly soundDataLen: number
   public length: number
-  public header: Buffer
+  public header: Uint8Array
   private readonly offs: number
 
   public constructor (name: string, reader: WzBinaryReader, parseNow: boolean) {
@@ -45,13 +45,13 @@ export class WzBinaryProperty extends WzExtended {
     const wavFormatLen = this.wzReader.readUInt8()
     this.wzReader.pos = headerOff
 
-    this.header = Buffer.from(this.wzReader.read(WzBinaryProperty.soundHeader.length + 1 + wavFormatLen))
+    this.header = this.wzReader.read(WzBinaryProperty.soundHeader.length + 1 + wavFormatLen)
     // this.parseWzSoundPropertyHeader()
 
     // sound file offs
     this.offs = this.wzReader.pos
     if (parseNow) {
-      this.mp3bytes = Buffer.from(this.wzReader.read(this.soundDataLen))
+      this.mp3bytes = this.wzReader.read(this.soundDataLen)
     } else {
       this.wzReader.pos += this.soundDataLen
     }
@@ -59,11 +59,11 @@ export class WzBinaryProperty extends WzExtended {
 
   public setValue (_value: unknown): void {}
 
-  public get wzValue (): Buffer {
+  public get wzValue (): Uint8Array {
     return this.getBytes(false)
   }
 
-  public getBytes (saveInMemory: boolean = false): Buffer {
+  public getBytes (saveInMemory: boolean = false): Uint8Array {
     if (this.mp3bytes != null) {
       return this.mp3bytes
     }
@@ -72,7 +72,7 @@ export class WzBinaryProperty extends WzExtended {
 
     const currentPos = this.wzReader.pos
     this.wzReader.pos = this.offs
-    this.mp3bytes = Buffer.from(this.wzReader.read(this.soundDataLen))
+    this.mp3bytes = this.wzReader.read(this.soundDataLen)
     this.wzReader.pos = currentPos
     if (saveInMemory) {
       return this.mp3bytes
@@ -84,8 +84,11 @@ export class WzBinaryProperty extends WzExtended {
   }
 
   public saveToFile (file: string): void {
+    if (typeof window !== 'undefined') {
+      throw new NotImplementedError('Can not save to file in browser')
+    }
     try {
-      fs.mkdirSync(dirname(file), { recursive: true })
+      fs.mkdirSync(path.dirname(file), { recursive: true })
     } catch (_) {}
     fs.writeFileSync(file, this.getBytes(false))
   }

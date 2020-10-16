@@ -106,7 +106,7 @@ export class WzCanvasProperty extends WzExtended implements IPropertyContainer {
     }
   }
 
-  public setValue (value: Buffer): void {
+  public setValue (value: Uint8Array): void {
     if (this.pngProperty != null) {
       this.pngProperty.setValue(value)
     }
