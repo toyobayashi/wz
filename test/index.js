@@ -59,7 +59,7 @@ const { WzFile, WzMapleVersion, WzImage, WzBinaryProperty, WzCanvasProperty, WzP
 // }
 
 const type = [
-  // 1,
+  1,
   // 2,
   3,
   // 513,
@@ -92,36 +92,36 @@ async function main () {
   let n = 0
   await walkWzFileAsync(filepath, ver, async (obj) => {
     // if (n > 50) return true
-    const type = obj.objectType === WzObjectType.Property ? WzPropertyType[obj.propertyType] : WzObjectType[obj.objectType]
-    let relativePath = path.win32.relative(filepath, obj.fullPath).replace(/\\/g, '/')
-    if (relativePath === '') {
-      relativePath = '.'
-    }
-
-    if (obj.objectType === WzObjectType.Property && obj instanceof WzBinaryProperty) {
-      console.log(n, type, relativePath)
-      obj.saveToFile(path.join(/* __dirname,  */'Sound', path.extname(relativePath) === '' ? `${relativePath}.mp3` : relativePath))
-      n++
-    }
-    // if (obj.objectType === WzObjectType.Property && obj instanceof WzCanvasProperty) {
-    //   n++
-    //   console.log(n, WzPropertyType[obj.propertyType], obj.fullPath)
-
-    //   // const img = await obj.pngProperty.getImage(false)
-    //   try {
-    //     var format = obj.pngProperty.format1 + obj.pngProperty.format2
-    //   } catch (error) {
-    //     console.log(obj.fullPath)
-    //     throw error
-    //   }
-    //   if (type.indexOf(format) !== -1) {
-    //     console.log(`${obj.fullPath}`)
-    //     console.log(`${format}`)
-    //     const r = await obj.pngProperty.saveToFile(`./${format}.png`)
-    //     return r
-    //   }
-    //   // console.log(img)
+    // const type = obj.objectType === WzObjectType.Property ? WzPropertyType[obj.propertyType] : WzObjectType[obj.objectType]
+    // let relativePath = path.win32.relative(filepath, obj.fullPath).replace(/\\/g, '/')
+    // if (relativePath === '') {
+    //   relativePath = '.'
     // }
+
+    // if (obj.objectType === WzObjectType.Property && obj instanceof WzBinaryProperty) {
+    //   console.log(n, type, relativePath)
+    //   obj.saveToFile(path.join(/* __dirname,  */'Sound', path.extname(relativePath) === '' ? `${relativePath}.mp3` : relativePath))
+    //   n++
+    // }
+    if (obj.objectType === WzObjectType.Property && obj instanceof WzCanvasProperty) {
+      n++
+      console.log(n, WzPropertyType[obj.propertyType], obj.fullPath)
+
+      // const img = await obj.pngProperty.getImage(false)
+      try {
+        var format = obj.pngProperty.format1 + obj.pngProperty.format2
+      } catch (error) {
+        console.log(obj.fullPath)
+        throw error
+      }
+      if (type.indexOf(format) !== -1) {
+        console.log(`${obj.fullPath}`)
+        console.log(`${format}`)
+        const r = await obj.pngProperty.saveToFile(`./${format}.png`)
+        return r
+      }
+      // console.log(img)
+    }
     return false
   })
   console.log(`Total: ${n}`)

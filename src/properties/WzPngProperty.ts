@@ -9,6 +9,8 @@ import { Color } from '../util/Color'
 import { ErrorLevel, ErrorLogger } from '../util/ErrorLogger'
 import { NotImplementedError } from '../util/NotImplementedError'
 import { _Buffer } from '../util/node'
+import { wasminit } from '../util/wasminit'
+import * as zlibwasm from '../util/zlibwasm'
 
 /**
  * @public
@@ -445,8 +447,11 @@ export class WzPngProperty extends WzExtended {
   }
 }
 
-function inflate (data: Uint8Array, len: number): Promise<Buffer> {
-  return new Promise<Buffer>((resolve, reject) => {
+function inflate (data: Uint8Array, len: number): Promise<Uint8Array> {
+  if (typeof window !== 'undefined') {
+    return inflateWasm(data, len)
+  }
+  return new Promise<Uint8Array>((resolve, reject) => {
     const inflateStream = zlib.createInflate()
     const buf = _Buffer!.alloc(len)
     const chunks: Buffer[] = []
@@ -464,6 +469,12 @@ function inflate (data: Uint8Array, len: number): Promise<Buffer> {
 
     inflateStream.end(data)
   })
+}
+
+async function inflateWasm (data: Uint8Array, len: number): Promise<Uint8Array> {
+  const mod = await wasminit(zlibwasm)
+  const buf = mod.inflate(data, len)
+  return buf
 }
 
 function rgb565ToColor (val: number): Color {
