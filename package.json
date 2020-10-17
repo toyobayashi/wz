@@ -8,7 +8,6 @@
     "node": ">= 10.20.0"
   },
   "scripts": {
-    "prepare": "npm run build",
     "cjs": "tsgo cjs",
     "esm": "tsgo esm",
     "umd": "tsgo umd",
