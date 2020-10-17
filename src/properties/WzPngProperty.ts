@@ -23,6 +23,7 @@ export class WzPngProperty extends WzExtended {
     if (this._disposed) return
     this.compressedImageBytes = null
     if (this.png != null) {
+      this.png.dispose()
       this.png = null
     }
     this._disposed = true
