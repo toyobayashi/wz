@@ -118,3 +118,11 @@ export const utf16leTextDecoder: TextDecoder = (function () {
     } as any
   }
 })()
+
+export const Jimp: typeof import('jimp') = (function () {
+  try {
+    return _require!('jimp')
+  } catch (_) {
+    return null
+  }
+})()

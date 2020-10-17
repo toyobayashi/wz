@@ -2,13 +2,13 @@ import { WzPropertyType } from '../WzPropertyType'
 import { WzObject } from '../WzObject'
 import { WzExtended } from '../WzExtended'
 import { WzBinaryReader } from '../util/WzBinaryReader'
-import * as Jimp from 'jimp'
 import * as zlib from 'zlib'
 import { BinaryReader } from '@tybys/binreader'
 import { Color } from '../util/Color'
 import { ErrorLevel, ErrorLogger } from '../util/ErrorLogger'
 import { NotImplementedError } from '../util/NotImplementedError'
 import { _Buffer } from '../util/node'
+import { Canvas } from '../util/Canvas'
 import * as zlibwasm from '../util/zlibwasm'
 
 /**
@@ -28,7 +28,7 @@ export class WzPngProperty extends WzExtended {
     this._disposed = true
   }
 
-  public get wzValue (): Promise<Jimp | null> {
+  public get wzValue (): Promise<Canvas | null> {
     return this.getImage(false)
   }
 
@@ -46,7 +46,7 @@ export class WzPngProperty extends WzExtended {
   private readonly wzReader: WzBinaryReader
 
   private compressedImageBytes: Uint8Array | null = null
-  private png: Jimp | null = null
+  private png: Canvas | null = null
   private listWzUsed: boolean = false
 
   public static async create (reader: WzBinaryReader): Promise<WzPngProperty> {
@@ -100,7 +100,7 @@ export class WzPngProperty extends WzExtended {
     throw new NotImplementedError('[WzPngProperty#setValue]')
   }
 
-  public async getImage (saveInMemory: boolean = false): Promise<Jimp | null> {
+  public async getImage (saveInMemory: boolean = false): Promise<Canvas | null> {
     if (this.png == null) {
       const compressedImageBytes = await this.getCompressedBytes(saveInMemory)
       this.png = await this.parsePng(compressedImageBytes)
@@ -138,7 +138,7 @@ export class WzPngProperty extends WzExtended {
     return this.compressedImageBytes
   }
 
-  private async parsePng (compressedImageBytes: Uint8Array): Promise<Jimp | null> {
+  private async parsePng (compressedImageBytes: Uint8Array): Promise<Canvas | null> {
     const reader = new BinaryReader(compressedImageBytes)
 
     const header = reader.readUInt16LE()
@@ -170,7 +170,7 @@ export class WzPngProperty extends WzExtended {
         const decBuf = await inflate(data, uncompressedSize)
 
         const decoded = WzPngProperty.getPixelDataBgra4444(decBuf, this.width, this.height)
-        const img = new Jimp(this.width, this.height)
+        const img = new Canvas(this.width, this.height)
         // img.colorType(6)
         bgra8888(img, decoded, decoded.length)
         return img
@@ -179,7 +179,7 @@ export class WzPngProperty extends WzExtended {
         const uncompressedSize = this.width * this.height * 4
         const decBuf = await inflate(data, uncompressedSize)
 
-        const img = new Jimp(this.width, this.height)
+        const img = new Canvas(this.width, this.height)
         bgra8888(img, decBuf, decBuf.length)
         return img
       }
@@ -188,7 +188,7 @@ export class WzPngProperty extends WzExtended {
         const decBuf = await inflate(data, uncompressedSize)
 
         const decoded = WzPngProperty.getPixelDataDXT3(decBuf, this.width, this.height)
-        const img = new Jimp(this.width, this.height)
+        const img = new Canvas(this.width, this.height)
         bgra8888(img, decoded, this.width * this.height)
         return img
       }
@@ -196,7 +196,7 @@ export class WzPngProperty extends WzExtended {
         const uncompressedSize = this.width * this.height * 2
         const decBuf = await inflate(data, uncompressedSize)
 
-        const img = new Jimp(this.width, this.height)
+        const img = new Canvas(this.width, this.height)
         rgb565(img, decBuf, decBuf.length)
         return img
       }
@@ -205,7 +205,7 @@ export class WzPngProperty extends WzExtended {
         const decBuf = await inflate(data, uncompressedSize)
 
         const decoded = WzPngProperty.getPixelDataForm517(decBuf, this.width, this.height)
-        const img = new Jimp(this.width, this.height)
+        const img = new Canvas(this.width, this.height)
         rgb565(img, decoded, decoded.length)
         return img
       }
@@ -214,7 +214,7 @@ export class WzPngProperty extends WzExtended {
         const decBuf = await inflate(data, uncompressedSize)
 
         const decoded = WzPngProperty.getPixelDataDXT3(decBuf, this.width, this.height)
-        const img = new Jimp(this.width, this.height)
+        const img = new Canvas(this.width, this.height)
         bgra8888(img, decoded, decoded.length)
         return img
       }
@@ -223,7 +223,7 @@ export class WzPngProperty extends WzExtended {
         const decBuf = await inflate(data, uncompressedSize)
 
         const decoded = WzPngProperty.getPixelDataDXT5(decBuf, this.width, this.height)
-        const img = new Jimp(this.width, this.height)
+        const img = new Canvas(this.width, this.height)
         bgra8888(img, decoded, decoded.length)
         return img
       }
@@ -435,7 +435,7 @@ export class WzPngProperty extends WzExtended {
     }
   }
 
-  public getBitmap (): Promise<Jimp | null> {
+  public getBitmap (): Promise<Canvas | null> {
     return this.getImage(false)
   }
 
@@ -500,18 +500,18 @@ function rgb565ToColor (val: number): Color {
   return c
 }
 
-function bgra8888 (img: Jimp, data: Uint8Array, length: number): void {
+function bgra8888 (img: Canvas, data: Uint8Array, length: number): void {
   let x = 0
   let y = 0
   const width = img.getWidth()
   for (let i = 0; i < length; i += 4) {
-    img.setPixelColor(Jimp.rgbaToInt(data[i + 2], data[i + 1], data[i + 0], data[i + 3]), x, y)
+    img.setPixelColor(Canvas.rgbaToInt(data[i + 2], data[i + 1], data[i + 0], data[i + 3]), x, y)
     x++
     if (x >= width) { x = 0; y++ }
   }
 }
 
-function rgb565 (img: Jimp, data: Uint8Array, length: number): void {
+function rgb565 (img: Canvas, data: Uint8Array, length: number): void {
   // rrrrrggg gggbbbbb
   let x = 0
   let y = 0
@@ -520,7 +520,7 @@ function rgb565 (img: Jimp, data: Uint8Array, length: number): void {
   for (let i = 0; i < length; i += 2) {
     const ushort = r.readUInt16LE() // data.readUInt16LE(i)
     const c = rgb565ToColor(ushort)
-    img.setPixelColor(Jimp.rgbaToInt(c.r, c.g, c.b, c.a), x, y)
+    img.setPixelColor(Canvas.rgbaToInt(c.r, c.g, c.b, c.a), x, y)
     x++
     if (x >= width) { x = 0; y++ }
   }
