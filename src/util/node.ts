@@ -52,6 +52,14 @@ export const os: typeof import('os') = (function () {
   }
 })()
 
+export const zlib: typeof import('zlib') = (function () {
+  try {
+    return _require!('zlib')
+  } catch (_) {
+    return null
+  }
+})()
+
 export const crypto: typeof import('crypto') = (function () {
   try {
     return _require!('crypto')

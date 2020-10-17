@@ -19,6 +19,9 @@ cd ..
 
 cp -rpf $cmakeoutdir/zlibwasm.js ../src/util/zlibwasm.js
 mkdir -p ../lib/cjs-modern/util
+mkdir -p ../lib/esm/util
 cp -rpf $cmakeoutdir/zlibwasm.js ../lib/cjs-modern/util/zlibwasm.js
+cp -rpf $cmakeoutdir/zlibwasm.js ../lib/esm/util/zlibwasm.js
 cp -rpf $cmakeoutdir/zlibwasm.wasm ../lib/cjs-modern/util/zlibwasm.wasm
+cp -rpf $cmakeoutdir/zlibwasm.wasm ../lib/esm/util/zlibwasm.wasm
 cd ..

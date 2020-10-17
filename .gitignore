@@ -5,7 +5,7 @@ tsdoc-metadata.json
 package-lock.json
 /temp
 /dist
-/test/out
+/test/lib
 /test/**/*.mp3
 /Sound
 /src/util/zlibwasm.js

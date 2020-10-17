@@ -27,6 +27,8 @@ cd ..
 copy /Y %cmakeoutdir%\zlibwasm.js .\dist\zlibwasm.js
 copy /Y %cmakeoutdir%\zlibwasm.js ..\src\util\zlibwasm.js
 copy /Y %cmakeoutdir%\zlibwasm.js ..\lib\cjs-modern\util\zlibwasm.js
+copy /Y %cmakeoutdir%\zlibwasm.js ..\lib\esm\util\zlibwasm.js
 copy /Y %cmakeoutdir%\zlibwasm.wasm .\dist\zlibwasm.wasm
 copy /Y %cmakeoutdir%\zlibwasm.wasm ..\lib\cjs-modern\util\zlibwasm.wasm
+copy /Y %cmakeoutdir%\zlibwasm.wasm ..\lib\esm\util\zlibwasm.wasm
 copy /Y %cmakeoutdir%\zlibwasm.wasm.map .\zlibwasm.wasm.map
