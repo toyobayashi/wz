@@ -99,6 +99,9 @@ export class Canvas {
       return this
     }
     const blob = await toBlob(this._canvas as HTMLCanvasElement)
+    if (blob == null) {
+      throw new Error('Write image failed')
+    }
 
     const a = window.document.createElement('a')
     a.download = file

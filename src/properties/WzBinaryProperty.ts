@@ -1,4 +1,3 @@
-import { NotImplementedError } from '../util/NotImplementedError'
 import { WzBinaryReader } from '../util/WzBinaryReader'
 import { WzExtended } from '../WzExtended'
 import { WzObject } from '../WzObject'
@@ -92,7 +91,17 @@ export class WzBinaryProperty extends WzExtended {
 
   public async saveToFile (file: string): Promise<void> {
     if (typeof window !== 'undefined') {
-      throw new NotImplementedError('Can not save to file in browser')
+      const a = window.document.createElement('a')
+      a.download = file
+      a.href = URL.createObjectURL(new Blob([await this.getBytes(false)], { type: 'audio/mp3' }))
+      const event = new MouseEvent('click', {
+        view: window,
+        bubbles: true,
+        cancelable: true
+      })
+      a.dispatchEvent(event)
+      a.remove()
+      return
     }
     try {
       fs.mkdirSync(path.dirname(file), { recursive: true })

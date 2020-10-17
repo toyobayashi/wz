@@ -440,9 +440,6 @@ export class WzPngProperty extends WzExtended {
   }
 
   public async saveToFile (file: string): Promise<boolean> {
-    if (typeof window !== 'undefined') {
-      throw new NotImplementedError('Can not save to file in browser')
-    }
     if (this.png != null) {
       await this.png.writeAsync(file)
       return true

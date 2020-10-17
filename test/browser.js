@@ -22,10 +22,21 @@
     await wz.walkWzFileAsync(f, wz.WzMapleVersion.GMS, async (obj) => {
       // if (n >= 10) return true
       // n++
-      console.log(n, wz.WzPropertyType[obj.propertyType], obj.fullPath)
-      // if (obj.objectType === wz.WzObjectType.Property && obj instanceof wz.WzBinaryProperty) {
+      // console.log(n, wz.WzPropertyType[obj.propertyType], obj.fullPath)
+      if (obj.objectType === wz.WzObjectType.Property && obj instanceof wz.WzBinaryProperty) {
+        n++
+        if (n !== 3) return false
+        console.log(n, wz.WzPropertyType[obj.propertyType], obj.fullPath)
 
-      // }
+        const buf = (await obj.getBytes(false))
+        const blob = new Blob([buf.buffer], { type: 'audio/mp3' })
+        const src = URL.createObjectURL(blob)
+        const audio = new Audio()
+        audio.src = src
+        audio.play()
+
+        return true
+      }
       if (obj.objectType === wz.WzObjectType.Property && obj instanceof wz.WzCanvasProperty) {
         console.log(n, wz.WzPropertyType[obj.propertyType], obj.fullPath)
         try {
@@ -39,6 +50,7 @@
           console.log(`${format}`)
           const canvas = await obj.pngProperty.getImage()
           document.body.append(canvas._canvas)
+          await obj.pngProperty.saveToFile('4.png')
           return true
         }
       }
