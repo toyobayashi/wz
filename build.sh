@@ -10,7 +10,7 @@ shift
 done
 
 cd ./zlibwasm
-cmakeoutdir="cmake_build"
+cmakeoutdir="./cmake_build"
 mkdir -p $cmakeoutdir
 cd $cmakeoutdir
 cmake -DCMAKE_TOOLCHAIN_FILE="$EMSDK/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake" -DCMAKE_BUILD_TYPE="$type" -G "Unix Makefiles" ..
@@ -18,6 +18,7 @@ cmake --build .
 
 cp -rpf $cmakeoutdir/zlibwasm.js ../src/util/zlibwasm.js
 mkdir -p ../lib/cjs-modern/util
+ls -al $cmakeoutdir
 cp -rpf $cmakeoutdir/zlibwasm.js ../lib/cjs-modern/util/zlibwasm.js
 cp -rpf $cmakeoutdir/zlibwasm.wasm ../lib/cjs-modern/util/zlibwasm.wasm
 cd ..
