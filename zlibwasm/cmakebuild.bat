@@ -20,7 +20,7 @@ set cmakeoutdir=cmake_build
 
 if not exist %cmakeoutdir% mkdir %cmakeoutdir%
 cd %cmakeoutdir%
-cmake -DCMAKE_TOOLCHAIN_FILE=%EMSCRIPTEN_HOME%\cmake\Modules\Platform\Emscripten.cmake -DCMAKE_BUILD_TYPE=%mode% -G "MinGW Makefiles" -DCMAKE_MAKE_PROGRAM=make ..
+cmake -DCMAKE_TOOLCHAIN_FILE=%EMSDK%\upstream\emscripten\cmake\Modules\Platform\Emscripten.cmake -DCMAKE_BUILD_TYPE=%mode% -G "MinGW Makefiles" -DCMAKE_MAKE_PROGRAM=make ..
 cmake --build .
 cd ..
 
