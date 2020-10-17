@@ -34,7 +34,7 @@ export class WzFile extends WzObject {
 
   public name: string = ''
   public parent: WzObject | null = null
-  public filepath: string
+  public filepath: string | File
   public header: WzHeader = WzHeader.getDefault()
   private _version: number = 0
   private _versionHash: number = 0
@@ -47,16 +47,16 @@ export class WzFile extends WzObject {
     return this._wzDir
   }
 
-  public constructor (filepath: string, version: WzMapleVersion, gameVersion: number = -1) {
+  public constructor (filepath: string | File, version: WzMapleVersion, gameVersion: number = -1) {
     super()
     this.filepath = filepath
-    this.name = filepath
+    this.name = typeof filepath === 'string' ? filepath : filepath.name
     this.mapleStoryPatchVersion = gameVersion
     this.maplepLocalVersion = version
 
     if (version === WzMapleVersion.GETFROMZLZ) {
       if (typeof window !== 'undefined') throw new Error('Not supported in browser')
-      const r = new BinaryReader(path.join(path.dirname(filepath), 'ZLZ.dll'))
+      const r = new BinaryReader(path.join(path.dirname(filepath as string), 'ZLZ.dll'))
       this._wzIv = WzKeyGenerator.getIvFromZlz(r)
       r.close()
     } else {

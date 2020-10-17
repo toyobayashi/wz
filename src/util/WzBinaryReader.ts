@@ -15,7 +15,7 @@ export class WzBinaryReader extends AsyncBinaryReader implements IDisposable {
   public hash: number
   public header: WzHeader
 
-  public constructor (filePath: string, wzIv: Uint8Array) {
+  public constructor (filePath: string | File, wzIv: Uint8Array) {
     super(filePath)
     this.wzKey = WzKeyGenerator.generateWzKey(wzIv)
     this.hash = 0

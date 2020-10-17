@@ -11,7 +11,7 @@ import { WzObject } from './WzObject'
 /**
  * @public
  */
-export async function walkWzFileAsync (filepath: string, mapleVersion: WzMapleVersion, callback: <T extends WzObject>(obj: T) => boolean | undefined | Promise<boolean | undefined>): Promise<void> {
+export async function walkWzFileAsync (filepath: string | File, mapleVersion: WzMapleVersion, callback: <T extends WzObject>(obj: T) => boolean | undefined | Promise<boolean | undefined>): Promise<void> {
   await Promise.resolve() // next tick
   const wz = new WzFile(filepath, mapleVersion)
   const result = WzFile.createParseResult()
