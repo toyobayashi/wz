@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "MapleStory wz reader.",
   "typings": "./lib/cjs-modern/index.d.ts",
-  "module": "./lib/esm/index.js",
+  "module": "./lib/esm-modern/index.js",
   "main": "./lib/cjs-modern/index.js",
   "engines": {
     "node": ">= 10.20.0"
@@ -50,10 +50,10 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "typescript": "3.9.7",
-    "webpack": "^5.1.3"
+    "webpack": "^4.44.2"
   },
   "dependencies": {
-    "@tybys/binreader": "^0.1.2",
+    "@tybys/binreader": "^0.1.3",
     "@tybys/native-require": "^2.0.2",
     "crypto-js": "^4.0.0",
     "jimp": "^0.16.1"
