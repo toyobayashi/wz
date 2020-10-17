@@ -55,6 +55,7 @@ export class WzFile extends WzObject {
     this.maplepLocalVersion = version
 
     if (version === WzMapleVersion.GETFROMZLZ) {
+      if (typeof window !== 'undefined') throw new Error('Not supported in browser')
       const r = new BinaryReader(path.join(path.dirname(filepath), 'ZLZ.dll'))
       this._wzIv = WzKeyGenerator.getIvFromZlz(r)
       r.close()
@@ -90,7 +91,7 @@ export class WzFile extends WzObject {
     return this.wzDirectory != null ? this.wzDirectory.name : ''
   }
 
-  public parseWzFile (out: IWzParseResult, wzIv: Uint8Array | null = null): boolean {
+  public async parseWzFile (out: IWzParseResult, wzIv: Uint8Array | null = null): Promise<boolean> {
     if (this._wzDir != null) {
       if (out != null) out.message = 'Already parsed wz file'
       return true
@@ -98,14 +99,14 @@ export class WzFile extends WzObject {
     if (wzIv != null) {
       this._wzIv = wzIv
     }
-    return this._parseMainWzDirectory(out/* , false */)
+    return await this._parseMainWzDirectory(out/* , false */)
   }
 
   /* public lazyParseWzFile (out: IWzParseResult): boolean {
     return this.parseMainWzDirectory(out, true)
   } */
 
-  private _parseMainWzDirectory (out: IWzParseResult/* , lazyParse: boolean = false */): boolean {
+  private async _parseMainWzDirectory (out: IWzParseResult/* , lazyParse: boolean = false */): Promise<boolean> {
     if (this.filepath === '') {
       const msg = 'Invalid path: ""'
       ErrorLogger.log(ErrorLevel.Critical, msg)
@@ -115,14 +116,14 @@ export class WzFile extends WzObject {
 
     const reader = new WzBinaryReader(this.filepath, this._wzIv)
     this.header = new WzHeader()
-    this.header.ident = reader.readString('ascii', 4)
-    this.header.fsize = reader.readBigUInt64LE()
-    this.header.fstart = reader.readUInt32LE()
-    this.header.copyright = reader.readNullTerminatedString()
+    this.header.ident = await reader.readString('ascii', 4)
+    this.header.fsize = await reader.readBigUInt64LE()
+    this.header.fstart = await reader.readUInt32LE()
+    this.header.copyright = await reader.readNullTerminatedString()
 
-    reader.read(this.header.fstart - reader.pos)
+    await reader.read(this.header.fstart - reader.pos)
     reader.header = this.header
-    this._version = reader.readInt16LE()
+    this._version = await reader.readInt16LE()
 
     if (this.mapleStoryPatchVersion === -1) {
       const MAX_PATCH_VERSION = 10000
@@ -138,7 +139,7 @@ export class WzFile extends WzObject {
         try {
           testDirectory = new WzDirectory(reader, this.name, this._versionHash, this._wzIv, this)
           testDirectory.offset = reader.pos
-          testDirectory.parseDirectory(/* lazyParse */)
+          await testDirectory.parseDirectory(/* lazyParse */)
         } catch (_) {
           reader.pos = position
           continue
@@ -153,14 +154,14 @@ export class WzFile extends WzObject {
           const testImage = childImages.values().next().value as WzImage
           try {
             reader.pos = testImage.offset
-            const checkByte = reader.readUInt8()
+            const checkByte = await reader.readUInt8()
             reader.pos = position
             switch (checkByte) {
               case 0x73:
               case 0x1b: {
                 const directory = new WzDirectory(reader, this.name, this._versionHash, this._wzIv, this)
                 directory.offset = reader.pos
-                directory.parseDirectory(/* lazyParse */)
+                await directory.parseDirectory(/* lazyParse */)
                 this._wzDir = directory
 
                 if (out != null) out.message = 'Success'
@@ -185,7 +186,7 @@ export class WzFile extends WzObject {
       reader.hash = this._versionHash
       const directory = new WzDirectory(reader, this.name, this._versionHash, this._wzIv, this)
       directory.offset = reader.pos
-      directory.parseDirectory()
+      await directory.parseDirectory()
       this._wzDir = directory
     }
 

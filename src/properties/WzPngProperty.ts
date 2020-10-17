@@ -49,15 +49,15 @@ export class WzPngProperty extends WzExtended {
   private png: Jimp | null = null
   private listWzUsed: boolean = false
 
-  public constructor (reader: WzBinaryReader/* , parseNow: boolean = false */) {
-    super()
-    this.width = reader.readWzInt()
-    this.height = reader.readWzInt()
-    this.format1 = reader.readWzInt()
-    this.format2 = reader.readUInt8()
+  public static async create (reader: WzBinaryReader): Promise<WzPngProperty> {
+    const self = new WzPngProperty(reader)
+    self.width = await reader.readWzInt()
+    self.height = await reader.readWzInt()
+    self.format1 = await reader.readWzInt()
+    self.format2 = await reader.readUInt8()
     reader.pos += 4
-    this.offs = reader.pos
-    const len = reader.readInt32LE() - 1
+    self.offs = reader.pos
+    const len = await reader.readInt32LE() - 1
     reader.pos += 1
 
     if (len > 0) {
@@ -73,6 +73,16 @@ export class WzPngProperty extends WzExtended {
       reader.pos += len
       /* } */
     }
+    return self
+  }
+
+  private constructor (reader: WzBinaryReader/* , parseNow: boolean = false */) {
+    super()
+    this.width = 0
+    this.height = 0
+    this.format1 = 0
+    this.format2 = 0
+    this.offs = 0
     this.wzReader = reader
 
     Object.defineProperty(this, 'format', {
@@ -92,7 +102,7 @@ export class WzPngProperty extends WzExtended {
 
   public async getImage (saveInMemory: boolean = false): Promise<Jimp | null> {
     if (this.png == null) {
-      const compressedImageBytes = this.getCompressedBytes(saveInMemory)
+      const compressedImageBytes = await this.getCompressedBytes(saveInMemory)
       this.png = await this.parsePng(compressedImageBytes)
     }
     if (!saveInMemory) {
@@ -103,11 +113,11 @@ export class WzPngProperty extends WzExtended {
     return this.png
   }
 
-  public getCompressedBytes (saveInMemory: boolean = false): Uint8Array {
+  public async getCompressedBytes (saveInMemory: boolean = false): Promise<Uint8Array> {
     if (this.compressedImageBytes == null) {
       const pos = this.wzReader.pos
       this.wzReader.pos = this.offs
-      const len = this.wzReader.readInt32LE() - 1
+      const len = await this.wzReader.readInt32LE() - 1
       if (len <= 0) {
         // possibility an image written with the wrong wzIv
         throw new Error('The length of the image is negative. WzPngProperty.')
@@ -115,7 +125,7 @@ export class WzPngProperty extends WzExtended {
 
       this.wzReader.pos += 1
 
-      /* if (len > 0) */ this.compressedImageBytes = this.wzReader.read(len)
+      /* if (len > 0) */ this.compressedImageBytes = await this.wzReader.read(len)
       this.wzReader.pos = pos
     }
     if (!saveInMemory) {

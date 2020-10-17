@@ -149,32 +149,32 @@ export class WzDirectory extends WzObject {
     }
   }
 
-  public parseImages (): void {
+  public async parseImages (): Promise<void> {
     for (const img of this.images) {
       if (this.reader.pos !== img.offset) {
         this.reader.pos = img.offset
       }
-      img.parseImage()
+      await img.parseImage()
     }
     for (const subdir of this.subDirs) {
       if (this.reader.pos !== subdir.offset) {
         this.reader.pos = subdir.offset
       }
-      subdir.parseImages()
+      await subdir.parseImages()
     }
   }
 
-  public parseDirectory (/* lazyParse: boolean = false */): void {
+  public async parseDirectory (/* lazyParse: boolean = false */): Promise<void> {
     this._clearAllChildren()
     if (this.reader.pos !== this.offset) {
       this.reader.pos = this.offset
     }
     const reader = this.reader
-    const entryCount = reader.readWzInt()
+    const entryCount = await reader.readWzInt()
     if (entryCount < 0 || entryCount > 100000) throw new Error('Invalid wz version used for decryption, try parsing other version numbers.')
 
     for (let i = 0; i < entryCount; i++) {
-      let type = reader.readUInt8()
+      let type = await reader.readUInt8()
       let fname = ''
       var fsize: number
       var checksum: number
@@ -182,31 +182,31 @@ export class WzDirectory extends WzObject {
       let rememberPos = 0
       switch (type) {
         case 1: {
-          /* const unknown =  */reader.readInt32LE()
-          reader.readInt16LE()
-          /* const offs =  */reader.readWzOffset()
+          /* const unknown =  */await reader.readInt32LE()
+          await reader.readInt16LE()
+          /* const offs =  */await reader.readWzOffset()
           continue
         }
         case 2: {
-          const stringOffset = reader.readInt32LE()
+          const stringOffset = await reader.readInt32LE()
           rememberPos = reader.pos
           reader.pos = reader.header.fstart + stringOffset
-          type = reader.readUInt8()
-          fname = reader.readWzString()
+          type = await reader.readUInt8()
+          fname = await reader.readWzString()
           break
         }
         case 3:
         case 4: {
-          fname = reader.readWzString()
+          fname = await reader.readWzString()
           rememberPos = reader.pos
           break
         }
         default: break
       }
       reader.pos = rememberPos
-      fsize = reader.readWzInt()
-      checksum = reader.readWzInt()
-      offset = reader.readWzOffset()
+      fsize = await reader.readWzInt()
+      checksum = await reader.readWzInt()
+      offset = await reader.readWzOffset()
       if (type === 3) {
         const subDir = new WzDirectory(reader, fname, this.hash, this.wzIv, this.wzFile)
         subDir.blockSize = fsize
@@ -227,8 +227,8 @@ export class WzDirectory extends WzObject {
       }
     }
     for (const subdir of this.subDirs) {
-      reader.pos = subdir.offset
-      subdir.parseDirectory()
+      // reader.pos = subdir.offset
+      await subdir.parseDirectory()
     }
   }
 }

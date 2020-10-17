@@ -31,12 +31,12 @@ export class WzImage extends WzObject implements IPropertyContainer {
 
   private readonly properties: Set<WzImageProperty> = new Set()
   public get wzProperties (): Set<WzImageProperty> {
-    if (!this.parsed) this.parseImage()
+    if (!this.parsed) throw new Error('Image has not been parsed yet')
     return this.properties
   }
 
   public get objectType (): WzObjectType {
-    if (!this.parsed) this.parseImage()
+    // if (!this.parsed) this.parseImage()
     return WzObjectType.Image
   }
 
@@ -49,13 +49,13 @@ export class WzImage extends WzObject implements IPropertyContainer {
   }
 
   public addProperty (prop: WzImageProperty): void {
+    if (this.reader != null && !this.parsed) throw new Error('Image has not been parsed yet')
     prop.parent = this
-    if (this.reader != null && !this.parsed) this.parseImage()
     this.properties.add(prop)
   }
 
   public removeProperty (prop: WzImageProperty): void {
-    if (!this.parsed) this.parseImage()
+    if (!this.parsed) throw new Error('Image has not been parsed yet')
     prop.parent = null
     this.properties.delete(prop)
   }
@@ -90,7 +90,7 @@ export class WzImage extends WzObject implements IPropertyContainer {
   }
 
   public at (name: string): WzImageProperty | null {
-    if (!this.parsed) this.parseImage()
+    if (!this.parsed) throw new Error('Image has not been parsed yet')
     const nameLower = name.toLowerCase()
     for (const prop of this.properties) {
       if (prop.name.toLowerCase() === nameLower) return prop
@@ -106,7 +106,7 @@ export class WzImage extends WzObject implements IPropertyContainer {
   }
 
   public getFromPath (path: string): WzImageProperty | null {
-    if (!this.parsed) this.parseImage()
+    if (!this.parsed) throw new Error('Image has not been parsed yet')
     const segments = path.split('/')
     if (segments[0] === '..') return null
     let ret: WzImageProperty | null = null
@@ -137,7 +137,7 @@ export class WzImage extends WzObject implements IPropertyContainer {
     }
   }
 
-  public parseImage (forceReadFromData: boolean = false): boolean {
+  public async parseImage (forceReadFromData: boolean = false): Promise<boolean> {
     if (!forceReadFromData) { // only check if parsed or changed if its not false read
       if (this.parsed) {
         return true
@@ -150,11 +150,11 @@ export class WzImage extends WzObject implements IPropertyContainer {
     const reader = this.reader
     // const originalPos = reader.pos
     reader.pos = this.offset
-    const b = reader.readUInt8()
+    const b = await reader.readUInt8()
     switch (b) {
       case 0x1: {
         if (this.isLuaImage) {
-          const lua = WzImageProperty.parseLuaProperty(this.offset, reader, this, this)
+          const lua = await WzImageProperty.parseLuaProperty(this.offset, reader, this, this)
           this.properties.add(lua)
           this.parsed = true
           return true
@@ -163,8 +163,8 @@ export class WzImage extends WzObject implements IPropertyContainer {
         return false
       }
       case 0x73: {
-        const prop = reader.readWzString()
-        const val = reader.readUInt16LE()
+        const prop = await reader.readWzString()
+        const val = await reader.readUInt16LE()
         if (prop !== 'Property' || val !== 0) {
           return false
         }
@@ -176,7 +176,7 @@ export class WzImage extends WzObject implements IPropertyContainer {
       }
     }
 
-    const images = WzImageProperty.parsePropertyList(this.offset, reader, this, this)
+    const images = await WzImageProperty.parsePropertyList(this.offset, reader, this, this)
     for (const img of images) {
       this.properties.add(img)
     }

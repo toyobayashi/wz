@@ -50,7 +50,7 @@
     "typescript": "3.9.7"
   },
   "dependencies": {
-    "@tybys/binreader": "^0.1.0",
+    "@tybys/binreader": "^0.1.2",
     "@tybys/native-require": "^2.0.2",
     "crypto-js": "^4.0.0",
     "jimp": "^0.16.1"
