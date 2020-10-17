@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "MapleStory wz reader.",
   "typings": "./lib/cjs-modern/index.d.ts",
+  "module": "./lib/esm/index.js",
   "main": "./lib/cjs-modern/index.js",
   "engines": {
     "node": ">= 10.20.0"

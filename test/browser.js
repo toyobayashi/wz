@@ -21,13 +21,13 @@
     let n = 0
     await wz.walkWzFileAsync(f, wz.WzMapleVersion.GMS, async (obj) => {
       // if (n >= 10) return true
-      n++
+      // n++
       console.log(n, wz.WzPropertyType[obj.propertyType], obj.fullPath)
       // if (obj.objectType === wz.WzObjectType.Property && obj instanceof wz.WzBinaryProperty) {
 
       // }
       if (obj.objectType === wz.WzObjectType.Property && obj instanceof wz.WzCanvasProperty) {
-
+        console.log(n, wz.WzPropertyType[obj.propertyType], obj.fullPath)
         try {
           var format = obj.pngProperty.format1 + obj.pngProperty.format2
         } catch (error) {
@@ -37,6 +37,8 @@
         if (type.indexOf(format) !== -1) {
           console.log(`${obj.fullPath}`)
           console.log(`${format}`)
+          const canvas = await obj.pngProperty.getImage()
+          document.body.append(canvas._canvas)
           return true
         }
       }
