@@ -9,7 +9,7 @@ if [ "$1" == "Debug" ]; then type="$1"; fi
 shift
 done
 
-cd ./zlibwasm
+cd ./wasm
 cmakeoutdir="./cmake_build"
 mkdir -p $cmakeoutdir
 cd $cmakeoutdir
@@ -17,7 +17,7 @@ cmake -DCMAKE_TOOLCHAIN_FILE="$EMSDK/upstream/emscripten/cmake/Modules/Platform/
 cmake --build .
 cd ..
 
-exename="zlibwasm"
+exename="wz"
 
 cp -rpf "$cmakeoutdir/$exename.js" "../src/util/$exename.js"
 mkdir -p ../lib/cjs-modern/util

@@ -9,7 +9,7 @@
     try { Object.defineProperty(m, 'default', { enumerable: true, value: m }); } catch (_) { m['default'] = m; }
     return m;
   }
-  var name = 'zlibwasm';
+  var name = 'wzWasm';
   if(typeof exports === 'object' && typeof module === 'object') {
     module.exports = makeESModule(factory(require('@tybys/native-require').tryGetRequireFunction()));
   } else if(typeof define === 'function' && define.amd) {

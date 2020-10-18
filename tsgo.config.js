@@ -27,7 +27,7 @@ module.exports = {
       ...config.plugins,
       new CopyWebpackPlugin({
         patterns: [
-          { from: path.join(path.dirname(config.entry[Object.keys(config.entry)[0]][0]), 'util/zlibwasm.wasm'), to: path.join(config.output.path, 'zlibwasm.wasm') }
+          { from: path.join(path.dirname(config.entry[Object.keys(config.entry)[0]][0]), 'util/wz.wasm'), to: path.join(config.output.path, 'wz.wasm') }
         ]
       })
     ]

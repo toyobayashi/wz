@@ -1,5 +1,5 @@
 import { tryGetRequireFunction } from '@tybys/native-require'
-import { mod } from './zlibwasm'
+import { mod } from './wz'
 
 const _require = tryGetRequireFunction()
 

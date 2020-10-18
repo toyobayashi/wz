@@ -24,7 +24,7 @@ cmake -DCMAKE_TOOLCHAIN_FILE=%EMSDK%\upstream\emscripten\cmake\Modules\Platform\
 cmake --build .
 cd ..
 
-set exename=zlibwasm
+set exename=wz
 
 copy /Y %cmakeoutdir%\%exename%.js .\dist\%exename%.js
 copy /Y %cmakeoutdir%\%exename%.js ..\src\util\%exename%.js

@@ -8,4 +8,4 @@ package-lock.json
 /test/lib
 /test/**/*.mp3
 /Sound
-/src/util/zlibwasm.js
+/src/util/wz.js

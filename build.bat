@@ -1,5 +1,5 @@
 @echo off
 
-cd .\zlibwasm
+cd .\wasm
 call .\cmakebuild
 cd ..

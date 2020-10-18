@@ -1,4 +1,4 @@
-import { init as initWasm } from './util/zlibwasm'
+import { init as initWasm } from './util/wz'
 
 /**
  * @public

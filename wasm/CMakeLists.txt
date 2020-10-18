@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.6)
 
-project(zlibwasm)
+project(wz)
 
-set(EXE_NAME zlibwasm)
+set(EXE_NAME wz)
 
 set(LIB_SOURCE_FILES
   src/main.cpp

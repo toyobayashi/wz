@@ -17,4 +17,4 @@ tsgo.config*
 /lib/**/*.map
 /examples
 .github
-/zlibwasm
+/wasm

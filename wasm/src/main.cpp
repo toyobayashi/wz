@@ -145,7 +145,7 @@ emscripten::val js_aes_256_ecb(emscripten::val u8arr, emscripten::val key) {
   return ret;
 }
 
-EMSCRIPTEN_BINDINGS(zlibwasm) {
+EMSCRIPTEN_BINDINGS(wz) {
   emscripten::function("inflate", js_inflate);
   emscripten::function("aesEnc", js_aes_256_ecb);
 }
