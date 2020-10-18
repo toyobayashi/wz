@@ -1,4 +1,4 @@
-const { walkWzFile, walkWzFileAsync, WzMapleVersion, WzPropertyType, WzObjectType } = require('..')
+const { walkWzFileAsync, WzMapleVersion, WzPropertyType, WzObjectType } = require('..')
 
 let n = 0
 
@@ -7,9 +7,9 @@ let n = 0
 /**
  * @template {import('..').WzObject} T
  * @param {T} obj - wz object
- * @returns {boolean | undefined}
+ * @returns {Promise<boolean | undefined>}
  */
-function callback (obj) {
+async function callback (obj) {
   // obj is available only in this scope
   // _doNotUseMe = obj // ! do not do this
   if (n > 5) return true
@@ -26,23 +26,8 @@ function callback (obj) {
   return false
 }
 
-/**
- * @template {import('..').WzObject} T
- * @param {T} obj - wz object
- * @returns {boolean | undefined | Promise<boolean | undefined>}
- */
-function callbackAsync (obj) {
-  return Promise.resolve(callback(obj))
-}
-
 const wzFilePath = 'C:\\Nexon\\MapleStory\\Sound.wz'
 
-n = 0
-walkWzFile(wzFilePath, WzMapleVersion.BMS, callback)
-
-n = 0
-walkWzFileAsync(wzFilePath, WzMapleVersion.BMS, callbackAsync).then(() => {
-  console.log('\nAsync done.')
+walkWzFileAsync(wzFilePath, WzMapleVersion.BMS, callback).then(() => {
+  console.log('\nDone.')
 })
-
-console.log('\nSync done.\n') // output after walkWzFile()
