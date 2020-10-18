@@ -56,10 +56,10 @@ export class WzBinaryReader extends AsyncBinaryReader implements IDisposable {
 
       for (let i = 0; i < length; i++) {
         let encryptedChar = await this.readUInt16LE()
-        encryptedChar = (encryptedChar ^ mask) >>> 0
-        encryptedChar = (encryptedChar ^ (((this.wzKey.at(i * 2 + 1) << 8) >>> 0) + this.wzKey.at(i * 2))) >>> 0
+        encryptedChar = ((encryptedChar ^ mask) >>> 0) & 0xffff
+        encryptedChar = ((encryptedChar ^ (((this.wzKey.at(i * 2 + 1) << 8) >>> 0) + this.wzKey.at(i * 2))) >>> 0) & 0xffff
         u8arr.push(encryptedChar & 0xff)
-        u8arr.push(encryptedChar >>> 16)
+        u8arr.push(encryptedChar >>> 8)
         mask++
       }
       return utf16leTextDecoder.decode(new Uint8Array(u8arr))
