@@ -1,5 +1,6 @@
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const path = require('path')
+const webpack = require('webpack')
 
 module.exports = {
   entry: 'lib/esm-modern/index.js',
@@ -8,18 +9,20 @@ module.exports = {
   },
   bundler: ['webpack'],
   configureWebpack (config) {
-    config.node = {
-      crypto: 'empty',
-      __dirname: false,
-      __filename: false,
-      buffer: false,
-      process: false
+    const webpackVesion = Number(webpack.version.charAt(0))
+    if (webpackVesion > 4) {
+      config.node = false
+      config.resolve.fallback = {
+        crypto: false
+      }
+    } else {
+      config.node = {
+        crypto: 'empty',
+        __dirname: false,
+        __filename: false,
+        process: false
+      }
     }
-    // config.resolve.fallback = {
-    //   fs: false,
-    //   path: false,
-    //   crypto: false
-    // }
     config.resolve.alias = {
       '@tybys/binreader': '@tybys/binreader/lib/esm-modern/index.js'
     }
