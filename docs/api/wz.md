@@ -10,6 +10,7 @@ MapleStory WZ reader.
 
 |  Class | Description |
 |  --- | --- |
+|  [Canvas](./wz.canvas.md) |  |
 |  [ErrorLogger](./wz.errorlogger.md) |  |
 |  [NotImplementedError](./wz.notimplementederror.md) |  |
 |  [WzBinaryProperty](./wz.wzbinaryproperty.md) |  |
@@ -52,7 +53,7 @@ MapleStory WZ reader.
 
 |  Function | Description |
 |  --- | --- |
-|  [walkWzFile(filepath, mapleVersion, callback)](./wz.walkwzfile.md) |  |
+|  [init()](./wz.init.md) |  |
 |  [walkWzFileAsync(filepath, mapleVersion, callback)](./wz.walkwzfileasync.md) |  |
 
 ## Interfaces

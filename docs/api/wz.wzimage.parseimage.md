@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-parseImage(forceReadFromData?: boolean): boolean;
+parseImage(forceReadFromData?: boolean): Promise<boolean>;
 ```
 
 ## Parameters
@@ -18,5 +18,5 @@ parseImage(forceReadFromData?: boolean): boolean;
 
 <b>Returns:</b>
 
-boolean
+Promise&lt;boolean&gt;
 

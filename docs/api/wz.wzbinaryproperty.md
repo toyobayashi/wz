@@ -12,28 +12,23 @@ export declare class WzBinaryProperty extends WzExtended
 ```
 <b>Extends:</b> [WzExtended](./wz.wzextended.md)
 
-## Constructors
-
-|  Constructor | Modifiers | Description |
-|  --- | --- | --- |
-|  [(constructor)(name, reader, parseNow)](./wz.wzbinaryproperty._constructor_.md) |  | Constructs a new instance of the <code>WzBinaryProperty</code> class |
-
 ## Properties
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [header](./wz.wzbinaryproperty.header.md) |  | Buffer |  |
+|  [header](./wz.wzbinaryproperty.header.md) |  | Uint8Array |  |
 |  [length](./wz.wzbinaryproperty.length.md) |  | number |  |
 |  [name](./wz.wzbinaryproperty.name.md) |  | string |  |
 |  [parent](./wz.wzbinaryproperty.parent.md) |  | [WzObject](./wz.wzobject.md) \| null |  |
 |  [propertyType](./wz.wzbinaryproperty.propertytype.md) |  | [WzPropertyType](./wz.wzpropertytype.md) |  |
 |  [soundHeader](./wz.wzbinaryproperty.soundheader.md) | <code>static</code> | number\[\] |  |
-|  [wzValue](./wz.wzbinaryproperty.wzvalue.md) |  | Buffer |  |
+|  [wzValue](./wz.wzbinaryproperty.wzvalue.md) |  | Promise&lt;Uint8Array&gt; |  |
 
 ## Methods
 
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
+|  [create(name, reader, parseNow)](./wz.wzbinaryproperty.create.md) | <code>static</code> |  |
 |  [dispose()](./wz.wzbinaryproperty.dispose.md) |  |  |
 |  [getBytes(saveInMemory)](./wz.wzbinaryproperty.getbytes.md) |  |  |
 |  [saveToFile(file)](./wz.wzbinaryproperty.savetofile.md) |  |  |

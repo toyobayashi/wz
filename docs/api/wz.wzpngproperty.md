@@ -12,12 +12,6 @@ export declare class WzPngProperty extends WzExtended
 ```
 <b>Extends:</b> [WzExtended](./wz.wzextended.md)
 
-## Constructors
-
-|  Constructor | Modifiers | Description |
-|  --- | --- | --- |
-|  [(constructor)(reader)](./wz.wzpngproperty._constructor_.md) |  | Constructs a new instance of the <code>WzPngProperty</code> class |
-
 ## Properties
 
 |  Property | Modifiers | Type | Description |
@@ -30,12 +24,13 @@ export declare class WzPngProperty extends WzExtended
 |  [parent](./wz.wzpngproperty.parent.md) |  | [WzObject](./wz.wzobject.md) \| null |  |
 |  [propertyType](./wz.wzpngproperty.propertytype.md) |  | [WzPropertyType](./wz.wzpropertytype.md) |  |
 |  [width](./wz.wzpngproperty.width.md) |  | number |  |
-|  [wzValue](./wz.wzpngproperty.wzvalue.md) |  | Promise&lt;Jimp \| null&gt; |  |
+|  [wzValue](./wz.wzpngproperty.wzvalue.md) |  | Promise&lt;[Canvas](./wz.canvas.md) \| null&gt; |  |
 
 ## Methods
 
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
+|  [create(reader)](./wz.wzpngproperty.create.md) | <code>static</code> |  |
 |  [dispose()](./wz.wzpngproperty.dispose.md) |  |  |
 |  [getBitmap()](./wz.wzpngproperty.getbitmap.md) |  |  |
 |  [getCompressedBytes(saveInMemory)](./wz.wzpngproperty.getcompressedbytes.md) |  |  |

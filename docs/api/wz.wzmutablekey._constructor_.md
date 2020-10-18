@@ -9,13 +9,13 @@ Constructs a new instance of the `WzMutableKey` class
 <b>Signature:</b>
 
 ```typescript
-constructor(_iv: Buffer, _aesKey: Buffer);
+constructor(_iv: Uint8Array, _aesKey: Uint8Array);
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  \_iv | Buffer |  |
-|  \_aesKey | Buffer |  |
+|  \_iv | Uint8Array |  |
+|  \_aesKey | Uint8Array |  |
 

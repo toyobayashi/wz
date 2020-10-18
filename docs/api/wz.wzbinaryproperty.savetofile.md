@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-saveToFile(file: string): void;
+saveToFile(file: string): Promise<void>;
 ```
 
 ## Parameters
@@ -18,5 +18,5 @@ saveToFile(file: string): void;
 
 <b>Returns:</b>
 
-void
+Promise&lt;void&gt;
 

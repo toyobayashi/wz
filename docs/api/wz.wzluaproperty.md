@@ -22,14 +22,14 @@ export declare class WzLuaProperty extends WzImageProperty
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [encryptedBytes](./wz.wzluaproperty.encryptedbytes.md) |  | Buffer \| null |  |
+|  [encryptedBytes](./wz.wzluaproperty.encryptedbytes.md) |  | Uint8Array \| null |  |
 |  [name](./wz.wzluaproperty.name.md) |  | string |  |
 |  [parent](./wz.wzluaproperty.parent.md) |  | [WzObject](./wz.wzobject.md) \| null |  |
 |  [propertyType](./wz.wzluaproperty.propertytype.md) |  | [WzPropertyType](./wz.wzpropertytype.md) |  |
-|  [USE\_IV\_KEY](./wz.wzluaproperty.use_iv_key.md) | <code>static</code> | Buffer |  |
-|  [value](./wz.wzluaproperty.value.md) |  | Buffer \| null |  |
+|  [USE\_IV\_KEY](./wz.wzluaproperty.use_iv_key.md) | <code>static</code> | Uint8Array |  |
+|  [value](./wz.wzluaproperty.value.md) |  | Uint8Array \| null |  |
 |  [wzKey](./wz.wzluaproperty.wzkey.md) |  | [WzMutableKey](./wz.wzmutablekey.md) |  |
-|  [wzValue](./wz.wzluaproperty.wzvalue.md) |  | Buffer \| null |  |
+|  [wzValue](./wz.wzluaproperty.wzvalue.md) |  | Uint8Array \| null |  |
 
 ## Methods
 

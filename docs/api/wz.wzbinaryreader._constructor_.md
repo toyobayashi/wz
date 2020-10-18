@@ -9,13 +9,13 @@ Constructs a new instance of the `WzBinaryReader` class
 <b>Signature:</b>
 
 ```typescript
-constructor(filePath: string, wzIv: Buffer);
+constructor(filePath: string | File, wzIv: Uint8Array);
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  filePath | string |  |
-|  wzIv | Buffer |  |
+|  filePath | string \| File |  |
+|  wzIv | Uint8Array |  |
 

@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-static parsePropertyList<P extends WzObject>(offset: number, reader: WzBinaryReader, parent: P, parentImg: WzImage): Set<WzImageProperty>;
+static parsePropertyList<P extends WzObject>(offset: number, reader: WzBinaryReader, parent: P, parentImg: WzImage): Promise<Set<WzImageProperty>>;
 ```
 
 ## Parameters
@@ -21,5 +21,5 @@ static parsePropertyList<P extends WzObject>(offset: number, reader: WzBinaryRea
 
 <b>Returns:</b>
 
-Set&lt;[WzImageProperty](./wz.wzimageproperty.md)<!-- -->&gt;
+Promise&lt;Set&lt;[WzImageProperty](./wz.wzimageproperty.md)<!-- -->&gt;&gt;
 

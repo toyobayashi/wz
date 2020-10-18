@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-get value(): Buffer | null;
+get value(): Uint8Array | null;
 ```

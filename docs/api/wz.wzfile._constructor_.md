@@ -9,14 +9,14 @@ Constructs a new instance of the `WzFile` class
 <b>Signature:</b>
 
 ```typescript
-constructor(filepath: string, version: WzMapleVersion, gameVersion?: number);
+constructor(filepath: string | File, version: WzMapleVersion, gameVersion?: number);
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  filepath | string |  |
+|  filepath | string \| File |  |
 |  version | [WzMapleVersion](./wz.wzmapleversion.md) |  |
 |  gameVersion | number |  |
 

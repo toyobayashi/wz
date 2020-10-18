@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-header: Buffer;
+header: Uint8Array;
 ```

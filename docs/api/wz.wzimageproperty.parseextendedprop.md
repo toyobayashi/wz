@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-static parseExtendedProp<P extends WzObject>(reader: WzBinaryReader, offset: number, endOfBlock: number, name: string, parent: P, imgParent: WzImage): WzExtended;
+static parseExtendedProp<P extends WzObject>(reader: WzBinaryReader, offset: number, endOfBlock: number, name: string, parent: P, imgParent: WzImage): Promise<WzExtended>;
 ```
 
 ## Parameters
@@ -23,5 +23,5 @@ static parseExtendedProp<P extends WzObject>(reader: WzBinaryReader, offset: num
 
 <b>Returns:</b>
 
-[WzExtended](./wz.wzextended.md)
+Promise&lt;[WzExtended](./wz.wzextended.md)<!-- -->&gt;
 

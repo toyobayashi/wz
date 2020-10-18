@@ -7,9 +7,9 @@
 <b>Signature:</b>
 
 ```typescript
-readWzOffset(): number;
+readWzOffset(): Promise<number>;
 ```
 <b>Returns:</b>
 
-number
+Promise&lt;number&gt;
 

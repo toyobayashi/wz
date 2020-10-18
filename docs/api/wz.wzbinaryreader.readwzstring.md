@@ -7,9 +7,9 @@
 <b>Signature:</b>
 
 ```typescript
-readWzString(): string;
+readWzString(): Promise<string>;
 ```
 <b>Returns:</b>
 
-string
+Promise&lt;string&gt;
 

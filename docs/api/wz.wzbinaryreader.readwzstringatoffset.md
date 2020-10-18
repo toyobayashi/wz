@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-readWzStringAtOffset(offset: number, readByte?: boolean): string;
+readWzStringAtOffset(offset: number, readByte?: boolean): Promise<string>;
 ```
 
 ## Parameters
@@ -19,5 +19,5 @@ readWzStringAtOffset(offset: number, readByte?: boolean): string;
 
 <b>Returns:</b>
 
-string
+Promise&lt;string&gt;
 

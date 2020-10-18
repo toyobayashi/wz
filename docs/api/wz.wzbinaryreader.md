@@ -8,9 +8,9 @@
 <b>Signature:</b>
 
 ```typescript
-export declare class WzBinaryReader extends BinaryReader implements IDisposable 
+export declare class WzBinaryReader extends AsyncBinaryReader implements IDisposable 
 ```
-<b>Extends:</b> BinaryReader
+<b>Extends:</b> AsyncBinaryReader
 
 <b>Implements:</b> [IDisposable](./wz.idisposable.md)
 

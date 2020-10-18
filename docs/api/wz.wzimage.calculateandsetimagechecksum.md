@@ -7,14 +7,14 @@
 <b>Signature:</b>
 
 ```typescript
-calculateAndSetImageChecksum(bytes: Buffer): void;
+calculateAndSetImageChecksum(bytes: Uint8Array): void;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  bytes | Buffer |  |
+|  bytes | Uint8Array |  |
 
 <b>Returns:</b>
 

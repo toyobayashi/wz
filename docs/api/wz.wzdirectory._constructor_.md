@@ -9,7 +9,7 @@ Constructs a new instance of the `WzDirectory` class
 <b>Signature:</b>
 
 ```typescript
-constructor(reader: WzBinaryReader, name: string, hash: number, wzIv: Buffer, wzFile: WzFile);
+constructor(reader: WzBinaryReader, name: string, hash: number, wzIv: Uint8Array, wzFile: WzFile);
 ```
 
 ## Parameters
@@ -19,6 +19,6 @@ constructor(reader: WzBinaryReader, name: string, hash: number, wzIv: Buffer, wz
 |  reader | [WzBinaryReader](./wz.wzbinaryreader.md) |  |
 |  name | string |  |
 |  hash | number |  |
-|  wzIv | Buffer |  |
+|  wzIv | Uint8Array |  |
 |  wzFile | [WzFile](./wz.wzfile.md) |  |
 

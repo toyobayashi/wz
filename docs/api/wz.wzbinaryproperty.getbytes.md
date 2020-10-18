@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-getBytes(saveInMemory?: boolean): Buffer;
+getBytes(saveInMemory?: boolean): Promise<Uint8Array>;
 ```
 
 ## Parameters
@@ -18,5 +18,5 @@ getBytes(saveInMemory?: boolean): Buffer;
 
 <b>Returns:</b>
 
-Buffer
+Promise&lt;Uint8Array&gt;
 

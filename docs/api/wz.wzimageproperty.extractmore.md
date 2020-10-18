@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-static extractMore<P extends WzObject>(reader: WzBinaryReader, offset: number, _eob: number, name: string, iname: string, parent: P, imgParent: WzImage): WzExtended;
+static extractMore<P extends WzObject>(reader: WzBinaryReader, offset: number, _eob: number, name: string, iname: string, parent: P, imgParent: WzImage): Promise<WzExtended>;
 ```
 
 ## Parameters
@@ -24,5 +24,5 @@ static extractMore<P extends WzObject>(reader: WzBinaryReader, offset: number, _
 
 <b>Returns:</b>
 
-[WzExtended](./wz.wzextended.md)
+Promise&lt;[WzExtended](./wz.wzextended.md)<!-- -->&gt;
 

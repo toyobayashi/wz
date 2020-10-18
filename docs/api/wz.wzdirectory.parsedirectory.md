@@ -7,9 +7,16 @@
 <b>Signature:</b>
 
 ```typescript
-parseDirectory(): void;
+parseDirectory(lazyParse?: boolean): Promise<void>;
 ```
+
+## Parameters
+
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  lazyParse | boolean |  |
+
 <b>Returns:</b>
 
-void
+Promise&lt;void&gt;
 

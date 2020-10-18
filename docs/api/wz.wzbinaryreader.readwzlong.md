@@ -7,9 +7,9 @@
 <b>Signature:</b>
 
 ```typescript
-readWzLong(): bigint;
+readWzLong(): Promise<bigint>;
 ```
 <b>Returns:</b>
 
-bigint
+Promise&lt;bigint&gt;
 

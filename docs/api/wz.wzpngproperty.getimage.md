@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-getImage(saveInMemory?: boolean): Promise<Jimp | null>;
+getImage(saveInMemory?: boolean): Promise<Canvas | null>;
 ```
 
 ## Parameters
@@ -18,5 +18,5 @@ getImage(saveInMemory?: boolean): Promise<Jimp | null>;
 
 <b>Returns:</b>
 
-Promise&lt;Jimp \| null&gt;
+Promise&lt;[Canvas](./wz.canvas.md) \| null&gt;
 

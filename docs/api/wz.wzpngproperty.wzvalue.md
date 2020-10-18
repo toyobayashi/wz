@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-get wzValue(): Promise<Jimp | null>;
+get wzValue(): Promise<Canvas | null>;
 ```

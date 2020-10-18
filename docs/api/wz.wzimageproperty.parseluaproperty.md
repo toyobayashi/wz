@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-static parseLuaProperty<P extends WzObject>(_offset: number, reader: WzBinaryReader, parent: P, _parentImg: WzImage): WzLuaProperty;
+static parseLuaProperty<P extends WzObject>(_offset: number, reader: WzBinaryReader, parent: P, _parentImg: WzImage): Promise<WzLuaProperty>;
 ```
 
 ## Parameters
@@ -21,5 +21,5 @@ static parseLuaProperty<P extends WzObject>(_offset: number, reader: WzBinaryRea
 
 <b>Returns:</b>
 
-[WzLuaProperty](./wz.wzluaproperty.md)
+Promise&lt;[WzLuaProperty](./wz.wzluaproperty.md)<!-- -->&gt;
 

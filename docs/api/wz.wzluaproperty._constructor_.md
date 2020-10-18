@@ -9,7 +9,7 @@ Constructs a new instance of the `WzLuaProperty` class
 <b>Signature:</b>
 
 ```typescript
-constructor(name: string, encryptedBytes: Buffer | null);
+constructor(name: string, encryptedBytes: Uint8Array | null);
 ```
 
 ## Parameters
@@ -17,5 +17,5 @@ constructor(name: string, encryptedBytes: Buffer | null);
 |  Parameter | Type | Description |
 |  --- | --- | --- |
 |  name | string |  |
-|  encryptedBytes | Buffer \| null |  |
+|  encryptedBytes | Uint8Array \| null |  |
 

@@ -22,7 +22,7 @@ export declare class WzFile extends WzObject
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [filepath](./wz.wzfile.filepath.md) |  | string |  |
+|  [filepath](./wz.wzfile.filepath.md) |  | string \| File |  |
 |  [fullPath](./wz.wzfile.fullpath.md) |  | string |  |
 |  [header](./wz.wzfile.header.md) |  | [WzHeader](./wz.wzheader.md) |  |
 |  [maplepLocalVersion](./wz.wzfile.mapleplocalversion.md) |  | [WzMapleVersion](./wz.wzmapleversion.md) |  |
@@ -41,5 +41,5 @@ export declare class WzFile extends WzObject
 |  [createParseResult()](./wz.wzfile.createparseresult.md) | <code>static</code> |  |
 |  [dispose()](./wz.wzfile.dispose.md) |  |  |
 |  [getObjectFromPath(path, checkFirstDirectoryName)](./wz.wzfile.getobjectfrompath.md) |  |  |
-|  [parseWzFile(out, wzIv)](./wz.wzfile.parsewzfile.md) |  |  |
+|  [parseWzFile(out, lazyParse, wzIv)](./wz.wzfile.parsewzfile.md) |  |  |
 

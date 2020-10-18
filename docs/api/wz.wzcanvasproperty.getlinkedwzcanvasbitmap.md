@@ -7,9 +7,9 @@
 <b>Signature:</b>
 
 ```typescript
-getLinkedWzCanvasBitmap(): Promise<Jimp | null>;
+getLinkedWzCanvasBitmap(): Promise<Canvas | null>;
 ```
 <b>Returns:</b>
 
-Promise&lt;Jimp \| null&gt;
+Promise&lt;[Canvas](./wz.canvas.md) \| null&gt;
 

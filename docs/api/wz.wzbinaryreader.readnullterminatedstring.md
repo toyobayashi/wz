@@ -7,9 +7,9 @@
 <b>Signature:</b>
 
 ```typescript
-readNullTerminatedString(): string;
+readNullTerminatedString(): Promise<string>;
 ```
 <b>Returns:</b>
 
-string
+Promise&lt;string&gt;
 

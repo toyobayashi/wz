@@ -7,9 +7,9 @@
 <b>Signature:</b>
 
 ```typescript
-parseImages(): void;
+parseImages(): Promise<void>;
 ```
 <b>Returns:</b>
 
-void
+Promise&lt;void&gt;
 

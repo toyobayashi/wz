@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-readStringBlock(offset: number): string;
+readStringBlock(offset: number): Promise<string>;
 ```
 
 ## Parameters
@@ -18,5 +18,5 @@ readStringBlock(offset: number): string;
 
 <b>Returns:</b>
 
-string
+Promise&lt;string&gt;
 

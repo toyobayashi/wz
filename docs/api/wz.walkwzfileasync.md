@@ -8,14 +8,14 @@
 <b>Signature:</b>
 
 ```typescript
-export declare function walkWzFileAsync(filepath: string, mapleVersion: WzMapleVersion, callback: <T extends WzObject>(obj: T) => boolean | undefined | Promise<boolean | undefined>): Promise<void>;
+export declare function walkWzFileAsync(filepath: string | File, mapleVersion: WzMapleVersion, callback: <T extends WzObject>(obj: T) => boolean | undefined | Promise<boolean | undefined>): Promise<void>;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  filepath | string |  |
+|  filepath | string \| File |  |
 |  mapleVersion | [WzMapleVersion](./wz.wzmapleversion.md) |  |
 |  callback | &lt;T extends [WzObject](./wz.wzobject.md)<!-- -->&gt;(obj: T) =&gt; boolean \| undefined \| Promise&lt;boolean \| undefined&gt; |  |
 

@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-get wzValue(): Buffer | null;
+get wzValue(): Uint8Array | null;
 ```
