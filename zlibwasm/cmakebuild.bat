@@ -24,13 +24,18 @@ cmake -DCMAKE_TOOLCHAIN_FILE=%EMSDK%\upstream\emscripten\cmake\Modules\Platform\
 cmake --build .
 cd ..
 
-copy /Y %cmakeoutdir%\zlibwasm.js .\dist\zlibwasm.js
-copy /Y %cmakeoutdir%\zlibwasm.js ..\src\util\zlibwasm.js
-copy /Y %cmakeoutdir%\zlibwasm.js ..\lib\cjs-modern\util\zlibwasm.js
-copy /Y %cmakeoutdir%\zlibwasm.js ..\lib\esm\util\zlibwasm.js
-copy /Y %cmakeoutdir%\zlibwasm.js ..\lib\esm-modern\util\zlibwasm.js
-copy /Y %cmakeoutdir%\zlibwasm.wasm .\dist\zlibwasm.wasm
-copy /Y %cmakeoutdir%\zlibwasm.wasm ..\lib\cjs-modern\util\zlibwasm.wasm
-copy /Y %cmakeoutdir%\zlibwasm.wasm ..\lib\esm\util\zlibwasm.wasm
-copy /Y %cmakeoutdir%\zlibwasm.wasm ..\lib\esm-modern\util\zlibwasm.wasm
-copy /Y %cmakeoutdir%\zlibwasm.wasm.map .\zlibwasm.wasm.map
+set exename=zlibwasm
+
+copy /Y %cmakeoutdir%\%exename%.js .\dist\%exename%.js
+copy /Y %cmakeoutdir%\%exename%.js ..\src\util\%exename%.js
+mkdir ..\lib\cjs-modern\util
+mkdir ..\lib\esm\util
+mkdir ..\lib\esm-modern\util
+copy /Y %cmakeoutdir%\%exename%.js ..\lib\cjs-modern\util\%exename%.js
+copy /Y %cmakeoutdir%\%exename%.js ..\lib\esm\util\%exename%.js
+copy /Y %cmakeoutdir%\%exename%.js ..\lib\esm-modern\util\%exename%.js
+copy /Y %cmakeoutdir%\%exename%.wasm .\dist\%exename%.wasm
+copy /Y %cmakeoutdir%\%exename%.wasm ..\lib\cjs-modern\util\%exename%.wasm
+copy /Y %cmakeoutdir%\%exename%.wasm ..\lib\esm\util\%exename%.wasm
+copy /Y %cmakeoutdir%\%exename%.wasm ..\lib\esm-modern\util\%exename%.wasm
+copy /Y %cmakeoutdir%\%exename%.wasm.map .\%exename%.wasm.map

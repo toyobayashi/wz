@@ -17,13 +17,16 @@ cmake -DCMAKE_TOOLCHAIN_FILE="$EMSDK/upstream/emscripten/cmake/Modules/Platform/
 cmake --build .
 cd ..
 
-cp -rpf $cmakeoutdir/zlibwasm.js ../src/util/zlibwasm.js
+exename="zlibwasm"
+
+cp -rpf "$cmakeoutdir/$exename.js" "../src/util/$exename.js"
 mkdir -p ../lib/cjs-modern/util
 mkdir -p ../lib/esm/util
-cp -rpf $cmakeoutdir/zlibwasm.js ../lib/cjs-modern/util/zlibwasm.js
-cp -rpf $cmakeoutdir/zlibwasm.js ../lib/esm/util/zlibwasm.js
-cp -rpf $cmakeoutdir/zlibwasm.js ../lib/esm-modern/util/zlibwasm.js
-cp -rpf $cmakeoutdir/zlibwasm.wasm ../lib/cjs-modern/util/zlibwasm.wasm
-cp -rpf $cmakeoutdir/zlibwasm.wasm ../lib/esm/util/zlibwasm.wasm
-cp -rpf $cmakeoutdir/zlibwasm.wasm ../lib/esm-modern/util/zlibwasm.wasm
+mkdir -p ../lib/esm-modern/util
+cp -rpf "$cmakeoutdir/$exename.js" "../lib/cjs-modern/util/$exename.js"
+cp -rpf "$cmakeoutdir/$exename.js" "../lib/esm/util/$exename.js"
+cp -rpf "$cmakeoutdir/$exename.js" "../lib/esm-modern/util/$exename.js"
+cp -rpf "$cmakeoutdir/$exename.wasm" "../lib/cjs-modern/util/$exename.wasm"
+cp -rpf "$cmakeoutdir/$exename.wasm" "../lib/esm/util/$exename.wasm"
+cp -rpf "$cmakeoutdir/$exename.wasm" "../lib/esm-modern/util/$exename.wasm"
 cd ..
