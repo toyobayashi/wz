@@ -1,0 +1,3 @@
+wasm/deps/**/* linguist-vendored
+wasm/src/aes/**/* linguist-vendored
+examples/**/* linguist-documentation
