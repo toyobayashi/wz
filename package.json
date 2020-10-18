@@ -55,7 +55,6 @@
   "dependencies": {
     "@tybys/binreader": "^0.1.4",
     "@tybys/native-require": "^2.0.2",
-    "crypto-js": "^4.0.0",
     "jimp": "^0.16.1"
   }
 }

@@ -39,3 +39,4 @@ export { WzDirectory } from './WzDirectory'
 export { IWzParseResult, WzFile } from './WzFile'
 
 export { walkWzFileAsync } from './walk'
+export { init } from './init'

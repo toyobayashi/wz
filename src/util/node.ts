@@ -1,6 +1,5 @@
 import { tryGetRequireFunction } from '@tybys/native-require'
-
-import { algo, mode, pad, lib } from 'crypto-js'
+import { mod } from './zlibwasm'
 
 const _require = tryGetRequireFunction()
 
@@ -64,37 +63,11 @@ export const crypto: typeof import('crypto') = (function () {
   try {
     return _require!('crypto')
   } catch (_) {
-    const wordArrayToUint8Array = (wordArray: lib.WordArray): Uint8Array => {
-      var words = wordArray.words
-      var sigBytes = wordArray.sigBytes
-      var u8 = new Uint8Array(sigBytes)
-      for (var i = 0; i < sigBytes; i++) {
-        var byte = (words[i >>> 2] >>> (24 - (i % 4) * 8)) & 0xff
-        u8[i] = byte
-      }
-      return u8
-    }
-
-    const uint8ArrayToWordArray = (u8arr: Uint8Array): lib.WordArray => {
-      var len = u8arr.length
-      var words: number[] = []
-      for (var i = 0; i < len; i++) {
-        words[i >>> 2] |= (u8arr[i] & 0xff) << (24 - (i % 4) * 8)
-      }
-      return lib.WordArray.create(words, len)
-    }
     return {
       createCipheriv (_a: 'aes-256-ecb', key: Uint8Array, _iv: null) {
-        const kw = uint8ArrayToWordArray(key)
-        const cipher = algo.AES.createEncryptor(kw, {
-          mode: mode.ECB,
-          padding: pad.Pkcs7
-        })
-        cipher.keySize = 8
         return {
           update (content: Uint8Array): Uint8Array {
-            const wordArray = cipher.process(uint8ArrayToWordArray(content))
-            return wordArrayToUint8Array(wordArray)
+            return mod.aesEnc(content, key)
           },
           setAutoPadding () {}
         }

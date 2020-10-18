@@ -6,6 +6,7 @@ set(EXE_NAME zlibwasm)
 
 set(LIB_SOURCE_FILES
   src/main.cpp
+  src/aes/aes.c
 )
 
 add_executable(${EXE_NAME} ${LIB_SOURCE_FILES})
@@ -35,6 +36,10 @@ else()
     message(STATUS "${var}:${${var}}")
   endforeach()
 endif()
+
+target_compile_definitions(${EXE_NAME} PRIVATE
+  AES256=1
+  ECB=1)
 
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/deps/zlib")
 

@@ -7,12 +7,13 @@ import { WzImage } from './WzImage'
 import { WzImageProperty } from './WzImageProperty'
 import { WzMapleVersion } from './WzMapleVersion'
 import { WzObject } from './WzObject'
+import { init } from './init'
 
 /**
  * @public
  */
 export async function walkWzFileAsync (filepath: string | File, mapleVersion: WzMapleVersion, callback: <T extends WzObject>(obj: T) => boolean | undefined | Promise<boolean | undefined>): Promise<void> {
-  await Promise.resolve() // next tick
+  await init()
   const wz = new WzFile(filepath, mapleVersion)
   const result = WzFile.createParseResult()
   const r = await wz.parseWzFile(result)
