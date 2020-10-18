@@ -108,6 +108,8 @@ Browser environment should be with ES2018+ and WebAssembly support.
 Set `node` or `node.process` to `false` due to emscripten js glue code is using `process`, and add `CopyWebpackPlugin` to copy `wz.wasm` file
 
 ``` js
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+
 module.exports = {
   // ...
   node: false
@@ -133,4 +135,27 @@ module.exports = {
 
 ``` js
 import { walkWzFileAsync, /* ... */ } from '@tybys/wz'
+```
+
+## Build
+
+Environment:
+
+* Node.js v12+
+
+* CMake v3.6+
+
+* Emscripten toolchain latest (set environment variable $EMSDK)
+
+    * Set environment variable $EMSDK to emsdk path
+
+    * Add $EMSDK/upstream/emscripten to $PATH
+
+* Make for Windows (Windows only)
+
+``` bash
+chmod +x ./build.sh
+./build
+npm install
+npm run build
 ```
