@@ -91,7 +91,7 @@ export class WzFile extends WzObject {
     return this.wzDirectory != null ? this.wzDirectory.name : ''
   }
 
-  public async parseWzFile (out: IWzParseResult, wzIv: Uint8Array | null = null): Promise<boolean> {
+  public async parseWzFile (out: IWzParseResult, lazyParse: boolean = false, wzIv: Uint8Array | null = null): Promise<boolean> {
     if (this._wzDir != null) {
       if (out != null) out.message = 'Already parsed wz file'
       return true
@@ -99,14 +99,14 @@ export class WzFile extends WzObject {
     if (wzIv != null) {
       this._wzIv = wzIv
     }
-    return await this._parseMainWzDirectory(out/* , false */)
+    return await this._parseMainWzDirectory(out, lazyParse)
   }
 
   /* public lazyParseWzFile (out: IWzParseResult): boolean {
     return this.parseMainWzDirectory(out, true)
   } */
 
-  private async _parseMainWzDirectory (out: IWzParseResult/* , lazyParse: boolean = false */): Promise<boolean> {
+  private async _parseMainWzDirectory (out: IWzParseResult, lazyParse: boolean = false): Promise<boolean> {
     if (this.filepath === '') {
       const msg = 'Invalid path: ""'
       ErrorLogger.log(ErrorLevel.Critical, msg)
@@ -139,7 +139,7 @@ export class WzFile extends WzObject {
         try {
           testDirectory = new WzDirectory(reader, this.name, this._versionHash, this._wzIv, this)
           testDirectory.offset = reader.pos
-          await testDirectory.parseDirectory(/* lazyParse */)
+          await testDirectory.parseDirectory(false)
         } catch (_) {
           reader.pos = position
           continue
@@ -161,7 +161,7 @@ export class WzFile extends WzObject {
               case 0x1b: {
                 const directory = new WzDirectory(reader, this.name, this._versionHash, this._wzIv, this)
                 directory.offset = reader.pos
-                await directory.parseDirectory(/* lazyParse */)
+                await directory.parseDirectory(lazyParse)
                 this._wzDir = directory
 
                 if (out != null) out.message = 'Success'
@@ -186,7 +186,7 @@ export class WzFile extends WzObject {
       reader.hash = this._versionHash
       const directory = new WzDirectory(reader, this.name, this._versionHash, this._wzIv, this)
       directory.offset = reader.pos
-      await directory.parseDirectory()
+      await directory.parseDirectory(lazyParse)
       this._wzDir = directory
     }
 

@@ -16,7 +16,7 @@ export async function walkWzFileAsync (filepath: string | File, mapleVersion: Wz
   await init()
   const wz = new WzFile(filepath, mapleVersion)
   const result = WzFile.createParseResult()
-  const r = await wz.parseWzFile(result)
+  const r = await wz.parseWzFile(result, true)
   if (!r) {
     throw new Error(result.message)
   }
@@ -41,6 +41,7 @@ export async function walkWzFileAsync (filepath: string | File, mapleVersion: Wz
   }
 
   async function walkDirectory (dir: WzDirectory, callback: <T extends WzObject>(obj: T) => boolean | undefined | Promise<boolean | undefined>): Promise<void> {
+    await dir.parseDirectory(true)
     stop = !!(await Promise.resolve(callback(dir)))
     if (stop) {
       dir.dispose()

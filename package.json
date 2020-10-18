@@ -53,7 +53,7 @@
     "webpack": "^4.44.2"
   },
   "dependencies": {
-    "@tybys/binreader": "^0.1.4",
+    "@tybys/binreader": "^0.1.5",
     "@tybys/native-require": "^2.0.2",
     "jimp": "^0.16.1"
   }
