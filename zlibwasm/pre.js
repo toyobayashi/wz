@@ -1,9 +1,6 @@
 /* eslint-disable */
 
 (function (root, factory) {
-  var _r = typeof __webpack_modules__ !== 'undefined'
-    ? (typeof __non_webpack_require__ !== 'undefined' ? __non_webpack_require__ : undefined)
-    : (typeof require !== 'undefined' ? require : undefined)
   function makeESModule (m) {
     if (typeof Symbol !== 'undefined' && Symbol.toStringTag) {
       try { Object.defineProperty(m, Symbol.toStringTag, { value: 'Module' }); } catch (_) {}
@@ -14,15 +11,15 @@
   }
   var name = 'zlibwasm';
   if(typeof exports === 'object' && typeof module === 'object') {
-    module.exports = makeESModule(factory(_r));
+    module.exports = makeESModule(factory(require('@tybys/native-require').tryGetRequireFunction()));
   } else if(typeof define === 'function' && define.amd) {
-    define(function () {
-      return makeESModule(factory(_r));
+    define(['@tybys/native-require'], function (nr) {
+      return makeESModule(factory(nr.tryGetRequireFunction()));
     });
   } else if(typeof exports === 'object') {
-    exports[name] = makeESModule(factory(_r));
+    exports[name] = makeESModule(factory(require('@tybys/native-require').tryGetRequireFunction()));
   } else {
-    root[name] = factory(_r);
+    root[name] = factory(nr.tryGetRequireFunction());
   }
 })((function (defaultValue) {
   var g;
