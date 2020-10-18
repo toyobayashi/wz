@@ -12,7 +12,7 @@ Incompletely port from [lastbattle/Harepacker-resurrected/MapleLib/WzLib](https:
 npm install @tybys/wz
 ```
 
-### Node.js
+### Node.js (v10.20+)
 
 ``` js
 const path = require('path')
@@ -145,17 +145,17 @@ Environment:
 
 * CMake v3.6+
 
-* Emscripten toolchain latest (set environment variable $EMSDK)
+* Emscripten toolchain latest
 
-    * Set environment variable $EMSDK to emsdk path
+    * Set environment variable `$EMSDK` to emsdk path
 
-    * Add $EMSDK/upstream/emscripten to $PATH
+    * Add `$EMSDK` and `$EMSDK/upstream/emscripten` to `$PATH`
 
 * Make for Windows (Windows only)
 
 ``` bash
 chmod +x ./build.sh
-./build
+./build.sh
 npm install
 npm run build
 ```
