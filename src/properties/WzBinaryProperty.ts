@@ -1,9 +1,8 @@
-import * as fs from 'fs'
-import { dirname } from 'path'
 import { WzBinaryReader } from '../util/WzBinaryReader'
 import { WzExtended } from '../WzExtended'
 import { WzObject } from '../WzObject'
 import { WzPropertyType } from '../WzPropertyType'
+import { fs, path } from '../util/node'
 
 /**
  * @public
@@ -23,47 +22,54 @@ export class WzBinaryProperty extends WzExtended {
 
   private readonly wzReader: WzBinaryReader
 
-  private mp3bytes: Buffer | null = null
+  private mp3bytes: Uint8Array | null = null
 
-  private readonly soundDataLen: number
-  public length: number
-  public header: Buffer
-  private readonly offs: number
+  private soundDataLen: number = 0
+  public length: number = 0
+  public header!: Uint8Array
+  private offs: number = 0
 
-  public constructor (name: string, reader: WzBinaryReader, parseNow: boolean) {
-    super()
-    this.name = name
-    this.wzReader = reader
+  public static async create (name: string, reader: WzBinaryReader, parseNow: boolean): Promise<WzBinaryProperty> {
+    const self = new WzBinaryProperty(name, reader)
 
-    this.wzReader.pos++
+    self.wzReader.pos++
     // note - soundDataLen does NOT include the length of the header.
-    this.soundDataLen = this.wzReader.readWzInt()
-    this.length = this.wzReader.readWzInt()
+    self.soundDataLen = await self.wzReader.readWzInt()
+    self.length = await self.wzReader.readWzInt()
 
-    const headerOff = this.wzReader.pos
-    this.wzReader.pos += WzBinaryProperty.soundHeader.length
-    const wavFormatLen = this.wzReader.readUInt8()
-    this.wzReader.pos = headerOff
+    const headerOff = self.wzReader.pos
+    self.wzReader.pos += WzBinaryProperty.soundHeader.length
+    const wavFormatLen = await self.wzReader.readUInt8()
+    self.wzReader.pos = headerOff
 
-    this.header = Buffer.from(this.wzReader.read(WzBinaryProperty.soundHeader.length + 1 + wavFormatLen))
+    self.header = await self.wzReader.read(WzBinaryProperty.soundHeader.length + 1 + wavFormatLen)
     // this.parseWzSoundPropertyHeader()
 
     // sound file offs
-    this.offs = this.wzReader.pos
+    self.offs = self.wzReader.pos
     if (parseNow) {
-      this.mp3bytes = Buffer.from(this.wzReader.read(this.soundDataLen))
+      self.mp3bytes = await self.wzReader.read(self.soundDataLen)
     } else {
-      this.wzReader.pos += this.soundDataLen
+      self.wzReader.pos += self.soundDataLen
     }
+
+    return self
+  }
+
+  private constructor (name: string, reader: WzBinaryReader) {
+    super()
+    this.name = name
+    this.wzReader = reader
+    this.offs = 0
   }
 
   public setValue (_value: unknown): void {}
 
-  public get wzValue (): Buffer {
+  public get wzValue (): Promise<Uint8Array> {
     return this.getBytes(false)
   }
 
-  public getBytes (saveInMemory: boolean = false): Buffer {
+  public async getBytes (saveInMemory: boolean = false): Promise<Uint8Array> {
     if (this.mp3bytes != null) {
       return this.mp3bytes
     }
@@ -72,7 +78,7 @@ export class WzBinaryProperty extends WzExtended {
 
     const currentPos = this.wzReader.pos
     this.wzReader.pos = this.offs
-    this.mp3bytes = Buffer.from(this.wzReader.read(this.soundDataLen))
+    this.mp3bytes = await this.wzReader.read(this.soundDataLen)
     this.wzReader.pos = currentPos
     if (saveInMemory) {
       return this.mp3bytes
@@ -83,11 +89,24 @@ export class WzBinaryProperty extends WzExtended {
     return result
   }
 
-  public saveToFile (file: string): void {
+  public async saveToFile (file: string): Promise<void> {
+    if (typeof window !== 'undefined') {
+      const a = window.document.createElement('a')
+      a.download = file
+      a.href = URL.createObjectURL(new Blob([await this.getBytes(false)], { type: 'audio/mp3' }))
+      const event = new MouseEvent('click', {
+        view: window,
+        bubbles: true,
+        cancelable: true
+      })
+      a.dispatchEvent(event)
+      a.remove()
+      return
+    }
     try {
-      fs.mkdirSync(dirname(file), { recursive: true })
+      fs.mkdirSync(path.dirname(file), { recursive: true })
     } catch (_) {}
-    fs.writeFileSync(file, this.getBytes(false))
+    fs.writeFileSync(file, await this.getBytes(false))
   }
 
   public get propertyType (): WzPropertyType {

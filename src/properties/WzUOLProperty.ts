@@ -4,8 +4,8 @@ import { WzExtended } from '../WzExtended'
 import { WzImageProperty } from '../WzImageProperty'
 import { WzImage } from '../WzImage'
 import { WzDirectory } from '../WzDirectory'
-import * as Jimp from 'jimp'
 import { ErrorLevel, ErrorLogger } from '../util/ErrorLogger'
+import { Canvas } from '../util/Canvas'
 
 /**
  * @public
@@ -88,7 +88,7 @@ export class WzUOLProperty extends WzExtended {
     return this.val
   }
 
-  public async getBitmap (): Promise<Jimp | null> {
+  public async getBitmap (): Promise<Canvas | null> {
     if (this.linkValue != null) {
       return await this.linkValue.getBitmap()
     }

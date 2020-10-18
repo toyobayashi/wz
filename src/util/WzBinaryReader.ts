@@ -1,51 +1,52 @@
 import { WzHeader } from '../WzHeader'
-import { BinaryReader } from '@tybys/binreader'
+import { AsyncBinaryReader } from '@tybys/binreader'
 import { MapleCryptoConstants } from './MapleCryptoConstants'
 import { WzKeyGenerator } from './WzKeyGenerator'
 import { WzMutableKey } from './WzMutableKey'
 import { WzTool } from './WzTool'
 import { IDisposable } from './IDisposable'
+import { asciiTextDecoder, utf16leTextDecoder } from './node'
 
 /**
  * @public
  */
-export class WzBinaryReader extends BinaryReader implements IDisposable {
+export class WzBinaryReader extends AsyncBinaryReader implements IDisposable {
   public wzKey: WzMutableKey
   public hash: number
   public header: WzHeader
 
-  public constructor (filePath: string, wzIv: Buffer) {
+  public constructor (filePath: string | File, wzIv: Uint8Array) {
     super(filePath)
     this.wzKey = WzKeyGenerator.generateWzKey(wzIv)
     this.hash = 0
     this.header = WzHeader.getDefault()
   }
 
-  public readWzStringAtOffset (offset: number, readByte: boolean = false): string {
+  public async readWzStringAtOffset (offset: number, readByte: boolean = false): Promise<string> {
     const currentOffset = this.pos
     this.pos = offset
     if (readByte) {
-      this.read()
+      await this.read()
     }
-    const returnString = this.readWzString()
+    const returnString = await this.readWzString()
     this.pos = currentOffset
     return returnString
   }
 
-  public readWzString (): string {
-    const smallLength = this.readInt8()
+  public async readWzString (): Promise<string> {
+    const smallLength = await this.readInt8()
 
     if (smallLength === 0) {
       return ''
     }
 
-    let length
+    let length: number
     const u8arr = []
 
     if (smallLength > 0) {
       let mask = 0xAAAA
       if (smallLength === 127) {
-        length = this.readInt32LE()
+        length = await this.readInt32LE()
       } else {
         length = smallLength
       }
@@ -54,18 +55,18 @@ export class WzBinaryReader extends BinaryReader implements IDisposable {
       }
 
       for (let i = 0; i < length; i++) {
-        let encryptedChar = this.readUInt16LE()
+        let encryptedChar = await this.readUInt16LE()
         encryptedChar = (encryptedChar ^ mask) >>> 0
         encryptedChar = (encryptedChar ^ (((this.wzKey.at(i * 2 + 1) << 8) >>> 0) + this.wzKey.at(i * 2))) >>> 0
         u8arr.push(encryptedChar & 0xff)
         u8arr.push(encryptedChar >>> 16)
         mask++
       }
-      return Buffer.from(u8arr).toString('utf16le')
+      return utf16leTextDecoder.decode(new Uint8Array(u8arr))
     } else { // ASCII
       let mask = 0xAA
       if (smallLength === -128) {
-        length = this.readInt32LE()
+        length = await this.readInt32LE()
       } else {
         length = -smallLength
       }
@@ -74,56 +75,57 @@ export class WzBinaryReader extends BinaryReader implements IDisposable {
       }
 
       for (let i = 0; i < length; i++) {
-        let encryptedChar = this.readUInt8()
+        let encryptedChar = await this.readUInt8()
         encryptedChar = (encryptedChar ^ mask) >>> 0
         encryptedChar = (encryptedChar ^ this.wzKey.at(i)) >>> 0
         u8arr.push(encryptedChar)
         mask++
       }
-      return Buffer.from(u8arr).toString('ascii')
+      return asciiTextDecoder.decode(new Uint8Array(u8arr))
     }
   }
 
-  public readStringBlock (offset: number): string {
-    switch (this.readUInt8()) {
+  public async readStringBlock (offset: number): Promise<string> {
+    const type = await this.readUInt8()
+    switch (type) {
       case 0:
       case 0x73:
-        return this.readWzString()
+        return await this.readWzString()
       case 1:
       case 0x1B:
-        return this.readWzStringAtOffset(offset + this.readInt32LE())
+        return await this.readWzStringAtOffset(offset + await this.readInt32LE())
       default:
         return ''
     }
   }
 
-  public readNullTerminatedString (): string {
+  public readNullTerminatedString (): Promise<string> {
     return super.readString()
   }
 
-  public readWzInt (): number {
-    const sb = this.readInt8()
+  public async readWzInt (): Promise<number> {
+    const sb = await this.readInt8()
     if (sb === -128) {
-      return this.readInt32LE()
+      return await this.readInt32LE()
     }
     return sb
   }
 
-  public readWzLong (): bigint {
-    const sb = this.readInt8()
+  public async readWzLong (): Promise<bigint> {
+    const sb = await this.readInt8()
     if (sb === -128) {
-      return this.readBigInt64LE()
+      return await this.readBigInt64LE()
     }
     return BigInt(sb)
   }
 
-  public readWzOffset (): number {
+  public async readWzOffset (): Promise<number> {
     let offset = this.pos
     offset = ((offset - this.header.fstart) ^ 0xFFFFFFFF) >>> 0
     offset = ((offset * this.hash) & 0xFFFFFFFF) >>> 0
     offset -= MapleCryptoConstants.WZ_OffsetConstant
     offset = WzTool.rotateLeft(offset, offset & 0x1F) & 0xFFFFFFFF
-    const encryptedOffset = this.readUInt32LE()
+    const encryptedOffset = await this.readUInt32LE()
     offset = ((offset ^ encryptedOffset) & 0xFFFFFFFF) >>> 0
     offset = ((offset + this.header.fstart * 2) & 0xFFFFFFFF) >>> 0
     return offset

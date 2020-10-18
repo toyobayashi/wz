@@ -1,8 +1,8 @@
+import { Canvas } from './util/Canvas'
 import { IDisposable } from './util/IDisposable'
 import { NotImplementedError } from './util/NotImplementedError'
 import { WzFile } from './WzFile'
 import { WzObjectType } from './WzObjectType'
-import * as Jimp from 'jimp'
 
 /**
  * @public
@@ -38,7 +38,7 @@ export abstract class WzObject implements IDisposable {
   /**
    * @virtual
    */
-  public getBitmap (): Promise<Jimp | null> {
+  public getBitmap (): Promise<Canvas | null> {
     throw new NotImplementedError('[WzObject#getBitmap]')
   }
 

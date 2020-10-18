@@ -60,35 +60,20 @@ const { WzFile, WzMapleVersion, WzImage, WzBinaryProperty, WzCanvasProperty, WzP
 
 const type = [
   // 1,
-  // 2,
+  2,
   3,
   // 513,
-  // 517,
-  // 1026,
-  // 2050
+  517,
+  1026,
+  2050
 ]
 const filepath = process.argv[2]
 const ver = process.argv[3] === undefined ? WzMapleVersion.BMS : (typeof WzMapleVersion[process.argv[3]] === 'number' ? WzMapleVersion[process.argv[3]] : Number(process.argv[3]))
 
-async function main () {
+async function testSound () {
   if (filepath === undefined || filepath === '') {
     throw new Error('Path is null')
   }
-  // const wz = new WzFile(filepath, ver)
-  // wz.parseWzFile({ message: '' })
-  // const target = wz.wzDirectory.at('Obj').at('hoyoung.img')
-  // target.parseImage()
-  // const canvas = target.at('town').at('foothold').at('0').at('0')
-  // await canvas.pngProperty.saveToFile('./test5.png')
-
-  // const wz = new WzFile(filepath, ver)
-  // wz.parseWzFile({ message: '' })
-  // const target = wz.wzDirectory.at('WorldMap').at('WorldMap000.img')
-  // target.parseImage()
-  // const canvas = target.at('BaseImg').at('0')
-  // await canvas.pngProperty.saveToFile('./test6.png')
-
-  // console.log(canvas)
   let n = 0
   await walkWzFileAsync(filepath, ver, async (obj) => {
     // if (n > 50) return true
@@ -103,28 +88,53 @@ async function main () {
       obj.saveToFile(path.join(/* __dirname,  */'Sound', path.extname(relativePath) === '' ? `${relativePath}.mp3` : relativePath))
       n++
     }
-    // if (obj.objectType === WzObjectType.Property && obj instanceof WzCanvasProperty) {
-    //   n++
-    //   console.log(n, WzPropertyType[obj.propertyType], obj.fullPath)
 
-    //   // const img = await obj.pngProperty.getImage(false)
-    //   try {
-    //     var format = obj.pngProperty.format1 + obj.pngProperty.format2
-    //   } catch (error) {
-    //     console.log(obj.fullPath)
-    //     throw error
-    //   }
-    //   if (type.indexOf(format) !== -1) {
-    //     console.log(`${obj.fullPath}`)
-    //     console.log(`${format}`)
-    //     const r = await obj.pngProperty.saveToFile(`./${format}.png`)
-    //     return r
-    //   }
-    //   // console.log(img)
-    // }
     return false
   })
   console.log(`Total: ${n}`)
+}
+
+async function test () {
+  if (filepath === undefined || filepath === '') {
+    throw new Error('Path is null')
+  }
+
+  let n = 0
+  await walkWzFileAsync(filepath, ver, async (obj) => {
+    // if (n > 50) return true
+    if (obj.objectType === WzObjectType.Property && obj instanceof WzCanvasProperty) {
+      n++
+      console.log(n, WzPropertyType[obj.propertyType], obj.fullPath)
+
+      // const img = await obj.pngProperty.getImage(false)
+      try {
+        var format = obj.pngProperty.format1 + obj.pngProperty.format2
+      } catch (error) {
+        console.log(obj.fullPath)
+        throw error
+      }
+      if (type.indexOf(format) !== -1) {
+        console.log(`${obj.fullPath}`)
+        console.log(`${format}`)
+        const r = await obj.pngProperty.saveToFile(`./${format}.png`)
+        return r
+      }
+      // console.log(img)
+    }
+    return false
+  })
+  console.log(`Total: ${n}`)
+}
+
+async function main () {
+  if (filepath === undefined || filepath === '') {
+    throw new Error('Path is null')
+  }
+  if (filepath.endsWith('Sound.wz')) {
+    await testSound()
+  } else {
+    await test()
+  }
 }
 
 main()

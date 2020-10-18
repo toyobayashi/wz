@@ -4,10 +4,10 @@ import { WzExtended } from '../WzExtended'
 import { IPropertyContainer } from '../IPropertyContainer'
 import { WzImageProperty } from '../WzImageProperty'
 import { WzPngProperty } from './WzPngProperty'
-import * as Jimp from 'jimp'
 import { WzStringProperty } from './WzStringProperty'
 import { WzImage } from '../WzImage'
 import { WzDirectory } from '../WzDirectory'
+import { Canvas } from '../util/Canvas'
 
 /**
  * @public
@@ -106,7 +106,7 @@ export class WzCanvasProperty extends WzExtended implements IPropertyContainer {
     }
   }
 
-  public setValue (value: Buffer): void {
+  public setValue (value: Uint8Array): void {
     if (this.pngProperty != null) {
       this.pngProperty.setValue(value)
     }
@@ -149,7 +149,7 @@ export class WzCanvasProperty extends WzExtended implements IPropertyContainer {
     return this.at(this.outlinkPropertyName) != null
   }
 
-  public async getLinkedWzCanvasBitmap (): Promise<Jimp | null> {
+  public async getLinkedWzCanvasBitmap (): Promise<Canvas | null> {
     const _inlink = (this.at(this.inlinkPropertyName) as WzStringProperty)?.value // could get nexon'd here. In case they place an _inlink that's not WzStringProperty
     const _outlink = (this.at(this.outlinkPropertyName) as WzStringProperty)?.value // could get nexon'd here. In case they place an _outlink that's not WzStringProperty
 
@@ -179,7 +179,7 @@ export class WzCanvasProperty extends WzExtended implements IPropertyContainer {
     return await this.getBitmap()
   }
 
-  public async getBitmap (): Promise<Jimp | null> {
+  public async getBitmap (): Promise<Canvas | null> {
     if (this.pngProperty != null) {
       return await this.pngProperty.getBitmap()
     }

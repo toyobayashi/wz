@@ -2,12 +2,13 @@ import { WzPropertyType } from '../WzPropertyType'
 import { WzObject } from '../WzObject'
 import { WzExtended } from '../WzExtended'
 import { WzBinaryReader } from '../util/WzBinaryReader'
-import * as Jimp from 'jimp'
-import * as zlib from 'zlib'
 import { BinaryReader } from '@tybys/binreader'
 import { Color } from '../util/Color'
 import { ErrorLevel, ErrorLogger } from '../util/ErrorLogger'
 import { NotImplementedError } from '../util/NotImplementedError'
+import { _Buffer, zlib } from '../util/node'
+import { Canvas } from '../util/Canvas'
+import { init } from '../util/wz'
 
 /**
  * @public
@@ -21,12 +22,13 @@ export class WzPngProperty extends WzExtended {
     if (this._disposed) return
     this.compressedImageBytes = null
     if (this.png != null) {
+      this.png.dispose()
       this.png = null
     }
     this._disposed = true
   }
 
-  public get wzValue (): Promise<Jimp | null> {
+  public get wzValue (): Promise<Canvas | null> {
     return this.getImage(false)
   }
 
@@ -43,19 +45,19 @@ export class WzPngProperty extends WzExtended {
   public offs: number
   private readonly wzReader: WzBinaryReader
 
-  private compressedImageBytes: Buffer | null = null
-  private png: Jimp | null = null
+  private compressedImageBytes: Uint8Array | null = null
+  private png: Canvas | null = null
   private listWzUsed: boolean = false
 
-  public constructor (reader: WzBinaryReader/* , parseNow: boolean = false */) {
-    super()
-    this.width = reader.readWzInt()
-    this.height = reader.readWzInt()
-    this.format1 = reader.readWzInt()
-    this.format2 = reader.readUInt8()
+  public static async create (reader: WzBinaryReader): Promise<WzPngProperty> {
+    const self = new WzPngProperty(reader)
+    self.width = await reader.readWzInt()
+    self.height = await reader.readWzInt()
+    self.format1 = await reader.readWzInt()
+    self.format2 = await reader.readUInt8()
     reader.pos += 4
-    this.offs = reader.pos
-    const len = reader.readInt32LE() - 1
+    self.offs = reader.pos
+    const len = await reader.readInt32LE() - 1
     reader.pos += 1
 
     if (len > 0) {
@@ -71,6 +73,16 @@ export class WzPngProperty extends WzExtended {
       reader.pos += len
       /* } */
     }
+    return self
+  }
+
+  private constructor (reader: WzBinaryReader/* , parseNow: boolean = false */) {
+    super()
+    this.width = 0
+    this.height = 0
+    this.format1 = 0
+    this.format2 = 0
+    this.offs = 0
     this.wzReader = reader
 
     Object.defineProperty(this, 'format', {
@@ -84,13 +96,13 @@ export class WzPngProperty extends WzExtended {
     })
   }
 
-  public setValue (_value: Buffer): void {
+  public setValue (_value: Uint8Array): void {
     throw new NotImplementedError('[WzPngProperty#setValue]')
   }
 
-  public async getImage (saveInMemory: boolean = false): Promise<Jimp | null> {
+  public async getImage (saveInMemory: boolean = false): Promise<Canvas | null> {
     if (this.png == null) {
-      const compressedImageBytes = this.getCompressedBytes(saveInMemory)
+      const compressedImageBytes = await this.getCompressedBytes(saveInMemory)
       this.png = await this.parsePng(compressedImageBytes)
     }
     if (!saveInMemory) {
@@ -101,11 +113,11 @@ export class WzPngProperty extends WzExtended {
     return this.png
   }
 
-  public getCompressedBytes (saveInMemory: boolean = false): Buffer {
+  public async getCompressedBytes (saveInMemory: boolean = false): Promise<Uint8Array> {
     if (this.compressedImageBytes == null) {
       const pos = this.wzReader.pos
       this.wzReader.pos = this.offs
-      const len = this.wzReader.readInt32LE() - 1
+      const len = await this.wzReader.readInt32LE() - 1
       if (len <= 0) {
         // possibility an image written with the wrong wzIv
         throw new Error('The length of the image is negative. WzPngProperty.')
@@ -113,7 +125,7 @@ export class WzPngProperty extends WzExtended {
 
       this.wzReader.pos += 1
 
-      /* if (len > 0) */ this.compressedImageBytes = Buffer.from(this.wzReader.read(len))
+      /* if (len > 0) */ this.compressedImageBytes = await this.wzReader.read(len)
       this.wzReader.pos = pos
     }
     if (!saveInMemory) {
@@ -126,13 +138,13 @@ export class WzPngProperty extends WzExtended {
     return this.compressedImageBytes
   }
 
-  private async parsePng (compressedImageBytes: Buffer): Promise<Jimp | null> {
+  private async parsePng (compressedImageBytes: Uint8Array): Promise<Canvas | null> {
     const reader = new BinaryReader(compressedImageBytes)
 
     const header = reader.readUInt16LE()
     this.listWzUsed = header !== 0x9C78 && header !== 0xDA78 && header !== 0x0178 && header !== 0x5E78
 
-    let data: Buffer
+    let data: Uint8Array
     if (!this.listWzUsed) {
       data = compressedImageBytes
     } else {
@@ -147,83 +159,53 @@ export class WzPngProperty extends WzExtended {
           dataStream.push(((reader.readUInt8() ^ this.parentImage!.reader.wzKey.at(i)) >>> 0) & 0xFF)
         }
       }
-      data = Buffer.from(dataStream)
+      data = new Uint8Array(dataStream)
     }
     reader.dispose()
 
     const format = this.format1 + this.format2
     switch (format) {
       case 1: {
-        // const inflateStream = zlib.createInflate()
-        // const uncompressedSize = this.width * this.height * 2
-        // await writeAsync(inflateStream, data)
-        // const decBuf: Buffer = inflateStream.read(uncompressedSize)
-        // inflateStream.close()
-
         const uncompressedSize = this.width * this.height * 2
         const decBuf = await inflate(data, uncompressedSize)
 
         const decoded = WzPngProperty.getPixelDataBgra4444(decBuf, this.width, this.height)
-        const img = new Jimp(this.width, this.height)
+        const img = new Canvas(this.width, this.height)
         // img.colorType(6)
         bgra8888(img, decoded, decoded.length)
         return img
       }
       case 2: {
-        // const inflateStream = zlib.createInflate()
-        // const uncompressedSize = this.width * this.height * 4
-        // await writeAsync(inflateStream, data)
-        // const decBuf = inflateStream.read(uncompressedSize)
-        // inflateStream.close()
-
         const uncompressedSize = this.width * this.height * 4
         const decBuf = await inflate(data, uncompressedSize)
 
-        const img = new Jimp(this.width, this.height)
+        const img = new Canvas(this.width, this.height)
         bgra8888(img, decBuf, decBuf.length)
         return img
       }
       case 3: {
-        // const inflateStream = zlib.createInflate()
-        // const uncompressedSize = this.width * this.height * 4
-        // await writeAsync(inflateStream, data)
-        // const decBuf = inflateStream.read(uncompressedSize)
-        // inflateStream.close()
-
         const uncompressedSize = this.width * this.height * 4
         const decBuf = await inflate(data, uncompressedSize)
 
         const decoded = WzPngProperty.getPixelDataDXT3(decBuf, this.width, this.height)
-        const img = new Jimp(this.width, this.height)
+        const img = new Canvas(this.width, this.height)
         bgra8888(img, decoded, this.width * this.height)
         return img
       }
       case 513: {
-        // const inflateStream = zlib.createInflate()
-        // const uncompressedSize = this.width * this.height * 2
-        // await writeAsync(inflateStream, data)
-        // const decBuf: Buffer = inflateStream.read(uncompressedSize)
-        // inflateStream.close()
-
         const uncompressedSize = this.width * this.height * 2
         const decBuf = await inflate(data, uncompressedSize)
 
-        const img = new Jimp(this.width, this.height)
+        const img = new Canvas(this.width, this.height)
         rgb565(img, decBuf, decBuf.length)
         return img
       }
       case 517: {
-        // const inflateStream = zlib.createInflate()
-        // const uncompressedSize: number = (parseInt as any)(this.width * this.height / 128)
-        // await writeAsync(inflateStream, data)
-        // const decBuf: Buffer = inflateStream.read(uncompressedSize)
-        // inflateStream.close()
-
         const uncompressedSize: number = (parseInt as any)(this.width * this.height / 128)
         const decBuf = await inflate(data, uncompressedSize)
 
         const decoded = WzPngProperty.getPixelDataForm517(decBuf, this.width, this.height)
-        const img = new Jimp(this.width, this.height)
+        const img = new Canvas(this.width, this.height)
         rgb565(img, decoded, decoded.length)
         return img
       }
@@ -232,22 +214,16 @@ export class WzPngProperty extends WzExtended {
         const decBuf = await inflate(data, uncompressedSize)
 
         const decoded = WzPngProperty.getPixelDataDXT3(decBuf, this.width, this.height)
-        const img = new Jimp(this.width, this.height)
+        const img = new Canvas(this.width, this.height)
         bgra8888(img, decoded, decoded.length)
         return img
       }
       case 2050: {
-        // const inflateStream = zlib.createInflate()
-        // const uncompressedSize = this.width * this.height
-        // await writeAsync(inflateStream, data)
-        // const decBuf = inflateStream.read(uncompressedSize)
-        // inflateStream.close()
-
         const uncompressedSize = this.width * this.height
         const decBuf = await inflate(data, uncompressedSize)
 
         const decoded = WzPngProperty.getPixelDataDXT5(decBuf, this.width, this.height)
-        const img = new Jimp(this.width, this.height)
+        const img = new Canvas(this.width, this.height)
         bgra8888(img, decoded, decoded.length)
         return img
       }
@@ -258,11 +234,11 @@ export class WzPngProperty extends WzExtended {
     }
   }
 
-  private static getPixelDataBgra4444 (rawData: Buffer, width: number, height: number): Buffer {
+  private static getPixelDataBgra4444 (rawData: Uint8Array, width: number, height: number): Uint8Array {
     let b: number, g: number
 
     const uncompressedSize = width * height * 2
-    const argb = Buffer.alloc(uncompressedSize * 2)
+    const argb = new Uint8Array(uncompressedSize * 2)
     for (let i = 0; i < uncompressedSize; i++) {
       b = rawData[i] & 0x0F
       b |= (b << 4)
@@ -277,8 +253,8 @@ export class WzPngProperty extends WzExtended {
     return argb
   }
 
-  private static getPixelDataForm517 (rawData: Buffer, width: number, height: number): Buffer {
-    const pixel = Buffer.alloc(width * height * 2)
+  private static getPixelDataForm517 (rawData: Uint8Array, width: number, height: number): Uint8Array {
+    const pixel = new Uint8Array(width * height * 2)
     let lineIndex = 0
     for (let j0 = 0, j1 = parseInt((height / 16) as any); j0 < j1; j0++) {
       let dstIndex = lineIndex
@@ -293,7 +269,9 @@ export class WzPngProperty extends WzExtended {
       }
 
       for (let k = 1; k < 16; k++) {
-        pixel.copy(pixel, dstIndex, lineIndex, lineIndex + (width * 2))
+        const src = new Uint8Array(pixel.buffer, pixel.byteOffset + lineIndex, width * 2)
+        pixel.set(src, dstIndex)
+        // pixel.copy(pixel, dstIndex, lineIndex, lineIndex + (width * 2))
         dstIndex += width * 2
       }
 
@@ -302,8 +280,8 @@ export class WzPngProperty extends WzExtended {
     return pixel
   }
 
-  private static getPixelDataDXT5 (rawData: Buffer, width: number, height: number): Buffer {
-    const pixel = Buffer.alloc(width * height * 4)
+  private static getPixelDataDXT5 (rawData: Uint8Array, width: number, height: number): Uint8Array {
+    const pixel = new Uint8Array(width * height * 4)
 
     const colorTable = [
       Color.fromRgb(0, 0, 0),
@@ -312,7 +290,7 @@ export class WzPngProperty extends WzExtended {
       Color.fromRgb(0, 0, 0)
     ]
     const colorIdxTable = Array(16).fill(0)
-    const alphaTable = Buffer.alloc(8)
+    const alphaTable = new Uint8Array(8)
     const alphaIdxTable = Array(16).fill(0)
 
     for (let y = 0; y < height; y += 4) {
@@ -320,8 +298,11 @@ export class WzPngProperty extends WzExtended {
         const off = x * 4 + y * width
         WzPngProperty.expandAlphaTableDXT5(alphaTable, rawData[off + 0], rawData[off + 1])
         WzPngProperty.expandAlphaIndexTableDXT5(alphaIdxTable, rawData, off + 2)
-        const u0 = rawData.readUInt16LE(off + 8)
-        const u1 = rawData.readUInt16LE(off + 10)
+        const r = new BinaryReader(rawData)
+        r.seek(off + 8)
+        const u0 = r.readUInt16LE() // rawData.readUInt16LE(off + 8)
+        const u1 = r.readUInt16LE() // rawData.readUInt16LE(off + 10)
+        r.dispose()
         WzPngProperty.expandColorTable(colorTable, u0, u1)
         WzPngProperty.expandColorIndexTable(colorIdxTable, rawData, off + 12)
 
@@ -340,7 +321,7 @@ export class WzPngProperty extends WzExtended {
     return pixel
   }
 
-  private static expandAlphaTableDXT5 (alpha: Buffer, a0: number, a1: number): void {
+  private static expandAlphaTableDXT5 (alpha: Uint8Array, a0: number, a1: number): void {
     alpha[0] = a0
     alpha[1] = a1
     if (a0 > a1) {
@@ -356,7 +337,7 @@ export class WzPngProperty extends WzExtended {
     }
   }
 
-  private static expandAlphaIndexTableDXT5 (alphaIndex: number[], rawData: Buffer, offset: number): void {
+  private static expandAlphaIndexTableDXT5 (alphaIndex: number[], rawData: Uint8Array, offset: number): void {
     for (let i = 0; i < 16; i += 8, offset += 3) {
       const flags = rawData[offset] |
                     (rawData[offset + 1] << 8) |
@@ -368,8 +349,8 @@ export class WzPngProperty extends WzExtended {
     }
   }
 
-  private static getPixelDataDXT3 (rawData: Buffer, width: number, height: number): Buffer {
-    const pixel = Buffer.alloc(width * height * 4)
+  private static getPixelDataDXT3 (rawData: Uint8Array, width: number, height: number): Uint8Array {
+    const pixel = new Uint8Array(width * height * 4)
 
     const colorTable = [
       Color.fromRgb(0, 0, 0),
@@ -378,13 +359,16 @@ export class WzPngProperty extends WzExtended {
       Color.fromRgb(0, 0, 0)
     ]
     const colorIdxTable = Array(16).fill(0)
-    const alphaTable = Buffer.alloc(16)
+    const alphaTable = new Uint8Array(16)
     for (let y = 0; y < height; y += 4) {
       for (let x = 0; x < width; x += 4) {
         const off = x * 4 + y * width
         WzPngProperty.expandAlphaTableDXT3(alphaTable, rawData, off)
-        const u0 = rawData.readUInt16LE(off + 8)
-        const u1 = rawData.readUInt16LE(off + 10)
+        const r = new BinaryReader(rawData)
+        r.seek(off + 8)
+        const u0 = r.readUInt16LE() // rawData.readUInt16LE(off + 8)
+        const u1 = r.readUInt16LE() // rawData.readUInt16LE(off + 10)
+        r.dispose()
         WzPngProperty.expandColorTable(colorTable, u0, u1)
         WzPngProperty.expandColorIndexTable(colorIdxTable, rawData, off + 12)
 
@@ -403,7 +387,7 @@ export class WzPngProperty extends WzExtended {
     return pixel
   }
 
-  private static expandAlphaTableDXT3 (alpha: Buffer, rawData: Buffer, offset: number): void {
+  private static expandAlphaTableDXT3 (alpha: Uint8Array, rawData: Uint8Array, offset: number): void {
     for (let i = 0; i < 16; i += 2, offset++) {
       alpha[i + 0] = (rawData[offset] & 0x0f) >>> 0
       alpha[i + 1] = ((rawData[offset] & 0xf0) >> 4) >>> 0
@@ -413,7 +397,7 @@ export class WzPngProperty extends WzExtended {
     }
   }
 
-  private static setPixel (pixelData: Buffer, x: number, y: number, width: number, color: Color, alpha: number): void {
+  private static setPixel (pixelData: Uint8Array, x: number, y: number, width: number, color: Color, alpha: number): void {
     const offset = (y * width + x) * 4
     pixelData[offset + 0] = color.b
     pixelData[offset + 1] = color.g
@@ -442,7 +426,7 @@ export class WzPngProperty extends WzExtended {
     }
   }
 
-  private static expandColorIndexTable (colorIndex: number[], rawData: Buffer, offset: number): void {
+  private static expandColorIndexTable (colorIndex: number[], rawData: Uint8Array, offset: number): void {
     for (let i = 0; i < 16; i += 4, offset++) {
       colorIndex[i + 0] = (rawData[offset] & 0x03)
       colorIndex[i + 1] = (rawData[offset] & 0x0c) >> 2
@@ -451,7 +435,7 @@ export class WzPngProperty extends WzExtended {
     }
   }
 
-  public getBitmap (): Promise<Jimp | null> {
+  public getBitmap (): Promise<Canvas | null> {
     return this.getImage(false)
   }
 
@@ -469,41 +453,13 @@ export class WzPngProperty extends WzExtended {
   }
 }
 
-/* function writeAsync (stream: zlib.Inflate, data: Buffer): Promise<void> {
-  return new Promise<void>((resolve, reject) => {
-    stream.once('error', onError)
-    const r = stream.write(data, 'binary', (err) => {
-      if (err != null) {
-        stream.off('error', onError)
-        stream.off('drain', onDrain)
-        reject(err)
-      } else {
-        if (r) {
-          stream.off('error', onError)
-          stream.off('drain', onDrain)
-          resolve()
-        }
-      }
-    })
-    if (!r) {
-      stream.once('drain', onDrain)
-    }
-
-    function onError (err: Error): void {
-      stream.off('drain', onDrain)
-      reject(err)
-    }
-    function onDrain (): void {
-      stream.off('error', onError)
-      resolve()
-    }
-  })
-} */
-
-function inflate (data: Buffer, len: number): Promise<Buffer> {
-  return new Promise<Buffer>((resolve, reject) => {
+function inflate (data: Uint8Array, len: number): Promise<Uint8Array> {
+  if (typeof window !== 'undefined') {
+    return inflateWasm(data, len)
+  }
+  return new Promise<Uint8Array>((resolve, reject) => {
     const inflateStream = zlib.createInflate()
-    const buf = Buffer.alloc(len)
+    const buf = _Buffer!.alloc(len)
     const chunks: Buffer[] = []
     inflateStream.once('error', reject)
     inflateStream.on('data', (chunk: Buffer) => {
@@ -511,7 +467,7 @@ function inflate (data: Buffer, len: number): Promise<Buffer> {
     })
 
     inflateStream.on('finish', () => {
-      const chunk = Buffer.concat(chunks)
+      const chunk = _Buffer!.concat(chunks)
       chunk.copy(buf, 0, 0, Math.min(chunk.length, len))
       resolve(buf)
       inflateStream.close()
@@ -519,6 +475,12 @@ function inflate (data: Buffer, len: number): Promise<Buffer> {
 
     inflateStream.end(data)
   })
+}
+
+async function inflateWasm (data: Uint8Array, len: number): Promise<Uint8Array> {
+  const mod = await init()
+  const buf = mod.inflate(data, len)
+  return buf
 }
 
 function rgb565ToColor (val: number): Color {
@@ -535,27 +497,29 @@ function rgb565ToColor (val: number): Color {
   return c
 }
 
-function bgra8888 (img: Jimp, data: Buffer, length: number): void {
+function bgra8888 (img: Canvas, data: Uint8Array, length: number): void {
   let x = 0
   let y = 0
   const width = img.getWidth()
   for (let i = 0; i < length; i += 4) {
-    img.setPixelColor(Jimp.rgbaToInt(data[i + 2], data[i + 1], data[i + 0], data[i + 3]), x, y)
+    img.setPixelColor(Canvas.rgbaToInt(data[i + 2], data[i + 1], data[i + 0], data[i + 3]), x, y)
     x++
     if (x >= width) { x = 0; y++ }
   }
 }
 
-function rgb565 (img: Jimp, data: Buffer, length: number): void {
+function rgb565 (img: Canvas, data: Uint8Array, length: number): void {
   // rrrrrggg gggbbbbb
   let x = 0
   let y = 0
   const width = img.getWidth()
+  const r = new BinaryReader(data)
   for (let i = 0; i < length; i += 2) {
-    const ushort = data.readUInt16LE(i)
+    const ushort = r.readUInt16LE() // data.readUInt16LE(i)
     const c = rgb565ToColor(ushort)
-    img.setPixelColor(Jimp.rgbaToInt(c.r, c.g, c.b, c.a), x, y)
+    img.setPixelColor(Canvas.rgbaToInt(c.r, c.g, c.b, c.a), x, y)
     x++
     if (x >= width) { x = 0; y++ }
   }
+  r.dispose()
 }
