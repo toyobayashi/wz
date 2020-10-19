@@ -103,23 +103,33 @@ async function test () {
   await walkWzFileAsync(filepath, ver, async (obj) => {
     // if (n > 50) return true
     if (obj.objectType === WzObjectType.Property && obj instanceof WzCanvasProperty) {
-      n++
-      console.log(n, WzPropertyType[obj.propertyType], obj.fullPath)
+      // n++
+      // console.log(n, WzPropertyType[obj.propertyType], obj.fullPath)
 
-      // const img = await obj.pngProperty.getImage(false)
-      try {
-        var format = obj.pngProperty.format1 + obj.pngProperty.format2
-      } catch (error) {
-        console.log(obj.fullPath)
-        throw error
-      }
-      if (type.indexOf(format) !== -1) {
-        console.log(`${obj.fullPath}`)
-        console.log(`${format}`)
-        const r = await obj.pngProperty.saveToFile(`./${format}.png`)
-        return r
-      }
+      // // const img = await obj.pngProperty.getImage(false)
+      // try {
+      //   var format = obj.pngProperty.format1 + obj.pngProperty.format2
+      // } catch (error) {
+      //   console.log(obj.fullPath)
+      //   throw error
+      // }
+      // if (type.indexOf(format) !== -1) {
+      //   console.log(`${obj.fullPath}`)
+      //   console.log(`${format}`)
+      //   const r = await obj.pngProperty.saveToFile(`./${format}.png`)
+      //   return r
+      // }
       // console.log(img)
+
+      // const type = obj.objectType === WzObjectType.Property ? WzPropertyType[obj.propertyType] : WzObjectType[obj.objectType]
+      let relativePath = path.win32.relative(filepath, obj.fullPath).replace(/\\/g, '/')
+      if (relativePath === '') {
+        relativePath = '.'
+      }
+
+      console.log(obj.fullPath, relativePath)
+      await obj.pngProperty.saveToFile(path.join(/* __dirname,  */'Sound', path.extname(relativePath) === '' ? `${relativePath}.png` : relativePath))
+      n++
     }
     return false
   })
