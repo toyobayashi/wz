@@ -10,16 +10,17 @@
     return m;
   }
   var name = 'wzWasm';
+  var _process = root && root.process;
   if(typeof exports === 'object' && typeof module === 'object') {
-    module.exports = makeESModule(factory(require('@tybys/native-require').tryGetRequireFunction()));
+    module.exports = makeESModule(factory(require('@tybys/native-require').tryGetRequireFunction(), _process));
   } else if(typeof define === 'function' && define.amd) {
     define(['@tybys/native-require'], function (nr) {
-      return makeESModule(factory(nr.tryGetRequireFunction()));
+      return makeESModule(factory(nr.tryGetRequireFunction(), _process));
     });
   } else if(typeof exports === 'object') {
-    exports[name] = makeESModule(factory(require('@tybys/native-require').tryGetRequireFunction()));
+    exports[name] = makeESModule(factory(require('@tybys/native-require').tryGetRequireFunction(), _process));
   } else {
-    root[name] = factory(nr.tryGetRequireFunction());
+    root[name] = factory(nr.tryGetRequireFunction(), _process);
   }
 })((function (defaultValue) {
   var g;
@@ -37,4 +38,4 @@
   }
 
   return g || defaultValue;
-})(this), function (require) {
+})(this), function (require, process) {
