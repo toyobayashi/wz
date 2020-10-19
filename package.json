@@ -1,6 +1,6 @@
 {
   "name": "@tybys/wz",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "MapleStory wz reader.",
   "typings": "./lib/cjs-modern/index.d.ts",
   "module": "./lib/esm-modern/index.js",

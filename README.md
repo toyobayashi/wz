@@ -6,6 +6,42 @@ Incompletely port from [lastbattle/Harepacker-resurrected/MapleLib/WzLib](https:
 
 [API Documentation](https://github.com/toyobayashi/wz/blob/main/docs/api/index.md)
 
+## Build
+
+Environment:
+
+* Node.js v12+
+
+* CMake v3.6+
+
+* Emscripten toolchain latest
+
+    * Set environment variable `$EMSDK` to emsdk path
+
+    * Add `$EMSDK` and `$EMSDK/upstream/emscripten` to `$PATH`
+
+* Make for Windows (Windows only)
+
+``` bash
+git clone https://github.com/toyobayashi/wz.git
+cd wz
+```
+
+``` bash
+chmod +x ./build.sh
+./build.sh
+npm install
+npm run build
+```
+
+Windows
+
+``` bat
+.\build.bat
+npm install
+npm run build
+```
+
 ## Example
 
 ``` bash
@@ -105,18 +141,12 @@ Browser environment should be with ES2018+ and WebAssembly support.
 
 ### Webpack
 
-Set `node` or `node.process` to `false` due to emscripten js glue code is using `process`, and add `CopyWebpackPlugin` to copy `wz.wasm` file
+Add `CopyWebpackPlugin` to copy `wz.wasm` file
 
 ``` js
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = {
-  // ...
-  node: false
-  // or
-  node: {
-    process: false
-  },
   plugins: [
     // ...
     new CopyWebpackPlugin({
@@ -137,25 +167,52 @@ module.exports = {
 import { walkWzFileAsync, /* ... */ } from '@tybys/wz'
 ```
 
-## Build
+### Advanced
 
-Environment:
+Though `walkWzFileAsync()` is easy to use, it is much more slower in browser than in Node.js. It is recommanded to use class API to do specific directory or image operation.
 
-* Node.js v12+
+``` js
+const { init, WzFile, WzMapleVersion, WzBinaryProperty, WzImage, WzDirectory } = require('@tybys/wz')
 
-* CMake v3.6+
+async function main () {
+  // Must call init() first to initialize Webassembly
+  // before calling other API in browser.
+  // In nodejs it is just return Promise.resolve()
+  await init()
 
-* Emscripten toolchain latest
+  // Construct a WzFile object
+  const wz = new WzFile('C:\\Nexon\\MapleStory\\Sound.wz', WzMapleVersion.BMS)
 
-    * Set environment variable `$EMSDK` to emsdk path
+  // Pass it to parseWzFile() to receive parse result
+  const result = WzFile.createParseResult()
+  const r = await wz.parseWzFile(/* out */ result, /* parse main directory only */ true)
+  if (!r) {
+    throw new Error(result.message)
+  }
 
-    * Add `$EMSDK` and `$EMSDK/upstream/emscripten` to `$PATH`
+  // Access main directory
+  /** @type {WzDirectory} */
+  const mainDirectory = wz.wzDirectory // ! not null
 
-* Make for Windows (Windows only)
+  /** @type {WzImage | null} */
+  const img = mainDirectory.at('Bgm50.img')
+  if (img === null) throw new Error('404')
 
-``` bash
-chmod +x ./build.sh
-./build.sh
-npm install
-npm run build
+  // Parse the image before use it
+  await img.parseImage()
+
+  // Access image properties
+  const props = img.wzProperties // getter returns Set<WzImageProperty>
+
+  for (const prop of props) {
+    if (prop instanceof WzBinaryProperty) {
+      console.log(prop.fullPath)
+      // do something
+      // prop.saveToFile()
+    }
+  }
+  wz.dispose()
+}
+
+main()
 ```
