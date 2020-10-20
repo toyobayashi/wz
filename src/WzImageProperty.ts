@@ -186,6 +186,7 @@ export abstract class WzImageProperty extends WzObject {
       case 'Canvas': {
         const WzCanvasProperty = require('./properties/WzCanvasProperty').WzCanvasProperty as typeof import('./properties/WzCanvasProperty').WzCanvasProperty
         const canvasProp = new WzCanvasProperty(name)
+        canvasProp.parent = parent
         reader.pos++
         const b = await reader.readUInt8()
         if (b === 1) {

@@ -1,5 +1,5 @@
 const path = require('path')
-const { WzFile, WzMapleVersion, WzImage, WzBinaryProperty, WzCanvasProperty, WzPngProperty, walkWzFileAsync, WzObjectType, WzPropertyType } = require('..')
+const { WzFile, WzMapleVersion, WzImage, WzBinaryProperty, WzCanvasProperty, WzPngProperty, walkWzFileAsync, WzObjectType, WzPropertyType, init } = require('..')
 
 // const wz = new WzFile('C:\\Nexon\\MapleStory\\Sound.wz', WzMapleVersion.BMS)
 // // const wz = new WzFile('C:\\Users\\toyo\\game\\CMS\\冒险岛online\\Sound.wz', WzMapleVersion.BMS)
@@ -122,13 +122,33 @@ async function test () {
       // console.log(img)
 
       // const type = obj.objectType === WzObjectType.Property ? WzPropertyType[obj.propertyType] : WzObjectType[obj.objectType]
-      let relativePath = path.win32.relative(filepath, obj.fullPath).replace(/\\/g, '/')
+      const t = obj.pngProperty.format1 + obj.pngProperty.format2
+      if (t === 3) {
+        console.log(t)
+      }
+      let fullPath = obj.fullPath
+      
+      let relativePath = path.win32.relative(filepath, fullPath).replace(/\\/g, '/')
       if (relativePath === '') {
         relativePath = '.'
       }
+      const lastChar = fullPath.charAt(fullPath.length - 1)
+      if (lastChar === '.') {
+        relativePath += `/.`
+      } else if (lastChar === ':') {
+        relativePath = relativePath.substring(0, relativePath.length - 1)
+        relativePath += 'colon'
+      }
 
-      console.log(obj.fullPath, relativePath)
-      await obj.pngProperty.saveToFile(path.join(/* __dirname,  */'Sound', path.extname(relativePath) === '' ? `${relativePath}.png` : relativePath))
+      console.log(n, fullPath, relativePath)
+      if (fullPath === 'canvas') {
+        throw new Error('1')
+      }
+      // try {
+      //   await obj.pngProperty.saveToFile(path.join(/* __dirname,  */'Sound', `${relativePath}.png`))
+      // } catch (err) {
+      //   console.error(err)
+      // }
       n++
     }
     return false
