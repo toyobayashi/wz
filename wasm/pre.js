@@ -39,3 +39,14 @@
 
   return g || defaultValue;
 })(this), function (require, process) {
+  if (typeof process === "object" && typeof process.versions === "object" && typeof process.versions.node === "string") {
+    return (function () {
+      var mod = {};
+      return {
+        init: function () {
+          return Promise.resolve(mod);
+        },
+        mod: mod
+      };
+    })();
+  }
