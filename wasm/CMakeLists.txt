@@ -11,7 +11,11 @@ set(LIB_SOURCE_FILES
 
 add_executable(${EXE_NAME} ${LIB_SOURCE_FILES})
 
-target_link_options(${EXE_NAME} PRIVATE --bind -sALLOW_MEMORY_GROWTH=1 --extern-pre-js ${CMAKE_CURRENT_SOURCE_DIR}/pre.js --extern-post-js ${CMAKE_CURRENT_SOURCE_DIR}/post.js)
+target_link_options(${EXE_NAME} PRIVATE
+  --bind
+  -sALLOW_MEMORY_GROWTH=1
+  --extern-pre-js ${CMAKE_CURRENT_SOURCE_DIR}/pre.js
+  --extern-post-js ${CMAKE_CURRENT_SOURCE_DIR}/post.js)
 
 set_target_properties(${EXE_NAME} PROPERTIES CXX_STANDARD 11)
 
@@ -44,7 +48,7 @@ target_compile_definitions(${EXE_NAME} PRIVATE
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/deps/zlib")
 
 # message(${CMAKE_CURRENT_BINARY_DIR}/deps/zlib)
-target_include_directories(${EXE_NAME} PUBLIC "deps/zlib" ${CMAKE_CURRENT_BINARY_DIR}/deps/zlib)
+target_include_directories(${EXE_NAME} PUBLIC "deps/zlib")
 
 target_link_libraries(${EXE_NAME} PRIVATE zlibstatic)
 
