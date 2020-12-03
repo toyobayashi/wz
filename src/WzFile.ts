@@ -119,8 +119,9 @@ export class WzFile extends WzObject {
     this.header.ident = await reader.readString('ascii', 4)
     this.header.fsize = await reader.readBigUInt64LE()
     this.header.fstart = await reader.readUInt32LE()
-    this.header.copyright = await reader.readNullTerminatedString()
+    this.header.copyright = await reader.readString('ascii', this.header.fstart - 17)
 
+    await reader.read(1)
     await reader.read(this.header.fstart - reader.pos)
     reader.header = this.header
     this._version = await reader.readInt16LE()

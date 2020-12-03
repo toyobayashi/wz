@@ -11,6 +11,13 @@ set(LIB_SOURCE_FILES
 
 add_executable(${EXE_NAME} ${LIB_SOURCE_FILES})
 
+target_compile_options(${EXE_NAME} PRIVATE
+  --bind
+  -sALLOW_MEMORY_GROWTH=1
+  -sDISABLE_EXCEPTION_CATCHING=0
+  --extern-pre-js ${CMAKE_CURRENT_SOURCE_DIR}/pre.js
+  --extern-post-js ${CMAKE_CURRENT_SOURCE_DIR}/post.js)
+
 target_link_options(${EXE_NAME} PRIVATE
   --bind
   -sALLOW_MEMORY_GROWTH=1
@@ -32,9 +39,8 @@ if(${CMAKE_BUILD_TYPE} MATCHES "Debug")
 else()
   foreach(var
     CMAKE_C_FLAGS_RELEASE
-    CMAKE_C_FLAGS_RELWITHDEBINFO
     CMAKE_CXX_FLAGS_RELEASE
-    CMAKE_CXX_FLAGS_RELWITHDEBINFO
+    CMAKE_EXE_LINKER_FLAGS_RELEASE
   )
     string(REPLACE "-O2" "-O3" ${var} "${${var}}")
     message(STATUS "${var}:${${var}}")
@@ -51,5 +57,3 @@ add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/deps/zlib")
 target_include_directories(${EXE_NAME} PUBLIC "deps/zlib")
 
 target_link_libraries(${EXE_NAME} PRIVATE zlibstatic)
-
-target_compile_options(${EXE_NAME} PRIVATE -sDISABLE_EXCEPTION_CATCHING=0)

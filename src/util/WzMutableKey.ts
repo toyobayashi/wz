@@ -8,7 +8,7 @@ export class WzMutableKey {
   private static readonly _batchSize = 4096
   private _keys: Uint8Array | null = null
 
-  public constructor (private readonly _iv: Uint8Array, private readonly _aesKey: Uint8Array) {}
+  public constructor (private readonly _iv: Uint8Array, private readonly _aesUserKey: Uint8Array) {}
 
   public at (index: number): number {
     if (this._keys == null || this._keys.length <= index) {
@@ -42,7 +42,7 @@ export class WzMutableKey {
       startIndex = this._keys.length
     }
 
-    const aes = crypto.createCipheriv('aes-256-ecb', this._aesKey, null)
+    const aes = crypto.createCipheriv('aes-256-ecb', this._aesUserKey, null)
     aes.setAutoPadding(true)
 
     // const ms = newKeys.slice(startIndex, newKeys.length - startIndex)

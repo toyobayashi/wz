@@ -1,5 +1,5 @@
 export class MapleCryptoConstants {
-  public static readonly userKey: Uint8Array = new Uint8Array([ // 16 * 8
+  public static readonly MAPLESTORY_USERKEY_DEFAULT: Uint8Array = new Uint8Array([ // 16 * 8
     0x13, 0x00, 0x00, 0x00, 0x52, 0x00, 0x00, 0x00, 0x2A, 0x00, 0x00, 0x00, 0x5B, 0x00, 0x00, 0x00,
     0x08, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x60, 0x00, 0x00, 0x00,
     0x06, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x43, 0x00, 0x00, 0x00, 0x0F, 0x00, 0x00, 0x00,
@@ -9,6 +9,17 @@ export class MapleCryptoConstants {
     0x33, 0x00, 0x00, 0x00, 0x55, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x09, 0x00, 0x00, 0x00,
     0x52, 0x00, 0x00, 0x00, 0xDE, 0x00, 0x00, 0x00, 0xC7, 0x00, 0x00, 0x00, 0x1E, 0x00, 0x00, 0x00
   ])
+
+  public static readonly userKeyWzLib: Uint8Array = MapleCryptoConstants.MAPLESTORY_USERKEY_DEFAULT.slice()
+
+  public static isDefaultMapleStoryUserKey (): boolean {
+    if (!(MapleCryptoConstants.userKeyWzLib instanceof Uint8Array)) return false
+    if (MapleCryptoConstants.MAPLESTORY_USERKEY_DEFAULT.length !== MapleCryptoConstants.userKeyWzLib.length) return false
+    for (let i = 0; i < MapleCryptoConstants.MAPLESTORY_USERKEY_DEFAULT.length; i++) {
+      if (MapleCryptoConstants.userKeyWzLib[i] !== MapleCryptoConstants.MAPLESTORY_USERKEY_DEFAULT[i]) return false
+    }
+    return true
+  }
 
   public static readonly bShuffle: Uint8Array = new Uint8Array([ // 16 * 16
     0xEC, 0x3F, 0x77, 0xA4, 0x45, 0xD0, 0x71, 0xBF, 0xB7, 0x98, 0x20, 0xFC, 0x4B, 0xE9, 0xB3, 0xE1,
@@ -39,10 +50,10 @@ export class MapleCryptoConstants {
 
   public static readonly WZ_OffsetConstant: number = 0x581C3F6D
 
-  public static getTrimmedUserKey (): Uint8Array {
+  public static getTrimmedUserKey (userKey: Uint8Array): Uint8Array {
     const key = new Uint8Array(32)
     for (let i = 0; i < 128; i += 16) {
-      key[i / 4] = MapleCryptoConstants.userKey[i]
+      key[i / 4] = userKey[i]
     }
     return key
   }

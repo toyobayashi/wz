@@ -20,7 +20,13 @@ export class WzKeyGenerator {
     return aes
   } */
 
+  public static generateLuaWzKey (): WzMutableKey {
+    return new WzMutableKey(
+      MapleCryptoConstants.WZ_MSEAIV,
+      MapleCryptoConstants.getTrimmedUserKey(MapleCryptoConstants.MAPLESTORY_USERKEY_DEFAULT))
+  }
+
   public static generateWzKey (wzIv: Uint8Array): WzMutableKey {
-    return new WzMutableKey(wzIv, MapleCryptoConstants.getTrimmedUserKey())
+    return new WzMutableKey(wzIv, MapleCryptoConstants.getTrimmedUserKey(MapleCryptoConstants.userKeyWzLib))
   }
 }

@@ -9,7 +9,7 @@ Constructs a new instance of the `WzMutableKey` class
 <b>Signature:</b>
 
 ```typescript
-constructor(_iv: Uint8Array, _aesKey: Uint8Array);
+constructor(_iv: Uint8Array, _aesUserKey: Uint8Array);
 ```
 
 ## Parameters
@@ -17,5 +17,5 @@ constructor(_iv: Uint8Array, _aesKey: Uint8Array);
 |  Parameter | Type | Description |
 |  --- | --- | --- |
 |  \_iv | Uint8Array |  |
-|  \_aesKey | Uint8Array |  |
+|  \_aesUserKey | Uint8Array |  |
 

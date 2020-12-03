@@ -1,4 +1,3 @@
-import { MapleCryptoConstants } from '../util/MapleCryptoConstants'
 import { WzKeyGenerator } from '../util/WzKeyGenerator'
 import { WzMutableKey } from '../util/WzMutableKey'
 import { WzImageProperty } from '../WzImageProperty'
@@ -12,13 +11,11 @@ import { asciiTextDecoder } from '../util/node'
 export class WzLuaProperty extends WzImageProperty {
   public wzKey: WzMutableKey
 
-  public static readonly USE_IV_KEY: Uint8Array = MapleCryptoConstants.WZ_MSEAIV
-
   public parent: WzObject | null = null
 
   public constructor (public name: string, public encryptedBytes: Uint8Array | null) {
     super()
-    this.wzKey = WzKeyGenerator.generateWzKey(WzLuaProperty.USE_IV_KEY)
+    this.wzKey = WzKeyGenerator.generateLuaWzKey()
   }
 
   public setValue (value: Uint8Array): void {

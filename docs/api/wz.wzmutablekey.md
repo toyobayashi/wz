@@ -15,7 +15,7 @@ export declare class WzMutableKey
 
 |  Constructor | Modifiers | Description |
 |  --- | --- | --- |
-|  [(constructor)(\_iv, \_aesKey)](./wz.wzmutablekey._constructor_.md) |  | Constructs a new instance of the <code>WzMutableKey</code> class |
+|  [(constructor)(\_iv, \_aesUserKey)](./wz.wzmutablekey._constructor_.md) |  | Constructs a new instance of the <code>WzMutableKey</code> class |
 
 ## Methods
 
