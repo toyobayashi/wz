@@ -192,6 +192,14 @@ export class WzPngProperty extends WzExtended {
         bgra8888(img, decoded, this.width * this.height)
         return img
       }
+      case 257: { // http://forum.ragezone.com/f702/wz-png-format-decode-code-1114978/index2.html#post9053713
+        // "Npc.wz\\2570101.img\\info\\illustration2\\face\\0"
+        const uncompressedSize = this.width * this.height * 2
+        const decBuf = await inflate(data, uncompressedSize)
+        const img = new Canvas(this.width, this.height)
+        argb1555(img, decBuf, decBuf.length)
+        return img
+      }
       case 513: {
         const uncompressedSize = this.width * this.height * 2
         const decBuf = await inflate(data, uncompressedSize)
@@ -522,4 +530,37 @@ function rgb565 (img: Canvas, data: Uint8Array, length: number): void {
     if (x >= width) { x = 0; y++ }
   }
   r.dispose()
+}
+
+function argb1555 (img: Canvas, data: Uint8Array, length: number): void {
+  // arrrrrgg gggbbbbb
+  let x = 0
+  let y = 0
+  const width = img.getWidth()
+  const r = new BinaryReader(data)
+  for (let i = 0; i < length; i += 2) {
+    const ushort = r.readUInt16LE() // data.readUInt16LE(i)
+    const c = argb1555ToColor(ushort)
+    img.setPixelColor(Canvas.rgbaToInt(c.r, c.g, c.b, c.a), x, y)
+    x++
+    if (x >= width) { x = 0; y++ }
+  }
+  r.dispose()
+}
+
+function argb1555ToColor (val: number): Color {
+  const maskA = 0x8000
+  const maskR = 0x7c00
+  const maskG = 0x03e0
+  const maskB = 0x001f
+  const a = ((val & maskA) !== 0) ? 255 : 0
+  const r = (val & maskR) >> 10
+  const g = (val & maskG) >> 5
+  const b = (val & maskB)
+  var c = Color.fromArgb(
+    a,
+    (r << 3) | (r >> 2),
+    (g << 3) | (g >> 2),
+    (b << 3) | (b >> 2))
+  return c
 }
