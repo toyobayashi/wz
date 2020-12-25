@@ -168,8 +168,11 @@ export class WzFile extends WzObject {
                 if (out != null) out.message = 'Success'
                 return true
               }
+              case 0x30:
+              case 0x6C: // idk
+              case 0xBC: // Map002.wz? KMST?
               default: {
-                ErrorLogger.log(ErrorLevel.MissingFeature, `New Wz image header found. checkByte = ${checkByte}`)
+                ErrorLogger.log(ErrorLevel.MissingFeature, `[WzFile.ts] New Wz image header found. checkByte = ${checkByte}. File Name = ${this.name}`)
                 break
               }
             }
