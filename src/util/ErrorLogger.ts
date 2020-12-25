@@ -26,6 +26,10 @@ export class ErrorLogger {
     this._errorList.add(new WzError(level, message))
   }
 
+  public static numberOfErrorsPresent (): number {
+    return this._errorList.size
+  }
+
   public static errorsPresent (): boolean {
     return this._errorList.size > 0
   }
