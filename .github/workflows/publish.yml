@@ -18,15 +18,15 @@ jobs:
         chmod +x ./build.sh
         ./build.sh Release
     # Setup .npmrc file to publish to npm
-    - uses: actions/setup-node@v1
+    - uses: actions/setup-node@v2
       with:
         node-version: '12.x'
         registry-url: 'https://registry.npmjs.org/'
         scope: '@tybys'
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
     - run: npm install
     - run: npm run build
     - name: Publish NPM
       if: ${{ startsWith(github.event.ref, 'refs/tags') }}
       run: npm publish --@tybys:registry=https://registry.npmjs.org/ --access public
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
