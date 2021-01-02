@@ -11,56 +11,68 @@ import { init } from './init'
 
 /**
  * @public
+ * @returns `true` if stop manually
  */
-export async function walkWzFileAsync (filepath: string | File, mapleVersion: WzMapleVersion, callback: <T extends WzObject>(obj: T) => boolean | undefined | Promise<boolean | undefined>): Promise<void> {
+export async function walkWzFileAsync (filepath: string | File, mapleVersion: WzMapleVersion, callback: <T extends WzObject>(obj: T) => boolean | undefined | Promise<boolean | undefined>): Promise<boolean> {
   await init()
   const wz = new WzFile(filepath, mapleVersion)
   const result = WzFile.createParseResult()
   const r = await wz.parseWzFile(result, true)
   if (!r) {
+    wz.dispose()
     throw new Error(result.message)
   }
 
-  let stop = false
-  await walkDirectory(wz.wzDirectory as WzDirectory, callback)
+  const stop = await walkDirectory(wz.wzDirectory as WzDirectory, callback)
 
   wz.dispose()
+  return stop
+}
 
-  async function walkPropertyContainer (container: WzImageProperty | WzImage, callback: <T extends WzObject>(obj: T) => boolean | undefined | Promise<boolean | undefined>): Promise<void> {
-    if (container instanceof WzImage) {
-      await container.parseImage()
-    }
-    stop = !!(await Promise.resolve(callback(container)))
-    if (!stop && !(container instanceof WzUOLProperty) && container.wzProperties != null) {
-      for (const prop of container.wzProperties) {
-        await walkPropertyContainer(prop, callback)
-        if (stop) break
-      }
-    }
-    container.dispose()
+/**
+ * @public
+ * @returns `true` if stop manually
+ */
+export async function walkDirectory (dir: WzDirectory, callback: <T extends WzObject>(obj: T) => boolean | undefined | Promise<boolean | undefined>): Promise<boolean> {
+  await dir.parseDirectory(true)
+  let stop = !!(await Promise.resolve(callback(dir)))
+  if (stop) {
+    dir.dispose()
+    return stop
   }
-
-  async function walkDirectory (dir: WzDirectory, callback: <T extends WzObject>(obj: T) => boolean | undefined | Promise<boolean | undefined>): Promise<void> {
-    await dir.parseDirectory(true)
-    stop = !!(await Promise.resolve(callback(dir)))
+  for (const subdir of dir.wzDirectories) {
+    stop = await walkDirectory(subdir, callback)
     if (stop) {
       dir.dispose()
-      return
+      return stop
     }
-    for (const subdir of dir.wzDirectories) {
-      await walkDirectory(subdir, callback)
-      if (stop) {
-        dir.dispose()
-        return
-      }
-    }
-    for (const img of dir.wzImages) {
-      await walkPropertyContainer(img, callback)
-      if (stop) {
-        dir.dispose()
-        return
-      }
-    }
-    dir.dispose()
   }
+  for (const img of dir.wzImages) {
+    stop = await walkPropertyContainer(img, callback)
+    if (stop) {
+      dir.dispose()
+      return stop
+    }
+  }
+  dir.dispose()
+  return stop
+}
+
+/**
+ * @public
+ * @returns `true` if stop manually
+ */
+export async function walkPropertyContainer (container: WzImageProperty | WzImage, callback: <T extends WzObject>(obj: T) => boolean | undefined | Promise<boolean | undefined>): Promise<boolean> {
+  if (container instanceof WzImage) {
+    await container.parseImage()
+  }
+  let stop = !!(await Promise.resolve(callback(container)))
+  if (!stop && !(container instanceof WzUOLProperty) && container.wzProperties != null) {
+    for (const prop of container.wzProperties) {
+      stop = await walkPropertyContainer(prop, callback)
+      if (stop) break
+    }
+  }
+  container.dispose()
+  return stop
 }

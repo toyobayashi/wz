@@ -1,5 +1,5 @@
 const path = require('path')
-const { WzFile, WzMapleVersion, WzImage, WzBinaryProperty, WzCanvasProperty, WzPngProperty, walkWzFileAsync, WzObjectType, WzPropertyType, init } = require('..')
+const { WzFile, WzMapleVersion, WzImage, WzBinaryProperty, WzCanvasProperty, WzUOLProperty, WzPngProperty, walkWzFileAsync, WzObjectType, WzPropertyType, init, walkPropertyContainer } = require('..')
 
 // const wz = new WzFile('C:\\Nexon\\MapleStory\\Sound.wz', WzMapleVersion.BMS)
 // // const wz = new WzFile('C:\\Users\\toyo\\game\\CMS\\冒险岛online\\Sound.wz', WzMapleVersion.BMS)
@@ -75,22 +75,55 @@ async function testSound () {
     throw new Error('Path is null')
   }
   let n = 0
-  await walkWzFileAsync(filepath, ver, async (obj) => {
-    // if (n > 50) return true
-    const type = obj.objectType === WzObjectType.Property ? WzPropertyType[obj.propertyType] : WzObjectType[obj.objectType]
-    let relativePath = path.win32.relative(filepath, obj.fullPath).replace(/\\/g, '/')
-    if (relativePath === '') {
-      relativePath = '.'
-    }
 
-    if (obj.objectType === WzObjectType.Property && obj instanceof WzBinaryProperty) {
-      console.log(n, type, relativePath)
-      obj.saveToFile(path.join(/* __dirname,  */'Sound', path.extname(relativePath) === '' ? `${relativePath}.mp3` : relativePath))
-      n++
-    }
+  await init()
+  const wz = new WzFile(filepath, ver)
+  const result = WzFile.createParseResult()
+  const r = await wz.parseWzFile(result, true)
+  if (!r) {
+    wz.dispose()
+    throw new Error(result.message)
+  }
+  if (!wz.wzDirectory) {
+    wz.dispose()
+    throw new Error('wz.wzDirectory == null')
+  }
 
-    return false
-  })
+  for (const img of wz.wzDirectory.wzImages) {
+    if (/^Bgm/.test(img.name)) {
+      await walkPropertyContainer(img, async (obj) => {
+        const type = obj.objectType === WzObjectType.Property ? WzPropertyType[obj.propertyType] : WzObjectType[obj.objectType]
+        let relativePath = path.win32.relative(filepath, obj.fullPath).replace(/\\/g, '/')
+        if (relativePath === '') {
+          relativePath = '.'
+        }
+
+        if (obj.objectType === WzObjectType.Property && obj instanceof WzBinaryProperty) {
+          console.log(n, type, relativePath)
+          obj.saveToFile(path.join(/* __dirname,  */'Sound', path.extname(relativePath) === '' ? `${relativePath}.mp3` : relativePath))
+          n++
+        }
+      })
+    }
+  }
+  wz.dispose()
+
+  // await walkWzFileAsync(filepath, ver, async (obj) => {
+  //   // if (n > 50) return true
+  //   const type = obj.objectType === WzObjectType.Property ? WzPropertyType[obj.propertyType] : WzObjectType[obj.objectType]
+  //   let relativePath = path.win32.relative(filepath, obj.fullPath).replace(/\\/g, '/')
+  //   if (relativePath === '') {
+  //     relativePath = '.'
+  //   }
+
+  //   if (obj.objectType === WzObjectType.Property && obj instanceof WzBinaryProperty) {
+  //     console.log(n, type, relativePath)
+  //     obj.saveToFile(path.join(/* __dirname,  */'Sound', path.extname(relativePath) === '' ? `${relativePath}.mp3` : relativePath))
+  //     n++
+  //   }
+
+  //   return false
+  // })
   console.log(`Total: ${n}`)
 }
 

@@ -4,11 +4,10 @@
 
 ## walkWzFileAsync() function
 
-
 <b>Signature:</b>
 
 ```typescript
-export declare function walkWzFileAsync(filepath: string | File, mapleVersion: WzMapleVersion, callback: <T extends WzObject>(obj: T) => boolean | undefined | Promise<boolean | undefined>): Promise<void>;
+export declare function walkWzFileAsync(filepath: string | File, mapleVersion: WzMapleVersion, callback: <T extends WzObject>(obj: T) => boolean | undefined | Promise<boolean | undefined>): Promise<boolean>;
 ```
 
 ## Parameters
@@ -21,5 +20,7 @@ export declare function walkWzFileAsync(filepath: string | File, mapleVersion: W
 
 <b>Returns:</b>
 
-Promise&lt;void&gt;
+Promise&lt;boolean&gt;
+
+`true` if stop manually
 

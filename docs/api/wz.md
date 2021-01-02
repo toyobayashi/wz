@@ -54,6 +54,8 @@ MapleStory WZ reader.
 |  Function | Description |
 |  --- | --- |
 |  [init()](./wz.init.md) |  |
+|  [walkDirectory(dir, callback)](./wz.walkdirectory.md) |  |
+|  [walkPropertyContainer(container, callback)](./wz.walkpropertycontainer.md) |  |
 |  [walkWzFileAsync(filepath, mapleVersion, callback)](./wz.walkwzfileasync.md) |  |
 
 ## Interfaces

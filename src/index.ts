@@ -38,5 +38,5 @@ export { WzImage } from './WzImage'
 export { WzDirectory } from './WzDirectory'
 export { IWzParseResult, WzFile } from './WzFile'
 
-export { walkWzFileAsync } from './walk'
+export { walkWzFileAsync, walkDirectory, walkPropertyContainer } from './walk'
 export { init } from './init'
