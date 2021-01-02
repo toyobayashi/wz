@@ -18,5 +18,6 @@ export declare class ErrorLogger
 |  [clearErrors()](./wz.errorlogger.clearerrors.md) | <code>static</code> |  |
 |  [errorsPresent()](./wz.errorlogger.errorspresent.md) | <code>static</code> |  |
 |  [log(level, message)](./wz.errorlogger.log.md) | <code>static</code> |  |
+|  [numberOfErrorsPresent()](./wz.errorlogger.numberoferrorspresent.md) | <code>static</code> |  |
 |  [saveToFile(file)](./wz.errorlogger.savetofile.md) | <code>static</code> |  |
 
