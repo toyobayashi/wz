@@ -46,7 +46,7 @@ export class WzMutableKey {
     aes.setAutoPadding(true)
 
     // const ms = newKeys.slice(startIndex, newKeys.length - startIndex)
-    const ms = newKeys.subarray(startIndex, newKeys.length - startIndex)
+    const ms = newKeys.subarray(startIndex, newKeys.length)
 
     for (let i = startIndex; i < size; i += 16) {
       if (i === 0) {
@@ -55,12 +55,12 @@ export class WzMutableKey {
           block[j] = this._iv[j % 4]
         }
         const buf = aes.update(block)
-        ms.set(buf, i)
+        ms.set(buf, i - startIndex)
         // buf.copy(ms, i, 0)
       } else {
         // const buf = aes.update(newKeys.slice(i - 16, i))
         const buf = aes.update(newKeys.subarray(i - 16, i))
-        ms.set(buf, i)
+        ms.set(buf, i - startIndex)
         // buf.copy(ms, i, 0)
       }
     }
