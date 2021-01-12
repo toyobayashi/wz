@@ -1,5 +1,5 @@
 import { tryGetRequireFunction } from '@tybys/native-require'
-import { mod } from './wz'
+import { aesEnc } from './wz'
 
 const _require = tryGetRequireFunction()
 
@@ -67,7 +67,7 @@ export const crypto: typeof import('crypto') = (function () {
       createCipheriv (_a: 'aes-256-ecb', key: Uint8Array, _iv: null) {
         return {
           update (content: Uint8Array): Uint8Array {
-            return mod.aesEnc(content, key)
+            return aesEnc(content, key)
           },
           setAutoPadding () {}
         }

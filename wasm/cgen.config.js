@@ -24,14 +24,14 @@ module.exports = defineFunctionConfig(function (_options, { isDebug }) {
         name: 'wz',
         type: 'exe',
         sources: [
-          './src/**/*.cpp',
-          './src/**/*.c'
+          './src/main.cpp',
+          './src/aes/aes.c'
         ],
         defines: [
           'AES256=1',
           'ECB=1'
         ],
-        wrapScript: '',
+        wrapScript: './export.js',
         compileOptions: [
           ...commonFlags
         ],
