@@ -11,12 +11,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - uses: mymindstorm/setup-emsdk@v7
-    - name: Build WASM
-      run: |
-        echo $EMSDK
-        emcc -v
-        chmod +x ./build.sh
-        ./build.sh Release
     # Setup .npmrc file to publish to npm
     - uses: actions/setup-node@v2
       with:
@@ -26,6 +20,12 @@ jobs:
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
     - run: npm install
+    - name: Build WASM
+      run: |
+        echo $EMSDK
+        emcc -v
+        chmod +x ./build.sh
+        ./build.sh Release
     - run: npm run build
     - name: Publish NPM
       if: ${{ startsWith(github.event.ref, 'refs/tags') }}
