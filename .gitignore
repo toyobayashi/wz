@@ -9,3 +9,5 @@ package-lock.json
 /test/**/*.mp3
 /Sound
 /src/util/wz.js
+/wasm/.cgenbuild
+/wasm/CMakeLists.txt

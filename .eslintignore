@@ -5,3 +5,4 @@ node_modules
 /test
 /wasm
 /examples
+/src/util/wz.js

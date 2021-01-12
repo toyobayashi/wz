@@ -8,7 +8,6 @@ import { ErrorLevel, ErrorLogger } from '../util/ErrorLogger'
 import { NotImplementedError } from '../util/NotImplementedError'
 import { _Buffer, zlib } from '../util/node'
 import { Canvas } from '../util/Canvas'
-import { init } from '../util/wz'
 
 /**
  * @public
@@ -486,7 +485,8 @@ function inflate (data: Uint8Array, len: number): Promise<Uint8Array> {
 }
 
 async function inflateWasm (data: Uint8Array, len: number): Promise<Uint8Array> {
-  const mod = await init()
+  const wzWasm = await import('../util/wz')
+  const mod = await wzWasm.default()
   const buf = mod.inflate(data, len)
   return buf
 }

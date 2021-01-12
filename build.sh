@@ -10,12 +10,13 @@ shift
 done
 
 cd ./wasm
-cmakeoutdir="./cmake_build"
+cmakeoutdir="./.cgenbuild"
 mkdir -p $cmakeoutdir
-cd $cmakeoutdir
-cmake -DCMAKE_TOOLCHAIN_FILE="$EMSDK/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake" -DCMAKE_BUILD_TYPE="$type" -G "Unix Makefiles" ..
-cmake --build .
-cd ..
+# cd $cmakeoutdir
+# cmake -DCMAKE_TOOLCHAIN_FILE="$EMSDK/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake" -DCMAKE_BUILD_TYPE="$type" -G "Unix Makefiles" ..
+# cmake --build .
+# cd ..
+if [ "$type" == "Debug" ]; then npx cgen rebuild -e --debug; else npx cgen rebuild -e; fi
 
 exename="wz"
 

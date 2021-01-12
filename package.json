@@ -1,6 +1,6 @@
 {
   "name": "@tybys/wz",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "MapleStory wz reader.",
   "typings": "./lib/cjs-modern/index.d.ts",
   "module": "./lib/esm-modern/index.js",
@@ -37,6 +37,7 @@
     "access": "public"
   },
   "devDependencies": {
+    "@tybys/cgen": "^0.3.2",
     "@tybys/tsgo": "^0.8.0",
     "@types/crypto-js": "^4.0.1",
     "@types/node": "^12.12.36",

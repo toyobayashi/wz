@@ -1,11 +1,10 @@
-import { init as initWasm } from './util/wz'
-
 /**
  * @public
  */
 export async function init (): Promise<void> {
   if (typeof window !== 'undefined') {
-    await initWasm()
+    const wzWasm = await import('./util/wz')
+    await wzWasm.default()
   } else {
     await Promise.resolve()
   }

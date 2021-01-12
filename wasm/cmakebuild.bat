@@ -16,13 +16,18 @@ if "%mode%" == "" set mode=Release
 
 echo %mode%
 
-set cmakeoutdir=cmake_build
+set cmakeoutdir=.cgenbuild
 
 if not exist %cmakeoutdir% mkdir %cmakeoutdir%
-cd %cmakeoutdir%
-cmake -DCMAKE_TOOLCHAIN_FILE=%EMSDK%\upstream\emscripten\cmake\Modules\Platform\Emscripten.cmake -DCMAKE_BUILD_TYPE=%mode% -G "MinGW Makefiles" -DCMAKE_MAKE_PROGRAM=make ..
-cmake --build .
-cd ..
+if "%mode%" == "Debug" (
+  call npx.cmd cgen rebuild -e --debug
+) else (
+  call npx.cmd cgen rebuild -e
+)
+@REM cd %cmakeoutdir%
+@REM cmake -DCMAKE_TOOLCHAIN_FILE=%EMSDK%\upstream\emscripten\cmake\Modules\Platform\Emscripten.cmake -DCMAKE_BUILD_TYPE=%mode% -G "MinGW Makefiles" -DCMAKE_MAKE_PROGRAM=make ..
+@REM cmake --build .
+@REM cd ..
 
 set exename=wz
 
