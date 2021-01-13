@@ -2,27 +2,20 @@
   "env": {
     "includePath": [
       "${default}",
-      "C:\\Projects\\emsdk\\upstream\\emscripten\\system\\include",
-      "E:\\GitHub\\emsdk\\upstream\\emscripten\\system\\include",
-      "${workspaceFolder}/wasm/deps/zlib"
+      "${env:EMSDK}/upstream/emscripten/system/include",
+      "${workspaceFolder}/wasm/deps/zlib",
+      "${workspaceFolder}/wasm/deps/openssl/include"
     ],
-    "clPath": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.24.28314\\bin\\Hostx64\\x64\\cl.exe",
-    "gccPath": "/usr/bin/gcc",
-    "clangPath": "/usr/bin/clang",
     "defines": []
   },
   "configurations": [
     {
       "name": "Win32",
       "defines": [
-        "UNICODE",
-        "_UNICODE",
-        "_CRT_SECURE_NO_WARNINGS",
         "${defines}"
       ],
-      "compilerPath": "${clPath}",
-      "windowsSdkVersion": "10.0.18362.0",
-      "intelliSenseMode": "msvc-x64",
+      "compilerPath": "${env:EMSDK}/upstream/emscripten/emcc.bat",
+      "intelliSenseMode": "clang-x64",
       "cStandard": "c11",
       "cppStandard": "c++11",
       "includePath": [
@@ -34,10 +27,10 @@
       "defines": [
         "${defines}"
       ],
-      "compilerPath": "${gccPath}",
+      "compilerPath": "${env:EMSDK}/upstream/emscripten/emcc",
       "cStandard": "c11",
-      "cppStandard": "c++17",
-      "intelliSenseMode": "gcc-x64",
+      "cppStandard": "c++11",
+      "intelliSenseMode": "clang-x64",
       "browse": {
         "path": [
           "${workspaceFolder}"
@@ -61,9 +54,9 @@
         "/System/Library/Frameworks",
         "/Library/Frameworks"
       ],
-      "compilerPath": "${clangPath}",
+      "compilerPath": "${env:EMSDK}/upstream/emscripten/emcc",
       "cStandard": "c11",
-      "cppStandard": "c++17",
+      "cppStandard": "c++11",
       "intelliSenseMode": "${default}"
     }
   ],

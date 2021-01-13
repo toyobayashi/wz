@@ -4,10 +4,10 @@
 #include <stdexcept>
 #include <vector>
 #include "zlib.h"
-#include "aes/aes.hpp"
+#include "openssl/aes.h"
 
-#include "emscripten/bind.h"
-#include "emscripten/val.h"
+#include <emscripten/bind.h>
+#include <emscripten/val.h>
 
 int inf(unsigned char *source, size_t srclen, unsigned char *dest, size_t destlen) {
   z_stream infstream;
@@ -87,29 +87,20 @@ std::vector<uint8_t> enc(const std::vector<uint8_t>& data,
       padding = 16 - padding;
       encryptLength = dataLength + padding;
       dataBuf = new uint8_t[encryptLength];
-      for (size_t i = 0; i < dataLength; i++) {
-          dataBuf[i] = strBuf[i];
-      }
-      for (size_t i = 0; i < padding; i++) {
-          dataBuf[i + dataLength] = (uint8_t) padding;
-      }
+      memcpy(dataBuf, strBuf, dataLength);
+      memset(dataBuf + dataLength, padding, padding);
   } else {
       encryptLength = dataLength;
       dataBuf = new uint8_t[dataLength];
-      for (size_t i = 0; i < dataLength; i++) {
-          dataBuf[i] = strBuf[i];
-      }
+      memcpy(dataBuf, strBuf, dataLength);
   }
 
-  struct AES_ctx ctx;
-  // AES_init_ctx_iv(&ctx, key.data(), iv.data());
-  AES_init_ctx(&ctx, key.data());
-  AES_ECB_encrypt(&ctx, dataBuf);
+  AES_KEY k;
+  AES_set_encrypt_key(key.data(), 256, &k);
 
   std::vector<uint8_t> out(encryptLength);
-  for (size_t i = 0; i < encryptLength; i++) {
-    out[i] = dataBuf[i];
-  }
+
+  AES_ecb_encrypt(dataBuf, out.data(), &k, AES_ENCRYPT);
 
   delete[] dataBuf;
   dataBuf = nullptr;

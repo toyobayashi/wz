@@ -24,8 +24,7 @@ module.exports = defineFunctionConfig(function (_options, { isDebug }) {
         name: 'wz',
         type: 'exe',
         sources: [
-          './src/main.cpp',
-          './src/aes/aes.c'
+          './src/main.cpp'
         ],
         defines: [
           'AES256=1',
@@ -39,10 +38,13 @@ module.exports = defineFunctionConfig(function (_options, { isDebug }) {
           ...commonFlags
         ],
         includePaths: [
-          './deps/zlib'
+          './deps/zlib',
+          './deps/openssl/include'
         ],
         libs: [
-          "zlibstatic"
+          'zlibstatic',
+          './deps/openssl/lib/libcrypto.a',
+          './deps/openssl/lib/libssl.a',
         ]
       }
     ]
