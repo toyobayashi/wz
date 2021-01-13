@@ -37,7 +37,7 @@
     "access": "public"
   },
   "devDependencies": {
-    "@tybys/cgen": "^0.3.3",
+    "@tybys/cgen": "^0.3.4",
     "@tybys/tsgo": "^0.8.0",
     "@types/crypto-js": "^4.0.1",
     "@types/node": "^12.12.36",
