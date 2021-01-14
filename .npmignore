@@ -21,3 +21,4 @@ tsgo.config*
 /build.bat
 /build.sh
 /Sound
+/emsdk-cache
