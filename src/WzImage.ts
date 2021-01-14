@@ -107,7 +107,7 @@ export class WzImage extends WzObject implements IPropertyContainer {
 
   public getFromPath (path: string): WzImageProperty | null {
     if (!this.parsed) throw new Error('Image has not been parsed yet')
-    const segments = path.split('/')
+    const segments = path.split(/[\\/]/)
     if (segments[0] === '..') return null
     let ret: WzImageProperty | null = null
     for (let x = 0; x < segments.length; x++) {

@@ -49,7 +49,7 @@ export class WzUOLProperty extends WzExtended {
 
   public get linkValue (): WzObject | null {
     if (this.linkVal == null) {
-      const paths = this.val.split('/')
+      const paths = this.val.split(/[\\/]/)
       this.linkVal = this.parent as WzObject
       // @ts-expect-error
       // eslint-disable-next-line @typescript-eslint/no-unused-vars

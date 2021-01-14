@@ -26,6 +26,8 @@ export const path: typeof import('path') = (function () {
     return _require!('path')
   } catch (_) {
     return {
+      // eslint-disable-next-line @typescript-eslint/prefer-includes
+      sep: typeof navigator !== 'undefined' ? ((navigator.appVersion.indexOf('Win') !== -1) ? '\\' : '/') : '/',
       dirname () { throwError() },
       join () { throwError() }
     }

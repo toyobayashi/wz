@@ -3,6 +3,7 @@ import { IDisposable } from './util/IDisposable'
 import { NotImplementedError } from './util/NotImplementedError'
 import { WzFile } from './WzFile'
 import { WzObjectType } from './WzObjectType'
+import { path } from './util/node'
 
 /**
  * @public
@@ -59,7 +60,7 @@ export abstract class WzObject implements IDisposable {
     let currObj: WzObject = this
     while (currObj.parent != null) {
       currObj = currObj.parent
-      result = currObj.name + '\\' + result
+      result = currObj.name + path.sep + result
     }
     return result
   }

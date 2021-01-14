@@ -77,9 +77,9 @@ export class WzSubProperty extends WzExtended implements IPropertyContainer {
   }
 
   public getFromPath (path: string): WzImageProperty | null {
-    const segments = path.split('/')
+    const segments = path.split(/[\\/]/)
     if (segments[0] === '..') {
-      return (this.parent as WzImageProperty).at(path.substring(this.name.indexOf('/') + 1))
+      return (this.parent as WzImageProperty).at(segments.slice(1).join('/'))
     }
     let ret: WzImageProperty = this
     for (let x = 0; x < segments.length; x++) {

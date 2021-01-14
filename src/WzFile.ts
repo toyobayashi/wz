@@ -221,7 +221,7 @@ export class WzFile extends WzObject {
 
   public getObjectFromPath (path: string, checkFirstDirectoryName: boolean = true): WzObject | null {
     if (this._wzDir == null) return null
-    const seperatedPath = path.split('/')
+    const seperatedPath = path.split(/[\\/]/)
 
     if (checkFirstDirectoryName) {
       if (seperatedPath[0].toLowerCase() !== this._wzDir.name.toLowerCase() && seperatedPath[0].toLowerCase() !== this._wzDir.name.substring(0, this._wzDir.name.length - 3).toLowerCase()) return null
