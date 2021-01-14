@@ -10,6 +10,7 @@ module.exports = defineFunctionConfig(function (_options, { isDebug }) {
   const commonFlags = [
     '--bind',
     '-sALLOW_MEMORY_GROWTH=1',
+    // '-sWASM=0',
     // '-sDISABLE_EXCEPTION_CATCHING=0',
     ...(isDebug ? debugFlags : [])
   ]

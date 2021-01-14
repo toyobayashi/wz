@@ -10,7 +10,11 @@ export class MapleCryptoConstants {
     0x52, 0x00, 0x00, 0x00, 0xDE, 0x00, 0x00, 0x00, 0xC7, 0x00, 0x00, 0x00, 0x1E, 0x00, 0x00, 0x00
   ])
 
-  public static readonly userKeyWzLib: Uint8Array = MapleCryptoConstants.MAPLESTORY_USERKEY_DEFAULT.slice()
+  public static readonly userKeyWzLib: Uint8Array = (function () {
+    const buf = new Uint8Array(16 * 8)
+    buf.set(MapleCryptoConstants.MAPLESTORY_USERKEY_DEFAULT)
+    return buf
+  })()
 
   public static isDefaultMapleStoryUserKey (): boolean {
     if (!(MapleCryptoConstants.userKeyWzLib instanceof Uint8Array)) return false
