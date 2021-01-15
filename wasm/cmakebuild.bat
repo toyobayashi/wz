@@ -37,10 +37,12 @@ mkdir ..\lib\cjs-modern\util
 mkdir ..\lib\esm\util
 mkdir ..\lib\esm-modern\util
 copy /Y %cmakeoutdir%\%exename%.js ..\lib\cjs-modern\util\%exename%.js
-copy /Y %cmakeoutdir%\%exename%.js ..\lib\esm\util\%exename%.js
+node -e "require('fs').writeFileSync('./.cgenbuild/%exename%asm.js', require('fs').readFileSync('./.cgenbuild/%exename%asm.js', 'utf8').replace('%exename%asm.js.mem', '%exename%.js.mem').replace('%exename%asm.wasm', '%exename%.wasm'), 'utf8')"
+copy /Y %cmakeoutdir%\%exename%asm.js ..\lib\esm\util\%exename%.js
 copy /Y %cmakeoutdir%\%exename%.js ..\lib\esm-modern\util\%exename%.js
 copy /Y %cmakeoutdir%\%exename%.wasm .\dist\%exename%.wasm
 copy /Y %cmakeoutdir%\%exename%.wasm ..\lib\cjs-modern\util\%exename%.wasm
-copy /Y %cmakeoutdir%\%exename%.wasm ..\lib\esm\util\%exename%.wasm
+copy /Y %cmakeoutdir%\%exename%asm.js.mem ..\lib\esm\util\%exename%.js.mem
+copy /Y %cmakeoutdir%\%exename%asm.wasm ..\lib\esm\util\%exename%.wasm
 copy /Y %cmakeoutdir%\%exename%.wasm ..\lib\esm-modern\util\%exename%.wasm
 copy /Y %cmakeoutdir%\%exename%.wasm.map .\%exename%.wasm.map
