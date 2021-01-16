@@ -22,12 +22,12 @@ jobs:
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
     - run: npm install
-    - name: Build WASM
-      run: |
-        echo $EMSDK
-        emcc -v
-        chmod +x ./build.sh
-        ./build.sh Release
+    # - name: Build WASM
+    #   run: |
+    #     echo $EMSDK
+    #     emcc -v
+    #     chmod +x ./build.sh
+    #     ./build.sh Release
     - run: npm run build
     - name: Publish NPM
       if: ${{ startsWith(github.event.ref, 'refs/tags') }}

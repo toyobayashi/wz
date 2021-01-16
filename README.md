@@ -28,8 +28,6 @@ cd wz
 ```
 
 ``` bash
-chmod +x ./build.sh
-./build.sh
 npm install
 npm run build
 ```
@@ -37,7 +35,6 @@ npm run build
 Windows
 
 ``` bat
-.\build.bat
 npm install
 npm run build
 ```
@@ -139,7 +136,7 @@ Browser environment should be with ES2018+ and WebAssembly support.
 })()
 ```
 
-### Webpack
+#### Webpack
 
 Add `CopyWebpackPlugin` to copy `wz.wasm` file
 
@@ -148,7 +145,6 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = {
   plugins: [
-    // ...
     new CopyWebpackPlugin({
       patterns: [
         { from: 'node_modules/@tybys/wz/dist/wz.wasm', to: '${the same place with output bundle}/wz.wasm' }
@@ -157,7 +153,7 @@ module.exports = {
   ],
   /* resolve: {
     alias: {
-      '@tybys/wz': '@tybys/wz/lib/esm/index.js' // this is es5 output
+      '@tybys/binreader': '@tybys/binreader/lib/esm-modern/index.js'
     }
   } */
 }
@@ -165,6 +161,56 @@ module.exports = {
 
 ``` js
 import { walkWzFileAsync, /* ... */ } from '@tybys/wz'
+```
+
+### Old browser
+
+For example IE11:
+
+``` html
+<!-- BigInt -->
+<script>
+if (typeof BigInt === 'undefined') {
+  window.BigInt = function BigInt (n) {
+    return n;
+  };
+}
+</script>
+
+<!-- document.currentScript -->
+<script>
+// https://github.com/amiller-gh/currentScript-polyfill/blob/master/currentScript.js
+</script>
+
+<!-- TextDecoder -->
+<script src="https://cdn.jsdelivr.net/npm/text-encoding/lib/encoding-indexes.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/text-encoding/lib/encoding.js"></script>
+
+<!-- ES6 globals -->
+<script src="https://cdn.jsdelivr.net/npm/@babel/polyfill/dist/polyfill.min.js"></script>
+
+<script src="node_modules/@tybys/wz/dist/wz.es5.min.js"></script>
+```
+
+#### Webpack
+
+``` js
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+
+module.exports = {
+  plugins: [
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: 'node_modules/@tybys/wz/dist/wz.js.mem', to: '${the same place with output bundle}/wz.js.mem' }
+      ]
+    })
+  ],
+  resolve: {
+    alias: {
+      '@tybys/wz': '@tybys/wz/lib/esm/index.js' // es5 output
+    }
+  }
+}
 ```
 
 ### Advanced
