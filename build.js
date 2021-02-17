@@ -7,8 +7,6 @@ const ts = require('@tybys/tsgo/lib/ts.js')
 const { bundler } = require('@tybys/tsgo/lib/util.js')
 const { readConfigNoCache } = require('@tybys/tsgo/lib/config.js')
 
-const wasmoutdir = p('./wasm/.cgenbuild')
-
 function p (...args) {
   if (!args.length) return __dirname
   return path.isAbsolute(args[0]) ? path.join(...args) : path.join(__dirname, ...args)
@@ -39,6 +37,7 @@ async function main () {
   await invokeTSGO('lint', tsgoConfig)
 
   await spawn(e('npx'), ['cgen', 'rebuild', '-e'], path.join(__dirname, 'wasm'))
+  const wasmoutdir = p('./wasm/.cgenbuild/Release')
   fs.copyFileSync(p(wasmoutdir, 'wz.js'), p('./src/util/wz.js'))
   mkdir(p('./lib/cjs-modern/util'))
   mkdir(p('./lib/esm-modern/util'))
