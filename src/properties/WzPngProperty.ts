@@ -103,13 +103,7 @@ export class WzPngProperty extends WzExtended {
 
   public async getImage (saveInMemory: boolean = false): Promise<Canvas | null> {
     if (this.png == null) {
-      const compressedImageBytes = await this.getCompressedBytes(saveInMemory)
-      this.png = await this.parsePng(compressedImageBytes)
-    }
-    if (!saveInMemory) {
-      const png = this.png
-      this.png = null
-      return png
+      await this.parsePng(saveInMemory)
     }
     return this.png
   }
@@ -139,20 +133,101 @@ export class WzPngProperty extends WzExtended {
     return this.compressedImageBytes
   }
 
-  private async parsePng (compressedImageBytes: Uint8Array): Promise<Canvas | null> {
-    const reader = new BinaryReader(compressedImageBytes)
+  private async parsePng (saveInMemory: boolean = false): Promise<void> {
+    const rawBytes = await this._getRawImage(saveInMemory)
+    if (rawBytes === null) {
+      this.png = null
+      return
+    }
+
+    const format = this.format1 + this.format2
+    let bmp: Canvas | null = null
+    switch (format) {
+      case 1: {
+        const decoded = WzPngProperty.getPixelDataBgra4444(rawBytes, this.width, this.height)
+        const img = new Canvas(this.width, this.height)
+        // img.colorType(6)
+        bgra8888(img, decoded, decoded.length)
+        bmp = img
+        break
+      }
+      case 2: {
+        const img = new Canvas(this.width, this.height)
+        bgra8888(img, rawBytes, rawBytes.length)
+        bmp = img
+        break
+      }
+      case 3: {
+        const decoded = WzPngProperty.getPixelDataDXT3(rawBytes, this.width, this.height)
+        const img = new Canvas(this.width, this.height)
+        bgra8888(img, decoded, this.width * this.height)
+        bmp = img
+        break
+      }
+      case 257: { // http://forum.ragezone.com/f702/wz-png-format-decode-code-1114978/index2.html#post9053713
+        // "Npc.wz\\2570101.img\\info\\illustration2\\face\\0"
+        const img = new Canvas(this.width, this.height)
+        argb1555(img, rawBytes, rawBytes.length)
+        bmp = img
+        break
+      }
+      case 513: {
+        const img = new Canvas(this.width, this.height)
+        rgb565(img, rawBytes, rawBytes.length)
+        bmp = img
+        break
+      }
+      case 517: {
+        const decoded = WzPngProperty.getPixelDataForm517(rawBytes, this.width, this.height)
+        const img = new Canvas(this.width, this.height)
+        rgb565(img, decoded, decoded.length)
+        bmp = img
+        break
+      }
+      case 1026: {
+        const decoded = WzPngProperty.getPixelDataDXT3(rawBytes, this.width, this.height)
+        const img = new Canvas(this.width, this.height)
+        bgra8888(img, decoded, decoded.length)
+        bmp = img
+        break
+      }
+      case 2050: {
+        const decoded = WzPngProperty.getPixelDataDXT5(rawBytes, this.width, this.height)
+        const img = new Canvas(this.width, this.height)
+        bgra8888(img, decoded, decoded.length)
+        bmp = img
+        break
+      }
+      default: {
+        ErrorLogger.log(ErrorLevel.MissingFeature, `Unknown PNG format ${this.format1} ${this.format2}`)
+        break
+      }
+    }
+
+    this.png = bmp
+  }
+
+  private async _getRawImage (saveInMemory: boolean = false): Promise<Uint8Array | null> {
+    let rawImageBytes: Uint8Array
+    if (this.compressedImageBytes != null) {
+      rawImageBytes = this.compressedImageBytes
+    } else {
+      rawImageBytes = await this.getCompressedBytes(saveInMemory)
+    }
+
+    const reader = new BinaryReader(rawImageBytes)
 
     const header = reader.readUInt16LE()
     this.listWzUsed = header !== 0x9C78 && header !== 0xDA78 && header !== 0x0178 && header !== 0x5E78
 
     let data: Uint8Array
     if (!this.listWzUsed) {
-      data = compressedImageBytes
+      data = rawImageBytes
     } else {
       reader.pos -= 2
       const dataStream: number[] = []
       let blocksize = 0
-      const endOfPng = compressedImageBytes.length
+      const endOfPng = rawImageBytes.length
 
       while (reader.pos < endOfPng) {
         blocksize = reader.readInt32LE()
@@ -169,72 +244,43 @@ export class WzPngProperty extends WzExtended {
       case 1: {
         const uncompressedSize = this.width * this.height * 2
         const decBuf = await inflate(data, uncompressedSize)
-
-        const decoded = WzPngProperty.getPixelDataBgra4444(decBuf, this.width, this.height)
-        const img = new Canvas(this.width, this.height)
-        // img.colorType(6)
-        bgra8888(img, decoded, decoded.length)
-        return img
+        return decBuf
       }
       case 2: {
         const uncompressedSize = this.width * this.height * 4
         const decBuf = await inflate(data, uncompressedSize)
-
-        const img = new Canvas(this.width, this.height)
-        bgra8888(img, decBuf, decBuf.length)
-        return img
+        return decBuf
       }
       case 3: {
         const uncompressedSize = this.width * this.height * 4
         const decBuf = await inflate(data, uncompressedSize)
-
-        const decoded = WzPngProperty.getPixelDataDXT3(decBuf, this.width, this.height)
-        const img = new Canvas(this.width, this.height)
-        bgra8888(img, decoded, this.width * this.height)
-        return img
+        return decBuf
       }
       case 257: { // http://forum.ragezone.com/f702/wz-png-format-decode-code-1114978/index2.html#post9053713
         // "Npc.wz\\2570101.img\\info\\illustration2\\face\\0"
         const uncompressedSize = this.width * this.height * 2
         const decBuf = await inflate(data, uncompressedSize)
-        const img = new Canvas(this.width, this.height)
-        argb1555(img, decBuf, decBuf.length)
-        return img
+        return decBuf
       }
       case 513: {
         const uncompressedSize = this.width * this.height * 2
         const decBuf = await inflate(data, uncompressedSize)
-
-        const img = new Canvas(this.width, this.height)
-        rgb565(img, decBuf, decBuf.length)
-        return img
+        return decBuf
       }
       case 517: {
         const uncompressedSize: number = (parseInt as any)(this.width * this.height / 128)
         const decBuf = await inflate(data, uncompressedSize)
-
-        const decoded = WzPngProperty.getPixelDataForm517(decBuf, this.width, this.height)
-        const img = new Canvas(this.width, this.height)
-        rgb565(img, decoded, decoded.length)
-        return img
+        return decBuf
       }
       case 1026: {
         const uncompressedSize = this.width * this.height * 4
         const decBuf = await inflate(data, uncompressedSize)
-
-        const decoded = WzPngProperty.getPixelDataDXT3(decBuf, this.width, this.height)
-        const img = new Canvas(this.width, this.height)
-        bgra8888(img, decoded, decoded.length)
-        return img
+        return decBuf
       }
       case 2050: {
         const uncompressedSize = this.width * this.height
         const decBuf = await inflate(data, uncompressedSize)
-
-        const decoded = WzPngProperty.getPixelDataDXT5(decBuf, this.width, this.height)
-        const img = new Canvas(this.width, this.height)
-        bgra8888(img, decoded, decoded.length)
-        return img
+        return decBuf
       }
       default: {
         ErrorLogger.log(ErrorLevel.MissingFeature, `Unknown PNG format ${this.format1} ${this.format2}`)

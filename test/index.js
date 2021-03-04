@@ -174,14 +174,16 @@ async function test () {
       }
 
       console.log(n, fullPath, relativePath)
-      if (fullPath === 'canvas') {
-        throw new Error('1')
+
+      try {
+        // await obj.pngProperty.saveToFile(path.join(/* __dirname,  */'Sound', `${relativePath}.png`))
+        const png = await obj.getLinkedWzCanvasBitmap()
+        if (png) {
+          png.writeAsync(path.join(/* __dirname,  */'Sound', `${relativePath}.png`))
+        }
+      } catch (err) {
+        console.error(err)
       }
-      // try {
-      //   await obj.pngProperty.saveToFile(path.join(/* __dirname,  */'Sound', `${relativePath}.png`))
-      // } catch (err) {
-      //   console.error(err)
-      // }
       n++
     }
     return false

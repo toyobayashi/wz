@@ -73,6 +73,8 @@ export async function walkPropertyContainer (container: WzImageProperty | WzImag
       if (stop) break
     }
   }
-  container.dispose()
+  if (container instanceof WzImage) {
+    container.dispose()
+  }
   return stop
 }
