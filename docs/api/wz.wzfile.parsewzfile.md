@@ -7,18 +7,17 @@
 <b>Signature:</b>
 
 ```typescript
-parseWzFile(out: IWzParseResult, lazyParse?: boolean, wzIv?: Uint8Array | null): Promise<boolean>;
+parseWzFile(lazyParse?: boolean, wzIv?: Uint8Array | null): Promise<WzFileParseStatus>;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  out | [IWzParseResult](./wz.iwzparseresult.md) |  |
 |  lazyParse | boolean |  |
 |  wzIv | Uint8Array \| null |  |
 
 <b>Returns:</b>
 
-Promise&lt;boolean&gt;
+Promise&lt;[WzFileParseStatus](./wz.wzfileparsestatus.md)<!-- -->&gt;
 

@@ -38,8 +38,7 @@ export declare class WzFile extends WzObject
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
 |  [at(name)](./wz.wzfile.at.md) |  |  |
-|  [createParseResult()](./wz.wzfile.createparseresult.md) | <code>static</code> |  |
 |  [dispose()](./wz.wzfile.dispose.md) |  |  |
 |  [getObjectFromPath(path, checkFirstDirectoryName)](./wz.wzfile.getobjectfrompath.md) |  |  |
-|  [parseWzFile(out, lazyParse, wzIv)](./wz.wzfile.parsewzfile.md) |  |  |
+|  [parseWzFile(lazyParse, wzIv)](./wz.wzfile.parsewzfile.md) |  |  |
 

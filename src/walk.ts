@@ -8,6 +8,7 @@ import { WzImageProperty } from './WzImageProperty'
 import { WzMapleVersion } from './WzMapleVersion'
 import { WzObject } from './WzObject'
 import { init } from './init'
+import { WzFileParseStatus, getErrorDescription } from './WzFileParseStatus'
 
 /**
  * @public
@@ -16,11 +17,10 @@ import { init } from './init'
 export async function walkWzFileAsync (filepath: string | File, mapleVersion: WzMapleVersion, callback: <T extends WzObject>(obj: T) => boolean | undefined | Promise<boolean | undefined>): Promise<boolean> {
   await init()
   const wz = new WzFile(filepath, mapleVersion)
-  const result = WzFile.createParseResult()
-  const r = await wz.parseWzFile(result, true)
-  if (!r) {
+  const r = await wz.parseWzFile(true)
+  if (r !== WzFileParseStatus.SUCCESS) {
     wz.dispose()
-    throw new Error(result.message)
+    throw new Error(getErrorDescription(r))
   }
 
   const stop = await walkDirectory(wz.wzDirectory as WzDirectory, callback)

@@ -45,6 +45,7 @@ MapleStory WZ reader.
 |  --- | --- |
 |  [ErrorLevel](./wz.errorlevel.md) |  |
 |  [WzBinaryPropertyType](./wz.wzbinarypropertytype.md) |  |
+|  [WzFileParseStatus](./wz.wzfileparsestatus.md) |  |
 |  [WzMapleVersion](./wz.wzmapleversion.md) |  |
 |  [WzObjectType](./wz.wzobjecttype.md) |  |
 |  [WzPropertyType](./wz.wzpropertytype.md) |  |
@@ -53,6 +54,7 @@ MapleStory WZ reader.
 
 |  Function | Description |
 |  --- | --- |
+|  [getErrorDescription(status)](./wz.geterrordescription.md) |  |
 |  [init()](./wz.init.md) |  |
 |  [walkDirectory(dir, callback)](./wz.walkdirectory.md) |  |
 |  [walkPropertyContainer(container, callback)](./wz.walkpropertycontainer.md) |  |

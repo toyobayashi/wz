@@ -16,6 +16,7 @@ import { WzMapleVersion } from './WzMapleVersion'
 import { WzObject } from './WzObject'
 import { WzObjectType } from './WzObjectType'
 import { WzPropertyType } from './WzPropertyType'
+import { WzFileParseStatus } from './WzFileParseStatus'
 
 /**
  * @public
@@ -28,10 +29,6 @@ export interface IWzParseResult {
  * @public
  */
 export class WzFile extends WzObject {
-  public static createParseResult (): IWzParseResult {
-    return { message: '' }
-  }
-
   public name: string = ''
   public parent: WzObject | null = null
   public filepath: string | File
@@ -68,6 +65,7 @@ export class WzFile extends WzObject {
     if (this._disposed) return
     if (this._wzDir != null) {
       this._wzDir.reader.dispose()
+      this._wzDir.reader = null!
       this._wzDir.dispose()
       this._wzDir = null
     }
@@ -91,27 +89,24 @@ export class WzFile extends WzObject {
     return this.wzDirectory != null ? this.wzDirectory.name : ''
   }
 
-  public async parseWzFile (out: IWzParseResult, lazyParse: boolean = false, wzIv: Uint8Array | null = null): Promise<boolean> {
+  public async parseWzFile (lazyParse: boolean = false, wzIv: Uint8Array | null = null): Promise<WzFileParseStatus> {
     if (this._wzDir != null) {
-      if (out != null) out.message = 'Already parsed wz file'
-      return true
+      return WzFileParseStatus.SUCCESS
     }
     if (wzIv != null) {
       this._wzIv = wzIv
     }
-    return await this._parseMainWzDirectory(out, lazyParse)
+    return await this._parseMainWzDirectory(lazyParse)
   }
 
   /* public lazyParseWzFile (out: IWzParseResult): boolean {
     return this.parseMainWzDirectory(out, true)
   } */
 
-  private async _parseMainWzDirectory (out: IWzParseResult, lazyParse: boolean = false): Promise<boolean> {
+  private async _parseMainWzDirectory (lazyParse: boolean = false): Promise<WzFileParseStatus> {
     if (this.filepath === '') {
-      const msg = 'Invalid path: ""'
-      ErrorLogger.log(ErrorLevel.Critical, msg)
-      if (out != null) out.message = msg
-      return false
+      ErrorLogger.log(ErrorLevel.Critical, '[Error] Path is null')
+      return WzFileParseStatus.PATH_IS_NULL
     }
 
     const reader = new WzBinaryReader(this.filepath, this._wzIv)
@@ -165,8 +160,7 @@ export class WzFile extends WzObject {
                 await directory.parseDirectory(lazyParse)
                 this._wzDir = directory
 
-                if (out != null) out.message = 'Success'
-                return true
+                return WzFileParseStatus.SUCCESS
               }
               case 0x30:
               case 0x6C: // idk
@@ -185,6 +179,7 @@ export class WzFile extends WzObject {
         }
         testDirectory.dispose()
       }
+      return WzFileParseStatus.ERROR_GAME_VER_HASH
     } else {
       this._versionHash = this._checkAndGetVersionHash(this._version, this.mapleStoryPatchVersion)
       reader.hash = this._versionHash
@@ -194,8 +189,7 @@ export class WzFile extends WzObject {
       this._wzDir = directory
     }
 
-    if (out != null) out.message = 'Success'
-    return true
+    return WzFileParseStatus.SUCCESS
   }
 
   private _checkAndGetVersionHash (wzVersionHeader: number, maplestoryPatchVersion: number): number {

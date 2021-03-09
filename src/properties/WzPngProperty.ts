@@ -26,6 +26,7 @@ export class WzPngProperty extends WzExtended {
       this.png.dispose()
       this.png = null
     }
+    this.wzReader = null!
     this._disposed = true
   }
 
@@ -44,7 +45,7 @@ export class WzPngProperty extends WzExtended {
   public format1: number
   public format2: number
   public offs: number
-  private readonly wzReader: WzBinaryReader
+  private wzReader: WzBinaryReader
 
   private compressedImageBytes: Uint8Array | null = null
   private png: Canvas | null = null
