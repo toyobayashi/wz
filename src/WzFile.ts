@@ -89,14 +89,14 @@ export class WzFile extends WzObject {
     return this.wzDirectory != null ? this.wzDirectory.name : ''
   }
 
-  public async parseWzFile (lazyParse: boolean = false, wzIv: Uint8Array | null = null): Promise<WzFileParseStatus> {
+  public async parseWzFile (wzIv: Uint8Array | null = null): Promise<WzFileParseStatus> {
     if (this._wzDir != null) {
       return WzFileParseStatus.SUCCESS
     }
     if (wzIv != null) {
       this._wzIv = wzIv
     }
-    return await this._parseMainWzDirectory(lazyParse)
+    return await this._parseMainWzDirectory(false)
   }
 
   /* public lazyParseWzFile (out: IWzParseResult): boolean {
@@ -135,7 +135,7 @@ export class WzFile extends WzObject {
         try {
           testDirectory = new WzDirectory(reader, this.name, this._versionHash, this._wzIv, this)
           testDirectory.offset = reader.pos
-          await testDirectory.parseDirectory(false)
+          await testDirectory.parseDirectory(lazyParse)
         } catch (_) {
           reader.pos = position
           continue

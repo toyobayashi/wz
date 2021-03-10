@@ -21,8 +21,6 @@ export class WzDirectory extends WzObject {
   public parent: WzObject | null = null
   public wzFile: WzFile
 
-  private parsed: boolean = false
-
   public dispose (): void {
     if (this._disposed) return
     this._clearAllChildren()
@@ -49,12 +47,10 @@ export class WzDirectory extends WzObject {
   }
 
   public get wzImages (): Set<WzImage> {
-    if (!this.parsed) throw new Error('Directory has not been parsed yet')
     return this.images
   }
 
   public get wzDirectories (): Set<WzDirectory> {
-    if (!this.parsed) throw new Error('Directory has not been parsed yet')
     return this.subDirs
   }
 
@@ -68,7 +64,6 @@ export class WzDirectory extends WzObject {
   }
 
   public at (name: string): WzObject | null {
-    if (!this.parsed) throw new Error('Directory has not been parsed yet')
     const nameLower = name.toLowerCase()
     for (const img of this.images) {
       if (img.name.toLowerCase() === nameLower) return img
@@ -118,7 +113,6 @@ export class WzDirectory extends WzObject {
   }
 
   public getImageByName (name: string): WzImage | null {
-    if (!this.parsed) throw new Error('Directory has not been parsed yet')
     const nameLower = name.toLowerCase()
     for (const img of this.images) {
       if (img.name.toLowerCase() === nameLower) return img
@@ -127,7 +121,6 @@ export class WzDirectory extends WzObject {
   }
 
   public getDirectoryByName (name: string): WzDirectory | null {
-    if (!this.parsed) throw new Error('Directory has not been parsed yet')
     const nameLower = name.toLowerCase()
     for (const dir of this.subDirs) {
       if (dir.name.toLowerCase() === nameLower) return dir
@@ -136,7 +129,6 @@ export class WzDirectory extends WzObject {
   }
 
   public getChildImages (): Set<WzImage> {
-    if (!this.parsed) throw new Error('Directory has not been parsed yet')
     const imgFiles = new Set<WzImage>()
     for (const img of this.images) {
       imgFiles.add(img)
@@ -151,7 +143,6 @@ export class WzDirectory extends WzObject {
   }
 
   public setVersionHash (newHash: number): void {
-    if (!this.parsed) throw new Error('Directory has not been parsed yet')
     this.hash = newHash
     for (const dir of this.subDirs) {
       dir.setVersionHash(newHash)
@@ -159,7 +150,6 @@ export class WzDirectory extends WzObject {
   }
 
   public async parseImages (): Promise<void> {
-    if (!this.parsed) throw new Error('Directory has not been parsed yet')
     for (const img of this.images) {
       if (this.reader.pos !== img.offset) {
         this.reader.pos = img.offset
@@ -175,7 +165,6 @@ export class WzDirectory extends WzObject {
   }
 
   public async parseDirectory (lazyParse: boolean = false): Promise<void> {
-    if (this.parsed) return
     this._clearAllChildren()
     if (this.reader.pos !== this.offset) {
       this.reader.pos = this.offset
@@ -226,7 +215,7 @@ export class WzDirectory extends WzObject {
         subDir.parent = this
         this.subDirs.add(subDir)
 
-        // if (lazyParse) break
+        if (lazyParse) break
       } else {
         const img = new WzImage(fname, reader, checksum)
         img.blockSize = fsize
@@ -234,15 +223,13 @@ export class WzDirectory extends WzObject {
         img.parent = this
         this.images.add(img)
 
-        // if (lazyParse) break
+        if (lazyParse) break
       }
     }
-    this.parsed = true
-    if (!lazyParse) {
-      for (const subdir of this.subDirs) {
-        // reader.pos = subdir.offset
-        await subdir.parseDirectory(lazyParse)
-      }
+
+    for (const subdir of this.subDirs) {
+      // reader.pos = subdir.offset
+      await subdir.parseDirectory(false)
     }
   }
 }

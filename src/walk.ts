@@ -17,7 +17,7 @@ import { WzFileParseStatus, getErrorDescription } from './WzFileParseStatus'
 export async function walkWzFileAsync (filepath: string | File, mapleVersion: WzMapleVersion, callback: <T extends WzObject>(obj: T) => boolean | undefined | Promise<boolean | undefined>): Promise<boolean> {
   await init()
   const wz = new WzFile(filepath, mapleVersion)
-  const r = await wz.parseWzFile(true)
+  const r = await wz.parseWzFile()
   if (r !== WzFileParseStatus.SUCCESS) {
     wz.dispose()
     throw new Error(getErrorDescription(r))
@@ -34,7 +34,6 @@ export async function walkWzFileAsync (filepath: string | File, mapleVersion: Wz
  * @returns `true` if stop manually
  */
 export async function walkDirectory (dir: WzDirectory, callback: <T extends WzObject>(obj: T) => boolean | undefined | Promise<boolean | undefined>): Promise<boolean> {
-  await dir.parseDirectory(true)
   let stop = !!(await Promise.resolve(callback(dir)))
   if (stop) {
     dir.dispose()
