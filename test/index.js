@@ -1,5 +1,5 @@
 const path = require('path')
-const { WzFile, WzMapleVersion, WzImage, WzBinaryProperty, WzCanvasProperty, WzUOLProperty, WzPngProperty, walkWzFileAsync, WzObjectType, WzPropertyType, init, walkPropertyContainer } = require('..')
+const { WzFile, WzMapleVersion, WzImage, WzBinaryProperty, WzCanvasProperty, WzUOLProperty, WzPngProperty, walkWzFileAsync, WzObjectType, WzPropertyType, init, walkPropertyContainer, WzFileParseStatus, getErrorDescription } = require('..')
 
 // const wz = new WzFile('C:\\Nexon\\MapleStory\\Sound.wz', WzMapleVersion.BMS)
 // // const wz = new WzFile('C:\\Users\\toyo\\game\\CMS\\冒险岛online\\Sound.wz', WzMapleVersion.BMS)
@@ -78,11 +78,10 @@ async function testSound () {
 
   await init()
   const wz = new WzFile(filepath, ver)
-  const result = WzFile.createParseResult()
-  const r = await wz.parseWzFile(result, true)
-  if (!r) {
+  const r = await wz.parseWzFile()
+  if (r !== WzFileParseStatus.SUCCESS) {
     wz.dispose()
-    throw new Error(result.message)
+    throw new Error(getErrorDescription(r))
   }
   if (!wz.wzDirectory) {
     wz.dispose()
