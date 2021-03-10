@@ -218,7 +218,7 @@ module.exports = {
 Though `walkWzFileAsync()` is easy to use, it is much more slower in browser than in Node.js. It is recommanded to use class API to do specific directory or image operation.
 
 ``` js
-const { init, WzFile, WzMapleVersion, WzBinaryProperty, WzImage, WzDirectory } = require('@tybys/wz')
+const { init, WzFile, WzMapleVersion, WzBinaryProperty, WzImage, WzDirectory, WzFileParseStatus, getErrorDescription } = require('@tybys/wz')
 
 async function main () {
   // Must call init() first to initialize Webassembly
@@ -229,11 +229,9 @@ async function main () {
   // Construct a WzFile object
   const wz = new WzFile('C:\\Nexon\\MapleStory\\Sound.wz', WzMapleVersion.BMS)
 
-  // Pass it to parseWzFile() to receive parse result
-  const result = WzFile.createParseResult()
-  const r = await wz.parseWzFile(/* out */ result, /* parse main directory only */ true)
-  if (!r) {
-    throw new Error(result.message)
+  const r = await wz.parseWzFile()
+  if (r !== WzFileParseStatus.SUCCESS) {
+    throw new Error(getErrorDescription(r))
   }
 
   // Access main directory
