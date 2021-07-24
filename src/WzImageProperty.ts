@@ -1,12 +1,12 @@
-import { WzExtended } from './WzExtended'
-import { WzLuaProperty } from './properties/WzLuaProperty'
+import type { WzExtended } from './WzExtended'
+import type { WzLuaProperty } from './properties/WzLuaProperty'
 import { NotImplementedError } from './util/NotImplementedError'
-import { WzBinaryReader } from './util/WzBinaryReader'
-import { WzFile } from './WzFile'
+import type { WzBinaryReader } from './util/WzBinaryReader'
+import type { WzFile } from './WzFile'
 import { WzImage } from './WzImage'
 import { WzObject } from './WzObject'
 import { WzObjectType } from './WzObjectType'
-import { WzPropertyType } from './WzPropertyType'
+import type { WzPropertyType } from './WzPropertyType'
 
 /**
  * @public

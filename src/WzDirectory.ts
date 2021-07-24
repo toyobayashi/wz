@@ -1,5 +1,5 @@
-import { WzBinaryReader } from './util/WzBinaryReader'
-import { WzFile } from './WzFile'
+import type { WzBinaryReader } from './util/WzBinaryReader'
+import type { WzFile } from './WzFile'
 import { WzImage } from './WzImage'
 import { WzObject } from './WzObject'
 import { WzObjectType } from './WzObjectType'
@@ -176,9 +176,9 @@ export class WzDirectory extends WzObject {
     for (let i = 0; i < entryCount; i++) {
       let type = await reader.readUInt8()
       let fname = ''
-      var fsize: number
-      var checksum: number
-      var offset: number
+      let fsize: number
+      let checksum: number
+      let offset: number
       let rememberPos = 0
       switch (type) {
         case 1: {
@@ -204,8 +204,11 @@ export class WzDirectory extends WzObject {
         default: break
       }
       reader.pos = rememberPos
+      // eslint-disable-next-line prefer-const
       fsize = await reader.readWzInt()
+      // eslint-disable-next-line prefer-const
       checksum = await reader.readWzInt()
+      // eslint-disable-next-line prefer-const
       offset = await reader.readWzOffset()
       if (type === 3) {
         const subDir = new WzDirectory(reader, fname, this.hash, this.wzIv, this.wzFile)

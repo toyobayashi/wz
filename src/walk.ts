@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 
 import { WzUOLProperty } from './properties/WzUOLProperty'
-import { WzDirectory } from './WzDirectory'
+import type { WzDirectory } from './WzDirectory'
 import { WzFile } from './WzFile'
 import { WzImage } from './WzImage'
-import { WzImageProperty } from './WzImageProperty'
-import { WzMapleVersion } from './WzMapleVersion'
-import { WzObject } from './WzObject'
+import type { WzImageProperty } from './WzImageProperty'
+import type { WzMapleVersion } from './WzMapleVersion'
+import type { WzObject } from './WzObject'
 import { init } from './init'
 import { WzFileParseStatus, getErrorDescription } from './WzFileParseStatus'
 

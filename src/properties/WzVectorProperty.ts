@@ -1,5 +1,5 @@
 import { WzPropertyType } from '../WzPropertyType'
-import { WzObject } from '../WzObject'
+import type { WzObject } from '../WzObject'
 import { WzExtended } from '../WzExtended'
 import { WzIntProperty } from './WzIntProperty'
 

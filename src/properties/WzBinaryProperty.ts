@@ -1,6 +1,6 @@
-import { WzBinaryReader } from '../util/WzBinaryReader'
+import type { WzBinaryReader } from '../util/WzBinaryReader'
 import { WzExtended } from '../WzExtended'
-import { WzObject } from '../WzObject'
+import type { WzObject } from '../WzObject'
 import { WzPropertyType } from '../WzPropertyType'
 import { fs, path } from '../util/node'
 

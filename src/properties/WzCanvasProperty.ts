@@ -1,13 +1,13 @@
 import { WzPropertyType } from '../WzPropertyType'
-import { WzObject } from '../WzObject'
+import type { WzObject } from '../WzObject'
 import { WzExtended } from '../WzExtended'
-import { IPropertyContainer } from '../IPropertyContainer'
+import type { IPropertyContainer } from '../IPropertyContainer'
 import { WzImageProperty } from '../WzImageProperty'
-import { WzPngProperty } from './WzPngProperty'
-import { WzStringProperty } from './WzStringProperty'
+import type { WzPngProperty } from './WzPngProperty'
+import type { WzStringProperty } from './WzStringProperty'
 import { WzImage } from '../WzImage'
 import { WzDirectory } from '../WzDirectory'
-import { Canvas } from '../util/Canvas'
+import type { Canvas } from '../util/Canvas'
 
 /**
  * @public

@@ -1,4 +1,4 @@
-import { BinaryReader } from '@tybys/binreader'
+import type { BinaryReader } from '@tybys/binreader'
 import { MapleCryptoConstants } from './MapleCryptoConstants'
 import { WzMutableKey } from './WzMutableKey'
 

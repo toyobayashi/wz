@@ -1,5 +1,5 @@
 import { WzPropertyType } from '../WzPropertyType'
-import { WzObject } from '../WzObject'
+import type { WzObject } from '../WzObject'
 import { NotImplementedError } from '../util/NotImplementedError'
 import { WzImageProperty } from '../WzImageProperty'
 

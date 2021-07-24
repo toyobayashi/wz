@@ -1,7 +1,7 @@
 import { WzPropertyType } from '../WzPropertyType'
-import { WzObject } from '../WzObject'
+import type { WzObject } from '../WzObject'
 import { WzExtended } from '../WzExtended'
-import { WzBinaryReader } from '../util/WzBinaryReader'
+import type { WzBinaryReader } from '../util/WzBinaryReader'
 import { BinaryReader } from '@tybys/binreader'
 import { Color } from '../util/Color'
 import { ErrorLevel, ErrorLogger } from '../util/ErrorLogger'
@@ -536,8 +536,8 @@ function inflate (data: Uint8Array, len: number): Promise<Uint8Array> {
 async function inflateWasm (data: Uint8Array, len: number): Promise<Uint8Array> {
   if (wasmInflate === null) {
     const wzWasm = await import('../util/wz')
-    const mod = await wzWasm.default()
-    wasmInflate = mod.inflate
+    const { Module } = await wzWasm.default()
+    wasmInflate = Module.inflate
   }
   const buf = wasmInflate(data, len)
   return buf
@@ -550,7 +550,7 @@ function rgb565ToColor (val: number): Color {
   const r = (val & rgb565maskR) >> 11
   const g = (val & rgb565maskG) >> 5
   const b = (val & rgb565maskB)
-  var c = Color.fromRgb(
+  const c = Color.fromRgb(
     (r << 3) | (r >> 2),
     (g << 2) | (g >> 4),
     (b << 3) | (b >> 2))
@@ -609,7 +609,7 @@ function argb1555ToColor (val: number): Color {
   const r = (val & maskR) >> 10
   const g = (val & maskG) >> 5
   const b = (val & maskB)
-  var c = Color.fromArgb(
+  const c = Color.fromArgb(
     a,
     (r << 3) | (r >> 2),
     (g << 3) | (g >> 2),

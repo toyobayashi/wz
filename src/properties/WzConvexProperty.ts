@@ -1,8 +1,8 @@
 import { WzPropertyType } from '../WzPropertyType'
-import { WzObject } from '../WzObject'
+import type { WzObject } from '../WzObject'
 import { WzExtended } from '../WzExtended'
-import { IPropertyContainer } from '../IPropertyContainer'
-import { WzImageProperty } from '../WzImageProperty'
+import type { IPropertyContainer } from '../IPropertyContainer'
+import type { WzImageProperty } from '../WzImageProperty'
 import { NotImplementedError } from '../util/NotImplementedError'
 
 /**

@@ -1,7 +1,7 @@
 import { WzKeyGenerator } from '../util/WzKeyGenerator'
-import { WzMutableKey } from '../util/WzMutableKey'
+import type { WzMutableKey } from '../util/WzMutableKey'
 import { WzImageProperty } from '../WzImageProperty'
-import { WzObject } from '../WzObject'
+import type { WzObject } from '../WzObject'
 import { WzPropertyType } from '../WzPropertyType'
 import { asciiTextDecoder } from '../util/node'
 

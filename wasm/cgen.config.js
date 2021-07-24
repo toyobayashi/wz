@@ -1,18 +1,14 @@
 const { defineFunctionConfig } = require('@tybys/cgen')
 
 function createTarget (name, asm, isDebug) {
-  const debugFlags = [
-    '-sDISABLE_EXCEPTION_CATCHING=0',
-    '-sSAFE_HEAP=1',
-    ...(!asm ? ['-g4', '--source-map-base', './'] : [])
+  const compilerFlags = [
+    ...(isDebug ? ['-sDISABLE_EXCEPTION_CATCHING=0'] : [])
   ]
-
-  const commonFlags = [
+  const linkerFlags = [
     '--bind',
     '-sALLOW_MEMORY_GROWTH=1',
     ...(asm ? ['-sWASM=0'] : []),
-    // '-sDISABLE_EXCEPTION_CATCHING=0',
-    ...(isDebug ? debugFlags : ['-O3'])
+    ...(isDebug ? ['-sDISABLE_EXCEPTION_CATCHING=0', '-sSAFE_HEAP=1'] : [])
   ]
 
   return {
@@ -25,12 +21,14 @@ function createTarget (name, asm, isDebug) {
       'AES256=1',
       'ECB=1'
     ],
-    wrapScript: './export.js',
+    emwrap: {
+      wrapScript: './export.js',
+    },
     compileOptions: [
-      ...commonFlags
+      ...compilerFlags
     ],
     linkOptions: [
-      ...commonFlags
+      ...linkerFlags
     ],
     includePaths: [
       './deps/zlib',

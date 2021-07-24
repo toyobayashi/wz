@@ -1,5 +1,9 @@
 #!/usr/bin/env node
 
+if (process.env.NODE) {
+  process.env.EM_NODE_JS = process.env.NODE
+}
+
 const fs = require('fs')
 const path = require('path')
 const { spawn } = require('@tybys/cgen/bin/util/spawn.js')

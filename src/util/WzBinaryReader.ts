@@ -2,9 +2,9 @@ import { WzHeader } from '../WzHeader'
 import { AsyncBinaryReader } from '@tybys/binreader'
 import { MapleCryptoConstants } from './MapleCryptoConstants'
 import { WzKeyGenerator } from './WzKeyGenerator'
-import { WzMutableKey } from './WzMutableKey'
+import type { WzMutableKey } from './WzMutableKey'
 import { WzTool } from './WzTool'
-import { IDisposable } from './IDisposable'
+import type { IDisposable } from './IDisposable'
 import { asciiTextDecoder, utf16leTextDecoder } from './node'
 
 /**

@@ -1,8 +1,8 @@
-import { Canvas } from './util/Canvas'
-import { IDisposable } from './util/IDisposable'
+import type { Canvas } from './util/Canvas'
+import type { IDisposable } from './util/IDisposable'
 import { NotImplementedError } from './util/NotImplementedError'
-import { WzFile } from './WzFile'
-import { WzObjectType } from './WzObjectType'
+import type { WzFile } from './WzFile'
+import type { WzObjectType } from './WzObjectType'
 import { path } from './util/node'
 
 /**

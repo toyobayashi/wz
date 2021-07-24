@@ -1,7 +1,8 @@
 {
   "extends": "./node_modules/@tybys/tsgo/tsconfig/tsconfig.modern.json",
   "compilerOptions": {
-    "outDir": "./lib/esm-modern"
+    "outDir": "./lib/esm-modern",
+    "importsNotUsedAsValues": "error"
   },
   "include": [
     "./src/**/*"

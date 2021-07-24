@@ -3,7 +3,8 @@
   "compilerOptions": {
     "outDir": "./lib/cjs-modern",
     "sourceMap": true,
-    "target": "es2018"
+    "target": "es2018",
+    "importsNotUsedAsValues": "error"
   },
   "include": [
     "./src/**/*"

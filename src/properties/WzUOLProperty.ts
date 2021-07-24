@@ -1,11 +1,11 @@
 import { WzPropertyType } from '../WzPropertyType'
-import { WzObject } from '../WzObject'
+import type { WzObject } from '../WzObject'
 import { WzExtended } from '../WzExtended'
 import { WzImageProperty } from '../WzImageProperty'
 import { WzImage } from '../WzImage'
 import { WzDirectory } from '../WzDirectory'
 import { ErrorLevel, ErrorLogger } from '../util/ErrorLogger'
-import { Canvas } from '../util/Canvas'
+import type { Canvas } from '../util/Canvas'
 
 /**
  * @public

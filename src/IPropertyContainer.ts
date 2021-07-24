@@ -1,4 +1,4 @@
-import { WzImageProperty } from './WzImageProperty'
+import type { WzImageProperty } from './WzImageProperty'
 
 /**
  * @public
