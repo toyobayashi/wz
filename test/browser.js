@@ -1,5 +1,24 @@
 /// <reference path="../dist/wz.d.ts" />
 
+if (!HTMLCanvasElement.prototype.toBlob) {
+  Object.defineProperty(HTMLCanvasElement.prototype, 'toBlob', {
+    value: function (callback, type, quality) {
+      var canvas = this;
+      setTimeout(function () {
+        var binStr = atob(canvas.toDataURL(type, quality).split(',')[1]);
+        var len = binStr.length;
+        var arr = new Uint8Array(len);
+ 
+        for (var i = 0; i < len; i++) {
+          arr[i] = binStr.charCodeAt(i);
+        }
+ 
+        callback(new Blob([arr], { type: type || 'image/png' }));
+      });
+    }
+  })
+}
+
 (function () {
 
   var type = [
@@ -52,7 +71,7 @@
             console.log(obj.fullPath)
             console.log(format)
             return resolve(obj.pngProperty.getImage().then(function (canvas) {
-              document.body.append(canvas._canvas)
+              document.body.appendChild(canvas._canvas)
               return obj.pngProperty.saveToFile('4.png')
             }).then(function () {
               return true
