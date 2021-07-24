@@ -73,6 +73,8 @@ export class Canvas {
 
   public getBufferAsync (mime: string): Promise<Uint8Array> {
     if (typeof window === 'undefined') {
+      return (this._canvas as InstanceType<typeof Jimp>).getBufferAsync(mime)
+    } else {
       return new Promise((resolve, reject) => {
         toBlob(this._canvas as HTMLCanvasElement, mime).then(blob => {
           if (blob == null) {
@@ -88,8 +90,6 @@ export class Canvas {
           fr.readAsArrayBuffer(blob)
         }).catch(reject)
       })
-    } else {
-      return (this._canvas as InstanceType<typeof Jimp>).getBufferAsync(mime)
     }
   }
 
