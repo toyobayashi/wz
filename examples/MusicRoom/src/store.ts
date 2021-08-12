@@ -1,31 +1,26 @@
-import { createStore, ActionHandler } from '@tybys/reactive-react'
+import { createStore } from '@tybys/reactive-react'
 import type { ITreeNode } from 'react-treebeard'
 import type { WzFile } from '../../..'
 import { WzMapleVersion, WzImage, init } from '../../..'
 
-interface IState {
-  entries: (WzFile | WzImage)[]
-  mapleVersion: WzMapleVersion
-  trees: ITreeNode[]
-}
+import { wasmBinary } from './wzwasm'
 
-type G = {
-}
+const uri = `data:application/wasm;base64,${wasmBinary}`
 
-type A = {
-  parseImg: ActionHandler<IState, {}, {}, A, [File], void>
-}
-
-const store = createStore<IState, G, {}, A>({
+const store = createStore({
   state: {
-    entries: [],
+    entries: [] as (WzFile | WzImage)[],
     mapleVersion: WzMapleVersion.BMS,
-    trees: []
+    trees: [] as ITreeNode[]
   },
   getters: {},
   actions: {
-    async parseImg ({ state }, file): Promise<void> {
-      await init()
+    async parseImg ({ state }, file: File): Promise<void> {
+      await init({
+        locateFile () {
+          return uri
+        }
+      })
       const img = WzImage.createFromFile(file, state.mapleVersion)
       const r = await img.parseImage()
       if (r) {
