@@ -1,6 +1,6 @@
 {
   "name": "@tybys/wz",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "MapleStory wz reader.",
   "typings": "./lib/cjs-modern/index.d.ts",
   "module": "./lib/esm-modern/index.js",
@@ -40,6 +40,7 @@
     "@tybys/cgen": "^0.8.0",
     "@tybys/tsgo": "^0.14.1",
     "@types/crypto-js": "^4.0.1",
+    "@types/emscripten": "^1.39.5",
     "@types/node": "^14.14.28",
     "@typescript-eslint/eslint-plugin": "^4.29.1",
     "@typescript-eslint/parser": "^4.29.1",

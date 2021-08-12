@@ -56,7 +56,7 @@ MapleStory WZ reader.
 |  Function | Description |
 |  --- | --- |
 |  [getErrorDescription(status)](./wz.geterrordescription.md) |  |
-|  [init()](./wz.init.md) |  |
+|  [init(moduleOverrides)](./wz.init.md) |  |
 |  [walkDirectory(dir, callback)](./wz.walkdirectory.md) |  |
 |  [walkPropertyContainer(container, callback)](./wz.walkpropertycontainer.md) |  |
 |  [walkWzFileAsync(filepath, mapleVersion, callback)](./wz.walkwzfileasync.md) |  |

@@ -8,8 +8,15 @@
 <b>Signature:</b>
 
 ```typescript
-export declare function init(): Promise<void>;
+export declare function init(moduleOverrides?: Partial<EmscriptenModule>): Promise<void>;
 ```
+
+## Parameters
+
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  moduleOverrides | Partial&lt;EmscriptenModule&gt; |  |
+
 <b>Returns:</b>
 
 Promise&lt;void&gt;
