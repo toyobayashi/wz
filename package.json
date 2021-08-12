@@ -1,6 +1,6 @@
 {
   "name": "@tybys/wz",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "MapleStory wz reader.",
   "typings": "./lib/cjs-modern/index.d.ts",
   "module": "./lib/esm-modern/index.js",
@@ -37,12 +37,12 @@
     "access": "public"
   },
   "devDependencies": {
-    "@tybys/cgen": "^0.7.1",
-    "@tybys/tsgo": "^0.12.0",
+    "@tybys/cgen": "^0.8.0",
+    "@tybys/tsgo": "^0.14.1",
     "@types/crypto-js": "^4.0.1",
     "@types/node": "^14.14.28",
-    "@typescript-eslint/eslint-plugin": "^4.28.4",
-    "@typescript-eslint/parser": "^4.28.4",
+    "@typescript-eslint/eslint-plugin": "^4.29.1",
+    "@typescript-eslint/parser": "^4.29.1",
     "copy-webpack-plugin": "^6.3.2",
     "eslint": "^7.31.0",
     "eslint-config-standard-with-typescript": "^20.0.0",
@@ -55,6 +55,7 @@
   "dependencies": {
     "@tybys/binreader": "^0.3.0",
     "@tybys/native-require": "^3.0.3",
-    "jimp": "^0.16.1"
+    "jimp": "^0.16.1",
+    "tslib": "^2.3.0"
   }
 }
