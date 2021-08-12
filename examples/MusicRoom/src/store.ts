@@ -2,6 +2,7 @@ import { createStore } from '@tybys/reactive-react'
 import type { ITreeNode } from 'react-treebeard'
 import type { WzFile } from '../../..'
 import { WzMapleVersion, WzImage, init } from '../../..'
+import { ObjectId } from '@tybys/oid'
 
 import { wasmBinary } from './wzwasm'
 
@@ -30,6 +31,7 @@ const store = createStore({
         const children: ITreeNode[] = []
         for (const prop of img.wzProperties.values()) {
           const node: ITreeNode = {
+            id: new ObjectId().toHexString(),
             name: prop.name,
             active: false,
             data: () => prop
@@ -37,6 +39,7 @@ const store = createStore({
           children.push(node)
         }
         const tree: ITreeNode = {
+          id: new ObjectId().toHexString(),
           name: img.name,
           children: children,
           active: false,
