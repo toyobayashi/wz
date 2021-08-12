@@ -26,6 +26,7 @@ export declare class WzBinaryReader extends AsyncBinaryReader implements IDispos
 |  --- | --- | --- | --- |
 |  [hash](./wz.wzbinaryreader.hash.md) |  | number |  |
 |  [header](./wz.wzbinaryreader.header.md) |  | [WzHeader](./wz.wzheader.md) |  |
+|  [size](./wz.wzbinaryreader.size.md) |  | number |  |
 |  [wzKey](./wz.wzbinaryreader.wzkey.md) |  | [WzMutableKey](./wz.wzmutablekey.md) |  |
 
 ## Methods

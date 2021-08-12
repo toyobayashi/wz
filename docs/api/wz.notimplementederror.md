@@ -8,9 +8,9 @@
 <b>Signature:</b>
 
 ```typescript
-export declare class NotImplementedError extends Error 
+export declare class NotImplementedError extends BaseError 
 ```
-<b>Extends:</b> Error
+<b>Extends:</b> [BaseError](./wz.baseerror.md)
 
 ## Constructors
 

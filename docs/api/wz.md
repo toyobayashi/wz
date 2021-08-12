@@ -10,6 +10,7 @@ MapleStory WZ reader.
 
 |  Class | Description |
 |  --- | --- |
+|  [BaseError](./wz.baseerror.md) |  |
 |  [Canvas](./wz.canvas.md) |  |
 |  [ErrorLogger](./wz.errorlogger.md) |  |
 |  [NotImplementedError](./wz.notimplementederror.md) |  |

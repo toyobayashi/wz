@@ -50,6 +50,7 @@ export declare class WzImage extends WzObject implements IPropertyContainer
 |  [at(name)](./wz.wzimage.at.md) |  |  |
 |  [calculateAndSetImageChecksum(bytes)](./wz.wzimage.calculateandsetimagechecksum.md) |  |  |
 |  [clearProperties()](./wz.wzimage.clearproperties.md) |  |  |
+|  [createFromFile(filepath, version)](./wz.wzimage.createfromfile.md) | <code>static</code> |  |
 |  [dispose()](./wz.wzimage.dispose.md) |  |  |
 |  [getFromPath(path)](./wz.wzimage.getfrompath.md) |  |  |
 |  [parseImage(forceReadFromData)](./wz.wzimage.parseimage.md) |  |  |
