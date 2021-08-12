@@ -6,8 +6,8 @@ import type { WzVectorProperty } from './properties/WzVectorProperty'
 import { BinaryReader } from '@tybys/binreader'
 import { ErrorLevel, ErrorLogger } from './util/ErrorLogger'
 import { WzBinaryReader } from './util/WzBinaryReader'
-import { WzKeyGenerator } from './util/WzKeyGenerator'
-import { WzTool } from './util/WzTool'
+import { getIvFromZlz } from './util/WzKeyGenerator'
+import { getIvByMapleVersion } from './util/WzTool'
 import { WzDirectory } from './WzDirectory'
 import { WzHeader } from './WzHeader'
 import type { WzImage } from './WzImage'
@@ -54,10 +54,10 @@ export class WzFile extends WzObject {
     if (version === WzMapleVersion.GETFROMZLZ) {
       if (typeof window !== 'undefined') throw new Error('Not supported in browser')
       const r = new BinaryReader(path.join(path.dirname(filepath as string), 'ZLZ.dll'))
-      this._wzIv = WzKeyGenerator.getIvFromZlz(r)
+      this._wzIv = getIvFromZlz(r)
       r.close()
     } else {
-      this._wzIv = WzTool.getIvByMapleVersion(version)
+      this._wzIv = getIvByMapleVersion(version)
     }
   }
 

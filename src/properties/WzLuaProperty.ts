@@ -1,4 +1,4 @@
-import { WzKeyGenerator } from '../util/WzKeyGenerator'
+import { generateLuaWzKey } from '../util/WzKeyGenerator'
 import type { WzMutableKey } from '../util/WzMutableKey'
 import { WzImageProperty } from '../WzImageProperty'
 import type { WzObject } from '../WzObject'
@@ -15,7 +15,7 @@ export class WzLuaProperty extends WzImageProperty {
 
   public constructor (public name: string, public encryptedBytes: Uint8Array | null) {
     super()
-    this.wzKey = WzKeyGenerator.generateLuaWzKey()
+    this.wzKey = generateLuaWzKey()
   }
 
   public setValue (value: Uint8Array): void {

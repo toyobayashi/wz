@@ -1,9 +1,9 @@
 import { WzHeader } from '../WzHeader'
 import { AsyncBinaryReader } from '@tybys/binreader'
-import { MapleCryptoConstants } from './MapleCryptoConstants'
-import { WzKeyGenerator } from './WzKeyGenerator'
+import { WZ_OffsetConstant } from './MapleCryptoConstants'
+import { generateWzKey } from './WzKeyGenerator'
 import type { WzMutableKey } from './WzMutableKey'
-import { WzTool } from './WzTool'
+import { rotateLeft } from './WzTool'
 import type { IDisposable } from './IDisposable'
 import { asciiTextDecoder, utf16leTextDecoder } from './node'
 
@@ -17,7 +17,7 @@ export class WzBinaryReader extends AsyncBinaryReader implements IDisposable {
 
   public constructor (filePath: string | File, wzIv: Uint8Array) {
     super(filePath)
-    this.wzKey = WzKeyGenerator.generateWzKey(wzIv)
+    this.wzKey = generateWzKey(wzIv)
     this.hash = 0
     this.header = WzHeader.getDefault()
   }
@@ -123,8 +123,8 @@ export class WzBinaryReader extends AsyncBinaryReader implements IDisposable {
     let offset = this.pos
     offset = ((offset - this.header.fstart) ^ 0xFFFFFFFF) >>> 0
     offset = ((offset * this.hash) & 0xFFFFFFFF) >>> 0
-    offset -= MapleCryptoConstants.WZ_OffsetConstant
-    offset = WzTool.rotateLeft(offset, offset & 0x1F) & 0xFFFFFFFF
+    offset -= WZ_OffsetConstant
+    offset = rotateLeft(offset, offset & 0x1F) & 0xFFFFFFFF
     const encryptedOffset = await this.readUInt32LE()
     offset = ((offset ^ encryptedOffset) & 0xFFFFFFFF) >>> 0
     offset = ((offset + this.header.fstart * 2) & 0xFFFFFFFF) >>> 0

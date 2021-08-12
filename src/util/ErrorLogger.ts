@@ -1,4 +1,5 @@
 import { fs, path, os } from '../util/node'
+import { BaseError } from './BaseError'
 import { NotImplementedError } from './NotImplementedError'
 
 const EOL = os.EOL
@@ -12,7 +13,7 @@ export enum ErrorLevel {
 }
 
 /** @public */
-export class WzError extends Error {
+export class WzError extends BaseError {
   public constructor (public level: ErrorLevel, message: string) {
     super(message)
   }

@@ -5,6 +5,7 @@
  */
 
 export { IDisposable } from './util/IDisposable'
+export { BaseError } from './util/BaseError'
 export { ErrorLevel, ErrorLogger, WzError } from './util/ErrorLogger'
 export { WzMutableKey } from './util/WzMutableKey'
 export { WzBinaryReader } from './util/WzBinaryReader'
