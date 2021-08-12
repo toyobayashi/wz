@@ -1,10 +1,13 @@
 import type { IPropertyContainer } from './IPropertyContainer'
 import { ErrorLevel, ErrorLogger } from './util/ErrorLogger'
-import type { WzBinaryReader } from './util/WzBinaryReader'
+import { WzBinaryReader } from './util/WzBinaryReader'
+import { getIvByMapleVersion } from './util/WzTool'
 import type { WzFile } from './WzFile'
 import { WzImageProperty } from './WzImageProperty'
+import type { WzMapleVersion } from './WzMapleVersion'
 import { WzObject } from './WzObject'
 import { WzObjectType } from './WzObjectType'
+import { path } from './util/node'
 
 /**
  * @public
@@ -38,6 +41,20 @@ export class WzImage extends WzObject implements IPropertyContainer {
   public get objectType (): WzObjectType {
     // if (!this.parsed) this.parseImage()
     return WzObjectType.Image
+  }
+
+  public static createFromFile (filepath: string | File, version: WzMapleVersion): WzImage {
+    const wzIv = getIvByMapleVersion(version)
+    const reader = new WzBinaryReader(filepath, wzIv)
+    let img: WzImage
+    if (typeof filepath === 'string') {
+      img = new WzImage(path.basename(filepath), reader)
+      img.blockSize = reader.size
+    } else {
+      img = new WzImage(filepath.name, reader)
+      img.blockSize = filepath.size
+    }
+    return img
   }
 
   public constructor (name: string, reader: WzBinaryReader, checksum: number = 0) {
@@ -86,6 +103,10 @@ export class WzImage extends WzObject implements IPropertyContainer {
       prop.dispose()
     }
     this.properties.clear()
+    if (this.parent == null) {
+      this.reader.dispose()
+      this.reader = null!
+    }
     this._disposed = true
   }
 
