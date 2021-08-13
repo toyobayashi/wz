@@ -1,10 +1,13 @@
-const CopyWebpackPlugin = require('copy-webpack-plugin')
+// const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = {
+  output: {
+    web: '../../docs/MusicRoom'
+  },
   pluginImplementation: {
     HtmlWebpackPlugin: require('html-webpack-plugin'),
     TerserWebpackPlugin: require('terser-webpack-plugin')
-  },
+  }/* ,
   configureWebpack: {
     web (config) {
       config.plugins = [
@@ -16,5 +19,5 @@ module.exports = {
         })
       ]
     }
-  }
+  } */
 }
