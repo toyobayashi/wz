@@ -1,4 +1,5 @@
-import { useForceUpdate, useRender } from '@tybys/reactive-react'
+import { useData, useForceUpdate, useRender } from '@tybys/reactive-react'
+import { computed, ref } from '@vue/reactivity'
 import * as React from 'react'
 import { audio } from './audio'
 import store from './store'
@@ -6,15 +7,56 @@ import { filterTime } from './util'
 
 const Player: React.FC<{}> = function () {
   const forceUpdate = useForceUpdate()
-  const [duration, setDuration] = React.useState(0)
-  const [currentTime, setCurrentTime] = React.useState(0)
-  const [rangeInputMouseDown, setRangeInputMouseDown] = React.useState(false)
 
   const rangeInput = React.useRef<HTMLInputElement>(null)
 
+  const data = useData(() => {
+    const duration = ref(0)
+    const currentTime = ref(0)
+    const rangeInputMouseDown = ref(false)
+
+    const timeString = computed(() => {
+      return `${filterTime(Math.floor(currentTime.value))} / ${filterTime(Math.floor(duration.value))}`
+    })
+
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      currentTime.value = Number(e.target.value)
+    }
+    const onMouseUp = (e: React.MouseEvent<HTMLInputElement, MouseEvent>) => {
+      rangeInputMouseDown.value = false
+      audio.currentTime = Number((e.target as HTMLInputElement).value)
+    }
+    const onMouseDown = () => {
+      rangeInputMouseDown.value = true
+    }
+
+    const onClickPause = async () => {
+      if (audio.isPlaying) {
+        audio.pause()
+        forceUpdate()
+      } else {
+        try {
+          await audio.play()
+          forceUpdate()
+        } catch (_) {}
+      }
+    }
+
+    return {
+      duration,
+      currentTime,
+      rangeInputMouseDown,
+      timeString,
+      onChange,
+      onMouseUp,
+      onMouseDown,
+      onClickPause,
+    }
+  })
+
   React.useEffect(() => {
     const onDurationChange = () => {
-      setDuration(audio.duration)
+      data.duration.value = audio.duration
     }
     audio.on('durationchange', onDurationChange)
     return () => {
@@ -24,8 +66,8 @@ const Player: React.FC<{}> = function () {
 
   React.useEffect(() => {
     const onTimeupdate = () => {
-      if (!rangeInputMouseDown) {
-        setCurrentTime(audio.currentTime)
+      if (!data.rangeInputMouseDown.value) {
+        data.currentTime.value = audio.currentTime
         rangeInput.current!.value = audio.currentTime.toString()
       }
     }
@@ -33,54 +75,30 @@ const Player: React.FC<{}> = function () {
     return () => {
       audio.off('timeupdate', onTimeupdate)
     }
-  }, [rangeInputMouseDown])
-
-  const onChange = React.useCallback((e) => {
-    setCurrentTime(Number(e.target.value))
   }, [])
-  const onMouseUp = React.useCallback((e) => {
-    setRangeInputMouseDown(false)
-    audio.currentTime = e.target.value
-  }, [])
-  const onMouseDown = React.useCallback(() => {
-    setRangeInputMouseDown(true)
-  }, [])
-
-  const onClickPause = React.useCallback(async () => {
-    if (audio.isPlaying) {
-      audio.pause()
-      forceUpdate()
-    } else {
-      try {
-        await audio.play()
-        forceUpdate()
-      } catch (_) {}
-    }
-  }, [audio.isPlaying])
-
-  const timeString = React.useMemo(() => {
-    return `${filterTime(Math.floor(currentTime))} / ${filterTime(Math.floor(duration))}`
-  }, [duration, currentTime])
 
   return useRender(() => <div>
-    <button onClick={onClickPause}>{audio.isPlaying ? 'PAUSE' : 'PLAY'}</button>
+    <button style={styles.btn} onClick={data.onClickPause}>{audio.isPlaying ? 'PAUSE' : 'PLAY'}</button>
     <input
       style={styles.vam}
       ref={rangeInput}
       type='range'
       min={0}
-      max={duration}
-      onChange={onChange}
-      onMouseUp={onMouseUp}
-      onMouseDown={onMouseDown}
+      max={data.duration.value}
+      onChange={data.onChange}
+      onMouseUp={data.onMouseUp}
+      onMouseDown={data.onMouseDown}
     />
-    <span style={styles.vam}>{timeString} {store.getters.playingName.value}</span>
+    <span style={styles.vam}>{data.timeString.value} {store.getters.playingName.value}</span>
   </div>)
 }
 
 const styles = {
   vam: {
     verticalAlign: 'middle'
+  },
+  btn: {
+    width: 60
   }
 }
 
