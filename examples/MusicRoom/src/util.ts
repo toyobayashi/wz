@@ -58,3 +58,19 @@ export async function parseProperties (prop: WzImageProperty, node: ITreeNode): 
     }
   }
 }
+
+export function filterTime (second: number, float = false): string {
+  let min: string | number = Math.floor(second / 60)
+  let sec: string | number = Math.floor(second % 60)
+  if (min < 10) {
+    min = `0${min}`
+  }
+  if (sec < 10) {
+    sec = `0${sec}`
+  }
+  if (float) {
+    const floatPart = String(second).split('.')[1]
+    return floatPart ? `${min}:${sec}.${('0' + floatPart).slice(-2)}` : `${min}:${sec}.00`
+  }
+  return `${min}:${sec}`
+}

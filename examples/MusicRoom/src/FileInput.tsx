@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { audio } from './audio'
 import store from './store'
 
 const emptyDep: React.DependencyList = []
@@ -35,6 +36,7 @@ const FileInput: React.FC<{}> = function () {
     if (store.state.treeLoading) {
       e.preventDefault()
     }
+    await audio.resume()
   }, emptyDep)
 
   return <div>

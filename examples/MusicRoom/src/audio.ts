@@ -15,6 +15,14 @@ class MapleAudio {
   private _loopEnd: number = 0
   private _timeupdateTimer = 0
 
+  private _events = Object.create(null)
+
+  private _isPlaying = false
+
+  public get isPlaying (): boolean {
+    return this._isPlaying
+  }
+
   public get loopStart (): number {
     return this._loopStart
   }
@@ -132,6 +140,10 @@ class MapleAudio {
     await this.play()
   }
 
+  public async resume (): Promise<void> {
+    await this._ctx.resume()
+  }
+
   /**
    * Continue playing
    */
@@ -143,9 +155,10 @@ class MapleAudio {
     this._initSource(this._audioBuffer, true)
     const offset = this._pausedAt
     this._source?.start(0, offset)
-    this._startedAt = this._ctx.currentTime - offset
+    this._startedAt = (this._ctx.currentTime - offset)
     this._pausedAt = 0
 
+    this._isPlaying = true
     this.emit('play')
 
     window.clearInterval(this._timeupdateTimer)
@@ -155,8 +168,31 @@ class MapleAudio {
     }, 250)
   }
 
-  public emit (_event: string, ..._payload: any[]) {
-    // TODO
+  public on (event: string, handler: (...args: any[]) => any): this {
+    this._events[event] = this._events[event] || []
+    this._events[event].push(handler)
+    return this
+  }
+
+  public off (event: string, handler: (...args: any[]) => any): this {
+    if (this._events[event]) {
+      const index = this._events[event].indexOf(handler)
+      if (index !== -1) {
+        this._events[event].splice(index, 1)
+      }
+    }
+    return this
+  }
+
+  public emit (event: string, ...payload: any[]): boolean {
+    if (this._events[event]) {
+      const events = this._events[event].slice()
+      events.forEach((handler: (...args: any[]) => any) => {
+        handler(...payload)
+      })
+      return true
+    }
+    return false
   }
 
   public pause (): void {
@@ -167,6 +203,7 @@ class MapleAudio {
       this._source = null
       this._pausedAt = this._ctx.currentTime - this._startedAt
       this._startedAt = 0
+      this._isPlaying = false
       this.emit('pause')
     }
     window.clearInterval(this._timeupdateTimer)

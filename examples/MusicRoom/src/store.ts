@@ -11,7 +11,7 @@ import {
 } from '../../..'
 
 import { ObjectId } from '@tybys/oid'
-import { effectScope, reactive } from '@vue/reactivity'
+import { computed, effectScope, reactive, ref } from '@vue/reactivity'
 
 import { wasmBinary } from './wzwasm'
 import { collectDir, debugLog, parseProperties } from './util'
@@ -28,10 +28,16 @@ async function initWz (): Promise<void> {
 
 const scope = effectScope()
 const store = scope.run(() => {
+  const playingWzBinrary = ref<WzBinaryProperty | null>(null)
+
   const state = reactive({
     mapleVersion: WzMapleVersion.BMS,
     trees: [] as ITreeNode[],
     treeLoading: false
+  })
+
+  const playingName = computed(() => {
+    return playingWzBinrary.value ? playingWzBinrary.value.name : ''
   })
 
   const deleteTree = () => {
@@ -123,6 +129,7 @@ const store = scope.run(() => {
       } else if (wzData instanceof WzBinaryProperty) {
         const buffer = await wzData.getBytes(false)
         await audio.playRaw(buffer)
+        playingWzBinrary.value = wzData
       } else {
         parseProperties(wzData, node)
       }
@@ -131,6 +138,9 @@ const store = scope.run(() => {
 
   return {
     state,
+    getters: {
+      playingName
+    },
     mutations: {
       deleteTree
     },
