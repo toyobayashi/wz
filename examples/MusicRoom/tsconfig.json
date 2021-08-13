@@ -4,8 +4,7 @@
     "jsx": "react",
     
     "module": "esnext",
-    "target": "es5",
-    "downlevelIteration": true,
+    "target": "es2019",
     "importHelpers": true,
     "noEmitHelpers": true
   },

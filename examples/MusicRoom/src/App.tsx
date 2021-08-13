@@ -4,11 +4,11 @@ import MapleVersionSelect from './MapleVersionSelect'
 import Tree from './Tree'
 
 const App: React.FC<{}> = function () {
-  return <div id='app'>
+  return <>
     <MapleVersionSelect />
     <FileInput />
     <Tree />
-  </div>
+  </>
 }
 
 export default App

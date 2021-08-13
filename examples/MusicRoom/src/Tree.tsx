@@ -5,6 +5,7 @@ import { useRender, useData, makeReactive } from '@tybys/reactive-react'
 import store from './store'
 import { WzBinaryProperty } from '../../..'
 import { audio } from './audio'
+import { debugLog } from './util'
 
 const ReactiveTreebeard = makeReactive<{
   data: ITreeNode
@@ -13,7 +14,7 @@ const ReactiveTreebeard = makeReactive<{
 }>(Treebeard, (props) => props.data)
 
 const Tree: React.FC<{}> = function () {
-  console.log('<Tree>')
+  debugLog('<Tree>')
   const data = useData(() => {
     let lastNode: ITreeNode | null = null
     const onToggle = async (node: ITreeNode, toggled: boolean): Promise<void> => {

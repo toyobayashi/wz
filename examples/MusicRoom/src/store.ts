@@ -5,6 +5,7 @@ import { WzMapleVersion, WzImage, init } from '../../..'
 import { ObjectId } from '@tybys/oid'
 
 import { wasmBinary } from './wzwasm'
+import { debugLog } from './util'
 
 const uri = `data:application/wasm;base64,${wasmBinary}`
 
@@ -26,7 +27,7 @@ const store = createStore({
       const r = await img.parseImage()
       if (r) {
         state.entries.push(img)
-        console.log(img)
+        debugLog(img)
 
         const children: ITreeNode[] = []
         for (const prop of img.wzProperties.values()) {
