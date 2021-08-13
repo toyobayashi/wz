@@ -7,7 +7,14 @@ import { ObjectId } from '@tybys/oid'
 import { wasmBinary } from './wzwasm'
 import { debugLog } from './util'
 
-const uri = `data:application/wasm;base64,${wasmBinary}`
+async function initWz (): Promise<void> {
+  const emscriptenModuleOverrides: Partial<EmscriptenModule> = {
+    locateFile () {
+      return `data:application/wasm;base64,${wasmBinary()}`
+    }
+  }
+  await init(emscriptenModuleOverrides)
+}
 
 const store = createStore({
   state: {
@@ -18,11 +25,7 @@ const store = createStore({
   getters: {},
   actions: {
     async parseImg ({ state }, file: File): Promise<void> {
-      await init({
-        locateFile () {
-          return uri
-        }
-      })
+      await initWz()
       const img = WzImage.createFromFile(file, state.mapleVersion)
       const r = await img.parseImage()
       if (r) {
