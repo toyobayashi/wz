@@ -1,11 +1,21 @@
-import { createStore } from '@tybys/reactive-react'
 import type { ITreeNode } from 'react-treebeard'
-import type { WzFile } from '../../..'
-import { WzMapleVersion, WzImage, init } from '../../..'
+import {
+  WzMapleVersion,
+  WzImage,
+  WzFile,
+  init,
+  WzFileParseStatus,
+  getErrorDescription,
+  WzBinaryProperty,
+  WzObject
+} from '../../..'
+
 import { ObjectId } from '@tybys/oid'
+import { effectScope, reactive } from '@vue/reactivity'
 
 import { wasmBinary } from './wzwasm'
-import { debugLog } from './util'
+import { collectDir, debugLog, parseProperties } from './util'
+import { audio } from './audio'
 
 async function initWz (): Promise<void> {
   const emscriptenModuleOverrides: Partial<EmscriptenModule> = {
@@ -16,45 +26,125 @@ async function initWz (): Promise<void> {
   await init(emscriptenModuleOverrides)
 }
 
-const store = createStore({
-  state: {
-    entries: [] as (WzFile | WzImage)[],
+const scope = effectScope()
+const store = scope.run(() => {
+  const state = reactive({
     mapleVersion: WzMapleVersion.BMS,
-    trees: [] as ITreeNode[]
-  },
-  getters: {},
-  actions: {
-    async parseImg ({ state }, file: File): Promise<void> {
-      await initWz()
-      const img = WzImage.createFromFile(file, state.mapleVersion)
-      const r = await img.parseImage()
-      if (r) {
-        state.entries.push(img)
-        debugLog(img)
+    trees: [] as ITreeNode[],
+    treeLoading: false
+  })
 
-        const children: ITreeNode[] = []
-        for (const prop of img.wzProperties.values()) {
-          const node: ITreeNode = {
-            id: new ObjectId().toHexString(),
-            name: prop.name,
-            active: false,
-            data: () => prop
-          }
-          children.push(node)
-        }
-        const tree: ITreeNode = {
-          id: new ObjectId().toHexString(),
-          name: img.name,
-          children: children,
-          active: false,
-          toggled: false,
-          data: () => img
-        }
-        state.trees.push(tree)
-      } else {
-        throw new Error('Image parse failed. Ensure it is a valid img or try to change the maple version')
+  const deleteTree = () => {
+    for (let i = 0; i < state.trees.length; i++) {
+      const node = state.trees[i]
+      if (node.active) {
+        const obj: WzObject = node.data!()
+        obj.dispose()
+        state.trees.splice(i, 1)
       }
     }
+  }
+
+  const parseImg = async function (file: File): Promise<WzImage> {
+    await initWz()
+    const img = WzImage.createFromFile(file, state.mapleVersion)
+    const tree: ITreeNode = {
+      id: new ObjectId().toHexString(),
+      name: img.name,
+      children: [],
+      active: false,
+      toggled: false,
+      data: () => img
+    }
+    debugLog(img)
+    state.trees.push(tree)
+    return img
+  }
+
+  const parseWz = async function (file: File): Promise<WzFile> {
+    await initWz()
+    const wz = new WzFile(file, state.mapleVersion)
+    let r: WzFileParseStatus
+    state.treeLoading = true
+    try {
+      r = await wz.parseWzFile()
+    } catch (err) {
+      state.treeLoading = false
+      throw err
+    }
+    state.treeLoading = false
+    if (r !== WzFileParseStatus.SUCCESS) {
+      wz.dispose()
+      throw new Error(getErrorDescription(r))
+    }
+
+    const tree: ITreeNode = {
+      id: new ObjectId().toHexString(),
+      name: wz.name,
+      children: [],
+      active: false,
+      toggled: false,
+      data: () => wz
+    }
+
+    collectDir(wz.wzDirectory!, tree)
+    debugLog(wz)
+    state.trees.push(tree)
+
+    return wz
+  }
+
+  const tryExpandNode = async function (node: ITreeNode): Promise<void> {
+    const wzData = node.data ? node.data() : null
+    if (wzData) {
+      debugLog(wzData)
+      if (wzData instanceof WzImage) {
+        if (!node.children || !node.children.length) {
+          node.children = node.children || []
+          node.loading = true
+          node.toggled = true
+          const r = await wzData.parseImage()
+          if (r) {
+            for (const prop of wzData.wzProperties.values()) {
+              const propNode: ITreeNode = {
+                id: new ObjectId().toHexString(),
+                name: prop.name,
+                active: false,
+                data: () => prop
+              }
+              node.children.push(propNode)
+            }
+            node.loading = false
+          } else {
+            node.toggled = false
+            throw new Error('Image parse failed. Ensure it is a valid img or try to change the maple version')
+          }
+        }
+      } else if (wzData instanceof WzBinaryProperty) {
+        const buffer = await wzData.getBytes(false)
+        await audio.playRaw(buffer)
+      } else {
+        parseProperties(wzData, node)
+      }
+    }
+  }
+
+  return {
+    state,
+    mutations: {
+      deleteTree
+    },
+    actions: {
+      parseImg,
+      parseWz,
+      tryExpandNode
+    }
+  }
+})!
+
+document.addEventListener('keyup', (e) => {
+  if (e.key === 'Delete') {
+    store.mutations.deleteTree()
   }
 })
 

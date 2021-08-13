@@ -3,9 +3,7 @@ import { Treebeard } from 'react-treebeard'
 import type { ITreeNode } from 'react-treebeard'
 import { useRender, useData, makeReactive } from '@tybys/reactive-react'
 import store from './store'
-import { WzBinaryProperty } from '../../..'
-import { audio } from './audio'
-import { debugLog } from './util'
+import { debugError, debugLog } from './util'
 
 const ReactiveTreebeard = makeReactive<{
   data: ITreeNode
@@ -26,12 +24,11 @@ const Tree: React.FC<{}> = function () {
         node.toggled = toggled;
       }
       lastNode = node
-      const wzData = node.data ? node.data() : null
-      if (wzData) {
-        if (wzData instanceof WzBinaryProperty) {
-          const buffer = await wzData.getBytes(false)
-          await audio.playRaw(buffer)
-        }
+      try {
+        await store.actions.tryExpandNode(node)
+      } catch (err) {
+        debugError(err)
+        window.alert(err.message)
       }
     }
     return {
@@ -39,14 +36,23 @@ const Tree: React.FC<{}> = function () {
     }
   })
   return useRender(() => {
-    return <div>
+    return <div style={styles.treeContainer}>
       {
         store.state.trees.map(tree => {
-          return <ReactiveTreebeard data={tree} onToggle={data.onToggle} key={tree.name} />
+          return <ReactiveTreebeard data={tree} onToggle={data.onToggle} key={tree.id} />
         })
       }
+      {store.state.treeLoading ? <p>Loading...</p> : null}
     </div>
   })
+}
+
+const styles = {
+  treeContainer: {
+    marginTop: 10,
+    flex: 1,
+    overflow: 'auto'
+  }
 }
 
 export default Tree
