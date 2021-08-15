@@ -42,6 +42,10 @@ const Player: React.FC<{}> = function () {
       }
     }
 
+    const onSaveMp3 = () => {
+      return store.actions.saveMp3()
+    }
+
     return {
       duration,
       currentTime,
@@ -51,6 +55,7 @@ const Player: React.FC<{}> = function () {
       onMouseUp,
       onMouseDown,
       onClickPause,
+      onSaveMp3
     }
   })
 
@@ -89,7 +94,9 @@ const Player: React.FC<{}> = function () {
       onMouseUp={data.onMouseUp}
       onMouseDown={data.onMouseDown}
     />
-    <span style={styles.vam}>{data.timeString.value} {store.getters.playingName.value}</span>
+    <span style={styles.vam}>
+      {data.timeString.value} {store.getters.playingName.value}
+    </span> {store.getters.playingName.value ? <button style={styles.btn} onClick={data.onSaveMp3}>SAVE</button> : null}
   </div>)
 }
 

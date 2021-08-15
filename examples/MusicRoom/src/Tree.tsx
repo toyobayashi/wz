@@ -16,6 +16,7 @@ const Tree: React.FC<{}> = function () {
   const data = useData(() => {
     let lastNode: ITreeNode | null = null
     const onToggle = async (node: ITreeNode, toggled: boolean): Promise<void> => {
+      if (lastNode === node) return
       if (lastNode) {
         lastNode.active = false
       }

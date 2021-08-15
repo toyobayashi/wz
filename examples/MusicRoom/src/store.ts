@@ -136,6 +136,12 @@ const store = scope.run(() => {
     }
   }
 
+  const saveMp3 = async () => {
+    if (playingWzBinrary.value) {
+      await playingWzBinrary.value.saveToFile(playingName.value + '.mp3')
+    }
+  }
+
   return {
     state,
     getters: {
@@ -147,7 +153,8 @@ const store = scope.run(() => {
     actions: {
       parseImg,
       parseWz,
-      tryExpandNode
+      tryExpandNode,
+      saveMp3
     }
   }
 })!
