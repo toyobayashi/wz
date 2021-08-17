@@ -7,12 +7,16 @@ import Tree from './Tree'
 const App: React.FC<{}> = function () {
   return <>
     <div style={stypes.topLine}>
-      <MapleVersionSelect />
+      <React.Suspense fallback={false} >
+        <MapleVersionSelect />
+      </React.Suspense>
       <a href='https://github.com/toyobayashi/wz' target='_blank'>https://github.com/toyobayashi/wz</a>
     </div>
     <FileInput />
     <Player />
-    <Tree />
+    <React.Suspense fallback={false} >
+      <Tree />
+    </React.Suspense>
   </>
 }
 

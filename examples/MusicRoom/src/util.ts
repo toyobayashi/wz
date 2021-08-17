@@ -1,6 +1,6 @@
-import { ObjectId } from "@tybys/oid"
-import type { ITreeNode } from "react-treebeard"
-import type { WzDirectory, WzImageProperty } from "../../.."
+import { ObjectId } from '@tybys/oid'
+import type { ITreeNode } from 'react-treebeard'
+import type { WzDirectory, WzImageProperty } from '@tybys/wz'
 
 export function debugLog (...args: any[]) {
   if (process.env.NODE_ENV !== 'production') {

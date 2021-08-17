@@ -17,3 +17,8 @@ declare module 'react-treebeard' {
     onToggle?: (node: ITreeNode, toggled: boolean) => any
   }> {}
 }
+
+declare module '@tybys/wz/dist/wz.wasm' {
+  const dataUrl: string
+  export default dataUrl
+}
