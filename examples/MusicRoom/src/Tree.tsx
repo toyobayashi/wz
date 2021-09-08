@@ -18,7 +18,12 @@ const Tree = React.lazy(async () => {
       const data = useData(() => {
         let lastNode: ITreeNode | null = null
         const onToggle = async (node: ITreeNode, toggled: boolean): Promise<void> => {
-          if (lastNode === node) return
+          if (lastNode === node) {
+            if (node.children) {
+              node.toggled = toggled;
+            }
+            return
+          }
           if (lastNode) {
             lastNode.active = false
           }
