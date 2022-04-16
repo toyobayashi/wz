@@ -128,20 +128,6 @@ export class WzDirectory extends WzObject {
     return null
   }
 
-  public getChildImages (): Set<WzImage> {
-    const imgFiles = new Set<WzImage>()
-    for (const img of this.images) {
-      imgFiles.add(img)
-    }
-    for (const subDir of this.subDirs) {
-      const list = subDir.getChildImages()
-      for (const img of list) {
-        imgFiles.add(img)
-      }
-    }
-    return imgFiles
-  }
-
   public setVersionHash (newHash: number): void {
     this.hash = newHash
     for (const dir of this.subDirs) {
@@ -166,6 +152,9 @@ export class WzDirectory extends WzObject {
 
   public async parseDirectory (lazyParse: boolean = false): Promise<void> {
     this._clearAllChildren()
+    const available = this.reader.available()
+    if (available === 0) return
+
     if (this.reader.pos !== this.offset) {
       this.reader.pos = this.offset
     }
@@ -201,7 +190,9 @@ export class WzDirectory extends WzObject {
           rememberPos = reader.pos
           break
         }
-        default: break
+        default: {
+          throw new Error(`[WzDirectory] Unknown directory. type = ${type}`)
+        }
       }
       reader.pos = rememberPos
       // eslint-disable-next-line prefer-const
@@ -232,7 +223,9 @@ export class WzDirectory extends WzObject {
 
     for (const subdir of this.subDirs) {
       // reader.pos = subdir.offset
-      await subdir.parseDirectory(false)
+      if (subdir.checksum !== 0) {
+        await subdir.parseDirectory(false)
+      }
     }
   }
 }

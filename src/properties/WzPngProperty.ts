@@ -116,7 +116,7 @@ export class WzPngProperty extends WzExtended {
       const len = await this.wzReader.readInt32LE() - 1
       if (len <= 0) {
         // possibility an image written with the wrong wzIv
-        throw new Error('The length of the image is negative. WzPngProperty.')
+        throw new Error('The length of the image is negative. WzPngProperty. Wrong WzIV?')
       }
 
       this.wzReader.pos += 1
@@ -209,12 +209,7 @@ export class WzPngProperty extends WzExtended {
   }
 
   private async _getRawImage (saveInMemory: boolean = false): Promise<Uint8Array | null> {
-    let rawImageBytes: Uint8Array
-    if (this.compressedImageBytes != null) {
-      rawImageBytes = this.compressedImageBytes
-    } else {
-      rawImageBytes = await this.getCompressedBytes(saveInMemory)
-    }
+    const rawImageBytes = await this.getCompressedBytes(saveInMemory)
 
     const reader = new BinaryReader(rawImageBytes)
 
@@ -241,53 +236,56 @@ export class WzPngProperty extends WzExtended {
     reader.dispose()
 
     const format = this.format1 + this.format2
+    let uncompressedSize = 0
+    let decBuf: Uint8Array | null = null
     switch (format) {
       case 1: {
-        const uncompressedSize = this.width * this.height * 2
-        const decBuf = await inflate(data, uncompressedSize)
-        return decBuf
+        uncompressedSize = this.width * this.height * 2
+        decBuf = await inflate(data, uncompressedSize)
+        break
       }
       case 2: {
-        const uncompressedSize = this.width * this.height * 4
-        const decBuf = await inflate(data, uncompressedSize)
-        return decBuf
+        uncompressedSize = this.width * this.height * 4
+        decBuf = await inflate(data, uncompressedSize)
+        break
       }
       case 3: {
-        const uncompressedSize = this.width * this.height * 4
-        const decBuf = await inflate(data, uncompressedSize)
-        return decBuf
+        uncompressedSize = this.width * this.height * 4
+        decBuf = await inflate(data, uncompressedSize)
+        break
       }
       case 257: { // http://forum.ragezone.com/f702/wz-png-format-decode-code-1114978/index2.html#post9053713
         // "Npc.wz\\2570101.img\\info\\illustration2\\face\\0"
-        const uncompressedSize = this.width * this.height * 2
-        const decBuf = await inflate(data, uncompressedSize)
-        return decBuf
+        uncompressedSize = this.width * this.height * 2
+        decBuf = await inflate(data, uncompressedSize)
+        break
       }
       case 513: {
-        const uncompressedSize = this.width * this.height * 2
-        const decBuf = await inflate(data, uncompressedSize)
-        return decBuf
+        uncompressedSize = this.width * this.height * 2
+        decBuf = await inflate(data, uncompressedSize)
+        break
       }
       case 517: {
-        const uncompressedSize: number = (parseInt as any)(this.width * this.height / 128)
-        const decBuf = await inflate(data, uncompressedSize)
-        return decBuf
+        uncompressedSize = (parseInt as any)(this.width * this.height / 128)
+        decBuf = await inflate(data, uncompressedSize)
+        break
       }
       case 1026: {
-        const uncompressedSize = this.width * this.height * 4
-        const decBuf = await inflate(data, uncompressedSize)
-        return decBuf
+        uncompressedSize = this.width * this.height * 4
+        decBuf = await inflate(data, uncompressedSize)
+        break
       }
       case 2050: {
-        const uncompressedSize = this.width * this.height
-        const decBuf = await inflate(data, uncompressedSize)
-        return decBuf
+        uncompressedSize = this.width * this.height
+        decBuf = await inflate(data, uncompressedSize)
+        break
       }
       default: {
         ErrorLogger.log(ErrorLevel.MissingFeature, `Unknown PNG format ${this.format1} ${this.format2}`)
-        return null
+        break
       }
     }
+    return decBuf
   }
 
   private static getPixelDataBgra4444 (rawData: Uint8Array, width: number, height: number): Uint8Array {

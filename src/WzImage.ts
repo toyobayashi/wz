@@ -13,6 +13,9 @@ import { path } from './util/node'
  * @public
  */
 export class WzImage extends WzObject implements IPropertyContainer {
+  public static WzImageHeaderByte_WithoutOffset = 0x73
+  public static WzImageHeaderByte_WithOffset = 0x1B
+
   public parent: WzObject | null = null
   public name: string = ''
   public reader: WzBinaryReader
@@ -183,7 +186,7 @@ export class WzImage extends WzObject implements IPropertyContainer {
 
         return false
       }
-      case 0x73: {
+      case WzImage.WzImageHeaderByte_WithoutOffset: {
         const prop = await reader.readWzString()
         const val = await reader.readUInt16LE()
         if (prop !== 'Property' || val !== 0) {

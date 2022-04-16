@@ -170,7 +170,17 @@ export class WzCanvasProperty extends WzExtended implements IPropertyContainer {
         if (!(currentWzObj instanceof WzDirectory)) continue // keep looping if its not a WzImage
 
         const wzFileParent = (currentWzObj).wzFile
-        const foundProperty = wzFileParent.getObjectFromPath(_outlink)
+        const match = wzFileParent.name.match(/^([A-Za-z]+)([0-9]*)\.wz/)!
+        const prefixWz = match[1] + '/'
+        let foundProperty: WzObject | null
+
+        if (_outlink.indexOf(prefixWz) === 0) {
+          // fixed root path
+          const realpath = _outlink.replace(prefixWz, wzFileParent.name.replace('.wz', '') + '/')
+          foundProperty = wzFileParent.getObjectFromPath(realpath)
+        } else {
+          foundProperty = wzFileParent.getObjectFromPath(_outlink)
+        }
         if (foundProperty != null && foundProperty instanceof WzImageProperty) {
           return await foundProperty.getBitmap()
         }

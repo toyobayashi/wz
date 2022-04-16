@@ -63,7 +63,11 @@ export class WzUOLProperty extends WzExtended {
           } else if (this.linkVal instanceof WzImage) {
             this.linkVal = this.linkVal.at(path)
           } else if (this.linkVal instanceof WzDirectory) {
-            this.linkVal = this.linkVal.at(path)
+            if (path.endsWith('.img')) {
+              this.linkVal = this.linkVal.at(path)
+            } else {
+              this.linkVal = this.linkVal.at(path + '.img')
+            }
           } else {
             ErrorLogger.log(ErrorLevel.Critical, `UOL got nexon'd at property: ${this.fullPath}`)
             return null

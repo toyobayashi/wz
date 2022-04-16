@@ -26,6 +26,10 @@ export class WzBinaryReader extends AsyncBinaryReader implements IDisposable {
     this.header = WzHeader.getDefault()
   }
 
+  public available (): number {
+    return this.size - this.pos
+  }
+
   public async readWzStringAtOffset (offset: number, readByte: boolean = false): Promise<string> {
     const currentOffset = this.pos
     this.pos = offset
