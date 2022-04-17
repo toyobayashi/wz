@@ -168,6 +168,7 @@ export class WzDirectory extends WzObject {
       let fsize: number
       let checksum: number
       let offset: number
+      // let unk_GMS230 = 0
       let rememberPos = 0
       switch (type) {
         case 1: {
@@ -180,6 +181,9 @@ export class WzDirectory extends WzObject {
           const stringOffset = await reader.readInt32LE()
           rememberPos = reader.pos
           reader.pos = reader.header.fstart + stringOffset
+          if (this.wzFile.is64BitWzFile) {
+            /* unk_GMS230 =  */await reader.readUInt8() // something added in GMS v230/ SEA v212
+          }
           type = await reader.readUInt8()
           fname = await reader.readWzString()
           break

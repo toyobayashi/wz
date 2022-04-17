@@ -51,7 +51,7 @@ export class WzFile extends WzObject {
   public filepath: string | File
   public header: WzHeader = WzHeader.getDefault()
   private _wzVersionHeader: number = 0
-  private readonly _wzVersionHeader64bit_start: number = 777
+  private readonly _wzVersionHeader64bit_start: number = 770
   private _versionHash: number = 0
   public mapleStoryPatchVersion: number = 0
   public maplepLocalVersion: WzMapleVersion
@@ -66,7 +66,7 @@ export class WzFile extends WzObject {
     return this._mapleLocaleVersion
   }
 
-  public get Is64BitWzFile (): boolean {
+  public get is64BitWzFile (): boolean {
     return this._b64BitClient
   }
 
@@ -168,7 +168,7 @@ export class WzFile extends WzObject {
       // for 64-bit client, return immediately if version 777 works correctly.
       // -- the latest KMS update seems to have changed it to 778? 779?
       if (this._b64BitClient) {
-        for (let maplestoryVerToDecode = this._wzVersionHeader64bit_start; maplestoryVerToDecode < this._wzVersionHeader64bit_start + 10; maplestoryVerToDecode++) {
+        for (let maplestoryVerToDecode = this._wzVersionHeader64bit_start; maplestoryVerToDecode < this._wzVersionHeader64bit_start + 20; maplestoryVerToDecode++) {
           if (await this._tryDecodeWithWZVersionNumber(reader, this._wzVersionHeader, maplestoryVerToDecode, lazyParse)) {
             return WzFileParseStatus.SUCCESS
           }
