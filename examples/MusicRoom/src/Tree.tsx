@@ -34,7 +34,7 @@ const Tree = React.lazy(async () => {
           lastNode = node
           try {
             await store.actions.tryExpandNode(node)
-          } catch (err) {
+          } catch (err: any) {
             debugError(err)
             window.alert(err.message)
           }

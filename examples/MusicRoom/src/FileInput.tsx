@@ -2,10 +2,8 @@ import * as React from 'react'
 import { audio } from './audio'
 import store from './store'
 
-const emptyDep: React.DependencyList = []
-
 const FileInput: React.FC<{}> = function () {
-  const onFileChange = React.useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target
     const files = input.files
     if (files && files.length) {
@@ -14,14 +12,14 @@ const FileInput: React.FC<{}> = function () {
       if (file.name.endsWith('.wz')) {
         try {
           await store.actions.parseWz(file)
-        } catch (err) {
+        } catch (err: any) {
           input.value = ''
           window.alert(err.message)
         }
       } else if (file.name.endsWith('.img')) {
         try {
           await store.actions.parseImg(file)
-        } catch (err) {
+        } catch (err: any) {
           input.value = ''
           window.alert(err.message)
         }
@@ -30,14 +28,14 @@ const FileInput: React.FC<{}> = function () {
         window.alert('Invalid file type')
       }
     }
-  }, emptyDep)
+  }
 
-  const onLabelClick = React.useCallback(async (e: React.MouseEvent<HTMLLabelElement, MouseEvent>) => {
+  const onLabelClick = async (e: React.MouseEvent<HTMLLabelElement, MouseEvent>) => {
     if (store.state.treeLoading) {
       e.preventDefault()
     }
     await audio.resume()
-  }, emptyDep)
+  }
 
   return <div>
     <label style={styles.fileInput} htmlFor='fileInput' onClick={onLabelClick}>Select Sound*.wz or IMG file
