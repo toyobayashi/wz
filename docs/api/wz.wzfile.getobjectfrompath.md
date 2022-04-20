@@ -15,7 +15,7 @@ getObjectFromPath(path: string, checkFirstDirectoryName?: boolean): WzObject | n
 |  Parameter | Type | Description |
 |  --- | --- | --- |
 |  path | string |  |
-|  checkFirstDirectoryName | boolean |  |
+|  checkFirstDirectoryName | boolean | <i>(Optional)</i> |
 
 <b>Returns:</b>
 

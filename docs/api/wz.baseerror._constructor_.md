@@ -16,5 +16,5 @@ constructor(message?: string);
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  message | string |  |
+|  message | string | <i>(Optional)</i> |
 

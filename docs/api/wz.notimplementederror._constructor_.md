@@ -16,5 +16,5 @@ constructor(where?: string);
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  where | string |  |
+|  where | string | <i>(Optional)</i> |
 

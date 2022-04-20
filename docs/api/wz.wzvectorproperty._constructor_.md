@@ -16,7 +16,7 @@ constructor(name?: string, x?: number, y?: number);
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  name | string |  |
-|  x | number |  |
-|  y | number |  |
+|  name | string | <i>(Optional)</i> |
+|  x | number | <i>(Optional)</i> |
+|  y | number | <i>(Optional)</i> |
 
