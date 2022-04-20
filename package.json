@@ -56,6 +56,7 @@
   "dependencies": {
     "@tybys/binreader": "^0.4.0",
     "@tybys/native-require": "^3.0.3",
+    "@tybys/windows-file-version-info": "^1.0.5",
     "jimp": "^0.16.1",
     "tslib": "^2.3.0"
   }

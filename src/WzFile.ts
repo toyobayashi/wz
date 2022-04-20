@@ -1,4 +1,4 @@
-import { path } from './util/node'
+import { os, path, fs, tybysWindowsFileVersionInfo } from './util/node'
 import type { WzCanvasProperty } from './properties/WzCanvasProperty'
 import type { WzConvexProperty } from './properties/WzConvexProperty'
 import type { WzSubProperty } from './properties/WzSubProperty'
@@ -55,7 +55,7 @@ export class WzFile extends WzObject {
   private _versionHash: number = 0
   public mapleStoryPatchVersion: number = 0
   public maplepLocalVersion: WzMapleVersion
-  private readonly _mapleLocaleVersion: MapleStoryLocalisation = MapleStoryLocalisation.Not_Known
+  private _mapleLocaleVersion: MapleStoryLocalisation = MapleStoryLocalisation.Not_Known
 
   private _b64BitClient = false // KMS update after Q4 2021, ver 1.2.357
   private _b64BitClient_withVerHeader = false
@@ -175,15 +175,21 @@ export class WzFile extends WzObject {
         }
       }
       // Attempt to get version from MapleStory.exe first
-      // const out = {}
-      // Object.defineProperty(out, 'value', {
-      //   configurable: true,
-      //   enumerable: true,
-      //   get: () => this._mapleLocaleVersion,
-      //   set: (value: MapleStoryLocalisation) => { this._mapleLocaleVersion = value }
-      // })
-      // const maplestoryVerDetectedFromClient = WzFile._getMapleStoryVerFromExe(this.filepath, out)
-      const maplestoryVerDetectedFromClient = 0
+      let maplestoryVerDetectedFromClient
+      if (typeof window !== 'undefined') {
+        maplestoryVerDetectedFromClient = 0
+      } else {
+        const _this = this
+        const out = {
+          get value () {
+            return _this._mapleLocaleVersion
+          },
+          set value (value: MapleStoryLocalisation) {
+            _this._mapleLocaleVersion = value
+          }
+        }
+        maplestoryVerDetectedFromClient = WzFile._getMapleStoryVerFromExe(this.filepath as string, out)
+      }
 
       // this step is actually not needed if we know the maplestory patch version (the client .exe), but since we dont..
       // we'll need a bruteforce way around it.
@@ -277,6 +283,58 @@ export class WzFile extends WzObject {
         testDirectory.dispose()
       }
     }
+  }
+
+  private static _getMapleStoryVerFromExe (wzFilePath: string, mapleLocaleVersion: { value: MapleStoryLocalisation }): number {
+    if (typeof window !== 'undefined' || os.platform() !== 'win32' || !fs.existsSync(wzFilePath)) {
+      mapleLocaleVersion.value = MapleStoryLocalisation.Not_Known
+      return 0
+    }
+    const MAPLESTORY_EXE_NAME = 'MapleStory.exe'
+    const MAPLESTORYT_EXE_NAME = 'MapleStoryT.exe'
+    const MAPLESTORYADMIN_EXE_NAME = 'MapleStoryA.exe'
+
+    let currentDirectory = path.dirname(wzFilePath)
+    for (let i = 0; i < 4; i++) {
+      const exeFileInfo = []
+      const msexe = path.join(currentDirectory, MAPLESTORY_EXE_NAME)
+      const mstexe = path.join(currentDirectory, MAPLESTORYT_EXE_NAME)
+      const msaexe = path.join(currentDirectory, MAPLESTORYADMIN_EXE_NAME)
+      if (fs.existsSync(msexe)) {
+        exeFileInfo.push(msexe)
+      }
+      if (fs.existsSync(mstexe)) {
+        exeFileInfo.push(mstexe)
+      }
+      if (fs.existsSync(msaexe)) {
+        exeFileInfo.push(msaexe)
+      }
+      for (let j = 0; j < exeFileInfo.length; ++j) {
+        const versionInfo = tybysWindowsFileVersionInfo.FileVersionInfo.getVersionInfo(exeFileInfo[i])
+        if ((versionInfo.fileMajorPart === 1 && versionInfo.fileMinorPart === 0 && versionInfo.fileBuildPart === 0) ||
+            (versionInfo.fileMajorPart === 0 && versionInfo.fileMinorPart === 0 && versionInfo.fileBuildPart === 0)) { // older client uses 1.0.0.1
+          continue
+        }
+
+        const locale = versionInfo.fileMajorPart
+        let localeVersion = MapleStoryLocalisation.Not_Known
+        if (MapleStoryLocalisation[locale] !== undefined) {
+          localeVersion = locale as MapleStoryLocalisation
+        }
+        const msVersion = versionInfo.fileMinorPart
+        // const msMinorPatchVersion = versionInfo.fileBuildPart
+
+        mapleLocaleVersion.value = localeVersion
+        return msVersion
+      }
+      const oldCurrentDirectory = currentDirectory
+      currentDirectory = path.dirname(oldCurrentDirectory)
+      if (currentDirectory === oldCurrentDirectory) {
+        break
+      }
+    }
+    mapleLocaleVersion.value = MapleStoryLocalisation.Not_Known
+    return 0
   }
 
   private async _check64BitClient (reader: WzBinaryReader): Promise<void> {
