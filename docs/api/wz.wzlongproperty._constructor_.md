@@ -16,6 +16,6 @@ constructor(name?: string, val?: bigint);
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  name | string |  |
-|  val | bigint |  |
+|  name | string | <i>(Optional)</i> |
+|  val | bigint | <i>(Optional)</i> |
 

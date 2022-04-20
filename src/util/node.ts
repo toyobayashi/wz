@@ -12,6 +12,7 @@ export const fs: typeof import('fs') = (function () {
     return _require!('fs')
   } catch (_) {
     return {
+      existsSync () { throwError() },
       mkdirSync () { throwError() },
       writeFileSync () { throwError() },
       openSync () { throwError() },
@@ -46,9 +47,21 @@ export const os: typeof import('os') = (function () {
   try {
     return _require!('os')
   } catch (_) {
+    const platform = function (): 'win32' | 'linux' | 'darwin' | 'unknown' {
+      if (window.navigator.userAgent.indexOf('Windows') !== -1) {
+        return 'win32'
+      }
+      if (window.navigator.userAgent.indexOf('Linux') !== -1) {
+        return 'linux'
+      }
+      if (window.navigator.userAgent.indexOf('Macintosh') !== -1) {
+        return 'darwin'
+      }
+      return 'unknown'
+    }
     return {
-      // eslint-disable-next-line @typescript-eslint/prefer-includes
-      EOL: window.navigator.userAgent.toLowerCase().indexOf('win') !== -1 ? '\r\n' : '\n'
+      EOL: window.navigator.userAgent.toLowerCase().indexOf('win') !== -1 ? '\r\n' : '\n',
+      platform
     }
   }
 })()
@@ -107,5 +120,18 @@ export const Jimp: typeof import('jimp') = (function () {
     return _require!('jimp')
   } catch (_) {
     return null
+  }
+})()
+
+export const tybysWindowsFileVersionInfo: typeof import('@tybys/windows-file-version-info') = (function () {
+  try {
+    if (os.platform() !== 'win32') throwError()
+    return _require!('@tybys/windows-file-version-info')
+  } catch (_) {
+    const FileVersionInfo = function (): void { throwError() }
+    FileVersionInfo.getVersionInfo = function () {
+      throwError()
+    }
+    return { FileVersionInfo }
   }
 })()

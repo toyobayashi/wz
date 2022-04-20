@@ -17,6 +17,7 @@ module.exports = {
     '@typescript-eslint/no-this-alias': 'off',
     '@typescript-eslint/no-non-null-assertion': 'off',
     '@typescript-eslint/promise-function-async': 'off',
+    '@typescript-eslint/prefer-includes': 'off',
     '@typescript-eslint/member-delimiter-style': ['error', {
       multiline: {
         delimiter: 'none',

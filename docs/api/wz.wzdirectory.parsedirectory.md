@@ -14,7 +14,7 @@ parseDirectory(lazyParse?: boolean): Promise<void>;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  lazyParse | boolean |  |
+|  lazyParse | boolean | <i>(Optional)</i> |
 
 <b>Returns:</b>
 

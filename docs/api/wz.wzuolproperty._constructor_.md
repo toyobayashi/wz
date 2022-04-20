@@ -16,6 +16,6 @@ constructor(name?: string, val?: string);
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  name | string |  |
-|  val | string |  |
+|  name | string | <i>(Optional)</i> |
+|  val | string | <i>(Optional)</i> |
 

@@ -15,7 +15,7 @@ export declare function init(moduleOverrides?: Partial<EmscriptenModule>): Promi
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  moduleOverrides | Partial&lt;EmscriptenModule&gt; |  |
+|  moduleOverrides | Partial&lt;EmscriptenModule&gt; | <i>(Optional)</i> |
 
 <b>Returns:</b>
 

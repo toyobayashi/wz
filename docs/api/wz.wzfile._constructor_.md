@@ -18,5 +18,5 @@ constructor(filepath: string | File, version: WzMapleVersion, gameVersion?: numb
 |  --- | --- | --- |
 |  filepath | string \| File |  |
 |  version | [WzMapleVersion](./wz.wzmapleversion.md) |  |
-|  gameVersion | number |  |
+|  gameVersion | number | <i>(Optional)</i> |
 

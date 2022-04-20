@@ -18,5 +18,5 @@ constructor(name: string, reader: WzBinaryReader, checksum?: number);
 |  --- | --- | --- |
 |  name | string |  |
 |  reader | [WzBinaryReader](./wz.wzbinaryreader.md) |  |
-|  checksum | number |  |
+|  checksum | number | <i>(Optional)</i> |
 

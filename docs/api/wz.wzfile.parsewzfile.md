@@ -14,7 +14,7 @@ parseWzFile(wzIv?: Uint8Array | null): Promise<WzFileParseStatus>;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  wzIv | Uint8Array \| null |  |
+|  wzIv | Uint8Array \| null | <i>(Optional)</i> |
 
 <b>Returns:</b>
 

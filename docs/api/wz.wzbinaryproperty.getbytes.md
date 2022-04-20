@@ -14,7 +14,7 @@ getBytes(saveInMemory?: boolean): Promise<Uint8Array>;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  saveInMemory | boolean |  |
+|  saveInMemory | boolean | <i>(Optional)</i> |
 
 <b>Returns:</b>
 

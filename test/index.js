@@ -99,7 +99,7 @@ async function testSound () {
 
         if (obj.objectType === WzObjectType.Property && obj instanceof WzBinaryProperty) {
           console.log(n, type, relativePath)
-          obj.saveToFile(path.join(/* __dirname,  */'Sound', path.extname(relativePath) === '' ? `${relativePath}.mp3` : relativePath))
+          await obj.saveToFile(path.join(/* __dirname,  */'Sound', path.extname(relativePath) === '' ? `${relativePath}.mp3` : relativePath))
           n++
         }
       })
@@ -194,7 +194,7 @@ async function main () {
   if (filepath === undefined || filepath === '') {
     throw new Error('Path is null')
   }
-  if (filepath.endsWith('Sound.wz')) {
+  if (filepath.includes('Sound')) {
     await testSound()
   } else {
     await test()

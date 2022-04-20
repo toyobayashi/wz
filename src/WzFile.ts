@@ -1,4 +1,4 @@
-import { path } from './util/node'
+import { os, path, fs, tybysWindowsFileVersionInfo } from './util/node'
 import type { WzCanvasProperty } from './properties/WzCanvasProperty'
 import type { WzConvexProperty } from './properties/WzConvexProperty'
 import type { WzSubProperty } from './properties/WzSubProperty'
@@ -25,6 +25,23 @@ export interface IWzParseResult {
   message: string
 }
 
+/** @public */
+export enum MapleStoryLocalisation {
+  MapleStoryKorea = 1,
+  MapleStoryKoreaTespia = 2,
+  Unknown3 = 3,
+  Unknown4 = 4,
+  MapleStoryTespia = 5,
+  Unknown6 = 6,
+  MapleStorySEA = 7,
+  MapleStoryGlobal = 8,
+  MapleStoryEurope = 9,
+
+  Not_Known = 999
+
+  // TODO: other values
+}
+
 /**
  * @public
  */
@@ -33,12 +50,25 @@ export class WzFile extends WzObject {
   public parent: WzObject | null = null
   public filepath: string | File
   public header: WzHeader = WzHeader.getDefault()
-  private _version: number = 0
+  private _wzVersionHeader: number = 0
+  private readonly _wzVersionHeader64bit_start: number = 770
   private _versionHash: number = 0
   public mapleStoryPatchVersion: number = 0
   public maplepLocalVersion: WzMapleVersion
+  private _mapleLocaleVersion: MapleStoryLocalisation = MapleStoryLocalisation.Not_Known
+
+  private _b64BitClient = false // KMS update after Q4 2021, ver 1.2.357
+  private _b64BitClient_withVerHeader = false
   private _wzIv: Uint8Array
   private _wzDir: WzDirectory | null = null
+
+  public get mapleLocaleVersion (): MapleStoryLocalisation {
+    return this._mapleLocaleVersion
+  }
+
+  public get is64BitWzFile (): boolean {
+    return this._b64BitClient
+  }
 
   public get wzDirectory (): WzDirectory | null {
     return this._wzDir
@@ -58,6 +88,14 @@ export class WzFile extends WzObject {
       r.close()
     } else {
       this._wzIv = getIvByMapleVersion(version)
+    }
+
+    // TODO: Find a better way of identifying 64-bit client/ WZ from the WZ files instead.
+    // This might break if it isnt installed in the right path, esp. private servers
+    if (typeof this.filepath === 'string') {
+      this._b64BitClient = this.filepath.split(path.sep).includes('Data')
+    } else {
+      this._b64BitClient = this.filepath.name.split(path.sep).includes('Data')
     }
   }
 
@@ -116,72 +154,56 @@ export class WzFile extends WzObject {
     this.header.fstart = await reader.readUInt32LE()
     this.header.copyright = await reader.readString('ascii', this.header.fstart - 17)
 
-    await reader.read(1)
-    await reader.read(this.header.fstart - reader.pos)
+    /* const unk1 =  */await reader.read()
+    /* const unk2 =  */await reader.read(this.header.fstart - reader.pos)
     reader.header = this.header
-    this._version = await reader.readInt16LE()
+
+    await this._check64BitClient(reader) // update b64BitClient flag
+
+    // the value of wzVersionHeader is less important. It is used for reading/writing from/to WzFile Header, and calculating the versionHash.
+    // it can be any number if the client is 64-bit. Assigning 777 is just for convenience when calculating the versionHash.
+    this._wzVersionHeader = this._b64BitClient && !this._b64BitClient_withVerHeader ? this._wzVersionHeader64bit_start : await reader.readInt16LE()
 
     if (this.mapleStoryPatchVersion === -1) {
-      const MAX_PATCH_VERSION = 10000
-      for (let j = 0; j < MAX_PATCH_VERSION; j++) {
-        this.mapleStoryPatchVersion = j
-        this._versionHash = this._checkAndGetVersionHash(this._version, this.mapleStoryPatchVersion)
-        if (this._versionHash === 0) {
-          continue
-        }
-        reader.hash = this._versionHash
-        const position = reader.pos // save position to rollback to, if should parsing fail from here
-        let testDirectory: WzDirectory
-        try {
-          testDirectory = new WzDirectory(reader, this.name, this._versionHash, this._wzIv, this)
-          testDirectory.offset = reader.pos
-          await testDirectory.parseDirectory(lazyParse)
-        } catch (_) {
-          reader.pos = position
-          continue
-        }
-
-        try {
-          const childImages = testDirectory.getChildImages()
-          if (childImages.size === 0) {
-            reader.pos = position
-            continue
+      // for 64-bit client, return immediately if version 777 works correctly.
+      // -- the latest KMS update seems to have changed it to 778? 779?
+      if (this._b64BitClient) {
+        for (let maplestoryVerToDecode = this._wzVersionHeader64bit_start; maplestoryVerToDecode < this._wzVersionHeader64bit_start + 20; maplestoryVerToDecode++) {
+          if (await this._tryDecodeWithWZVersionNumber(reader, this._wzVersionHeader, maplestoryVerToDecode, lazyParse)) {
+            return WzFileParseStatus.SUCCESS
           }
-          const testImage = childImages.values().next().value as WzImage
-          try {
-            reader.pos = testImage.offset
-            const checkByte = await reader.readUInt8()
-            reader.pos = position
-            switch (checkByte) {
-              case 0x73:
-              case 0x1b: {
-                const directory = new WzDirectory(reader, this.name, this._versionHash, this._wzIv, this)
-                directory.offset = reader.pos
-                await directory.parseDirectory(lazyParse)
-                this._wzDir = directory
-
-                return WzFileParseStatus.SUCCESS
-              }
-              case 0x30:
-              case 0x6C: // idk
-              case 0xBC: // Map002.wz? KMST?
-              default: {
-                ErrorLogger.log(ErrorLevel.MissingFeature, `[WzFile.ts] New Wz image header found. checkByte = ${checkByte}. File Name = ${this.name}`)
-                break
-              }
-            }
-            reader.pos = position // reset
-          } catch (_) {
-            reader.pos = position // reset
-          }
-        } catch (_) {
-          testDirectory.dispose()
         }
-        testDirectory.dispose()
       }
+      // Attempt to get version from MapleStory.exe first
+      let maplestoryVerDetectedFromClient
+      if (typeof window !== 'undefined') {
+        maplestoryVerDetectedFromClient = 0
+      } else {
+        const _this = this
+        const out = {
+          get value () {
+            return _this._mapleLocaleVersion
+          },
+          set value (value: MapleStoryLocalisation) {
+            _this._mapleLocaleVersion = value
+          }
+        }
+        maplestoryVerDetectedFromClient = WzFile._getMapleStoryVerFromExe(this.filepath as string, out)
+      }
+
+      // this step is actually not needed if we know the maplestory patch version (the client .exe), but since we dont..
+      // we'll need a bruteforce way around it.
+      const MAX_PATCH_VERSION = 1000 // wont be reached for the forseeable future.
+
+      for (let j = maplestoryVerDetectedFromClient; j < MAX_PATCH_VERSION; j++) {
+        if (await this._tryDecodeWithWZVersionNumber(reader, this._wzVersionHeader, j, lazyParse)) {
+          return WzFileParseStatus.SUCCESS
+        }
+      }
+      // parseErrorMessage = "Error with game version hash : The specified game version is incorrect and WzLib was unable to determine the version itself";
       return WzFileParseStatus.ERROR_GAME_VER_HASH
     } else {
-      this._versionHash = this._checkAndGetVersionHash(this._version, this.mapleStoryPatchVersion)
+      this._versionHash = this._checkAndGetVersionHash(this._wzVersionHeader, this.mapleStoryPatchVersion)
       reader.hash = this._versionHash
       const directory = new WzDirectory(reader, this.name, this._versionHash, this._wzIv, this)
       directory.offset = reader.pos
@@ -192,6 +214,161 @@ export class WzFile extends WzObject {
     return WzFileParseStatus.SUCCESS
   }
 
+  private async _tryDecodeWithWZVersionNumber (reader: WzBinaryReader, useWzVersionHeader: number, useMapleStoryPatchVersion: number, lazyParse: boolean): Promise<boolean> {
+    this.mapleStoryPatchVersion = useMapleStoryPatchVersion
+    this._versionHash = this._checkAndGetVersionHash(useWzVersionHeader, this.mapleStoryPatchVersion)
+    if (this._versionHash === 0) {
+      return false
+    }
+    reader.hash = this._versionHash
+    const fallbackOffsetPosition = reader.pos // save position to rollback to, if should parsing fail from here
+    let testDirectory: WzDirectory
+    try {
+      testDirectory = new WzDirectory(reader, this.name, this._versionHash, this._wzIv, this)
+      testDirectory.offset = reader.pos
+      await testDirectory.parseDirectory(lazyParse)
+    } catch (_) {
+      reader.pos = fallbackOffsetPosition
+      return false
+    }
+
+    let bCloseTestDirectory = true
+    try {
+      const testImage: WzImage | undefined = testDirectory.wzImages.values().next().value
+      if (testImage != null) {
+        try {
+          reader.pos = testImage.offset
+          const checkByte = await reader.readUInt8()
+          reader.pos = fallbackOffsetPosition
+          switch (checkByte) {
+            case 0x73:
+            case 0x1b: {
+              const directory = new WzDirectory(reader, this.name, this._versionHash, this._wzIv, this)
+              directory.offset = reader.pos
+              await directory.parseDirectory(lazyParse)
+              this._wzDir = directory
+
+              return true
+            }
+            case 0x30:
+            case 0x6C: // idk
+            case 0xBC: // Map002.wz? KMST?
+            default: {
+              ErrorLogger.log(ErrorLevel.MissingFeature, `[WzFile.ts] New Wz image header found. checkByte = ${checkByte}. File Name = ${this.name}`)
+              break
+            }
+          }
+          reader.pos = fallbackOffsetPosition // reset
+          return false
+        } catch (_) {
+          reader.pos = fallbackOffsetPosition // reset
+          return false
+        }
+      } else { // if there's no image in the WZ file (new KMST Base.wz), test the directory instead
+        // coincidentally in msea v194 Map001.wz, the hash matches exactly using mapleStoryPatchVersion of 113, and it fails to decrypt later on (probably 1 in a million chance? o_O).
+        // damn, technical debt accumulating here
+        if (this.mapleStoryPatchVersion === 113) {
+          // hack for now
+          reader.pos = fallbackOffsetPosition // reset
+          return false
+        } else {
+          this._wzDir = testDirectory
+          bCloseTestDirectory = false
+
+          return true
+        }
+      }
+    } finally {
+      if (bCloseTestDirectory) {
+        testDirectory.dispose()
+      }
+    }
+  }
+
+  private static _getMapleStoryVerFromExe (wzFilePath: string, mapleLocaleVersion: { value: MapleStoryLocalisation }): number {
+    if (typeof window !== 'undefined' || os.platform() !== 'win32' || !fs.existsSync(wzFilePath)) {
+      mapleLocaleVersion.value = MapleStoryLocalisation.Not_Known
+      return 0
+    }
+    const MAPLESTORY_EXE_NAME = 'MapleStory.exe'
+    const MAPLESTORYT_EXE_NAME = 'MapleStoryT.exe'
+    const MAPLESTORYADMIN_EXE_NAME = 'MapleStoryA.exe'
+
+    let currentDirectory = path.dirname(wzFilePath)
+    for (let i = 0; i < 4; i++) {
+      const exeFileInfo = []
+      const msexe = path.join(currentDirectory, MAPLESTORY_EXE_NAME)
+      const mstexe = path.join(currentDirectory, MAPLESTORYT_EXE_NAME)
+      const msaexe = path.join(currentDirectory, MAPLESTORYADMIN_EXE_NAME)
+      if (fs.existsSync(msexe)) {
+        exeFileInfo.push(msexe)
+      }
+      if (fs.existsSync(mstexe)) {
+        exeFileInfo.push(mstexe)
+      }
+      if (fs.existsSync(msaexe)) {
+        exeFileInfo.push(msaexe)
+      }
+      for (let j = 0; j < exeFileInfo.length; ++j) {
+        const versionInfo = tybysWindowsFileVersionInfo.FileVersionInfo.getVersionInfo(exeFileInfo[i])
+        if ((versionInfo.fileMajorPart === 1 && versionInfo.fileMinorPart === 0 && versionInfo.fileBuildPart === 0) ||
+            (versionInfo.fileMajorPart === 0 && versionInfo.fileMinorPart === 0 && versionInfo.fileBuildPart === 0)) { // older client uses 1.0.0.1
+          continue
+        }
+
+        const locale = versionInfo.fileMajorPart
+        let localeVersion = MapleStoryLocalisation.Not_Known
+        if (MapleStoryLocalisation[locale] !== undefined) {
+          localeVersion = locale as MapleStoryLocalisation
+        }
+        const msVersion = versionInfo.fileMinorPart
+        // const msMinorPatchVersion = versionInfo.fileBuildPart
+
+        mapleLocaleVersion.value = localeVersion
+        return msVersion
+      }
+      const oldCurrentDirectory = currentDirectory
+      currentDirectory = path.dirname(oldCurrentDirectory)
+      if (currentDirectory === oldCurrentDirectory) {
+        break
+      }
+    }
+    mapleLocaleVersion.value = MapleStoryLocalisation.Not_Known
+    return 0
+  }
+
+  private async _check64BitClient (reader: WzBinaryReader): Promise<void> {
+    if (this.header.fsize >= 2) {
+      this._wzVersionHeader = await reader.readUInt16LE()
+      if (this._wzVersionHeader > 0xff) {
+        this._b64BitClient = true
+      } else if (this._wzVersionHeader === 0x80) {
+        // there's an exceptional case that the first field of data part is a compressed int which determines the property count,
+        // if the value greater than 127 and also to be a multiple of 256, the first 5 bytes will become to
+        // 80 00 xx xx xx
+        // so we additional check the int value, at most time the child node count in a WzFile won't greater than 65536 (0xFFFF).
+        if (this.header.fsize >= 5) {
+          reader.seek(this.header.fstart)
+          const propCount = await reader.readWzInt()
+          if (propCount > 0 && (propCount & 0xFF) === 0 && propCount <= 0xFFFF) {
+            this._b64BitClient = true
+          }
+        }
+      } else if (this._wzVersionHeader === 0x21) { // or 33
+        this._b64BitClient = true
+        // but read the header
+        // the latest KMS seems to include this back in again.. damn
+        this._b64BitClient_withVerHeader = true // ugly hack, but until i've found a better way without breaking compatibility of old WZs.
+      }
+    } else {
+      // Obviously, if data part have only 1 byte, encVer must be deleted.
+      this._b64BitClient = true
+    }
+
+    // reset position
+    reader.seek(this.header.fstart)
+  }
+
   private _checkAndGetVersionHash (wzVersionHeader: number, maplestoryPatchVersion: number): number {
     const VersionNumber = maplestoryPatchVersion
     let VersionHash = 0
@@ -200,6 +377,10 @@ export class WzFile extends WzObject {
     const l = VersionNumberStr.length
     for (let i = 0; i < l; i++) {
       VersionHash = (32 * VersionHash) + VersionNumberStr.charCodeAt(i) + 1
+    }
+
+    if (wzVersionHeader === this._wzVersionHeader64bit_start) {
+      return VersionHash >>> 0 // always 59192
     }
 
     const a = (VersionHash >> 24) & 0xFF

@@ -22,7 +22,7 @@ function createTarget (name, asm, isDebug) {
       'ECB=1'
     ],
     emwrap: {
-      wrapScript: './export.js',
+      script: './export.js',
     },
     compileOptions: [
       ...compilerFlags

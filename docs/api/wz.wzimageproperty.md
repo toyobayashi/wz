@@ -29,6 +29,7 @@ export declare abstract class WzImageProperty extends WzObject
 |  [at(\_name)](./wz.wzimageproperty.at.md) |  |  |
 |  [extractMore(reader, offset, \_eob, name, iname, parent, imgParent)](./wz.wzimageproperty.extractmore.md) | <code>static</code> |  |
 |  [getFromPath(\_path)](./wz.wzimageproperty.getfrompath.md) |  |  |
+|  [getLinkedWzImageProperty()](./wz.wzimageproperty.getlinkedwzimageproperty.md) |  |  |
 |  [parseExtendedProp(reader, offset, endOfBlock, name, parent, imgParent)](./wz.wzimageproperty.parseextendedprop.md) | <code>static</code> |  |
 |  [parseLuaProperty(\_offset, reader, parent, \_parentImg)](./wz.wzimageproperty.parseluaproperty.md) | <code>static</code> |  |
 |  [parsePropertyList(offset, reader, parent, parentImg)](./wz.wzimageproperty.parsepropertylist.md) | <code>static</code> |  |

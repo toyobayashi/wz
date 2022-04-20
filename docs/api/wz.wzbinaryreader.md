@@ -33,6 +33,7 @@ export declare class WzBinaryReader extends AsyncBinaryReader implements IDispos
 
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
+|  [available()](./wz.wzbinaryreader.available.md) |  |  |
 |  [decryptNonUnicodeString(stringToDecrypt)](./wz.wzbinaryreader.decryptnonunicodestring.md) |  |  |
 |  [decryptString(stringToDecrypt)](./wz.wzbinaryreader.decryptstring.md) |  |  |
 |  [readNullTerminatedString()](./wz.wzbinaryreader.readnullterminatedstring.md) |  |  |

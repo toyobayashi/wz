@@ -45,6 +45,7 @@ MapleStory WZ reader.
 |  Enumeration | Description |
 |  --- | --- |
 |  [ErrorLevel](./wz.errorlevel.md) |  |
+|  [MapleStoryLocalisation](./wz.maplestorylocalisation.md) |  |
 |  [WzBinaryPropertyType](./wz.wzbinarypropertytype.md) |  |
 |  [WzFileParseStatus](./wz.wzfileparsestatus.md) |  |
 |  [WzMapleVersion](./wz.wzmapleversion.md) |  |

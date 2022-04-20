@@ -38,7 +38,7 @@ export { WzExtended } from './WzExtended'
 export { WzImage } from './WzImage'
 export { WzDirectory } from './WzDirectory'
 export { WzFileParseStatus, getErrorDescription } from './WzFileParseStatus'
-export { IWzParseResult, WzFile } from './WzFile'
+export { IWzParseResult, WzFile, MapleStoryLocalisation } from './WzFile'
 
 export { walkWzFileAsync, walkDirectory, walkPropertyContainer } from './walk'
 export { init } from './init'

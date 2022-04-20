@@ -15,7 +15,7 @@ readWzStringAtOffset(offset: number, readByte?: boolean): Promise<string>;
 |  Parameter | Type | Description |
 |  --- | --- | --- |
 |  offset | number |  |
-|  readByte | boolean |  |
+|  readByte | boolean | <i>(Optional)</i> |
 
 <b>Returns:</b>
 

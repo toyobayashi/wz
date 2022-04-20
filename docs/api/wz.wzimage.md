@@ -39,6 +39,8 @@ export declare class WzImage extends WzObject implements IPropertyContainer
 |  [tempFileEnd](./wz.wzimage.tempfileend.md) |  | bigint |  |
 |  [tempFileStart](./wz.wzimage.tempfilestart.md) |  | bigint |  |
 |  [wzFileParent](./wz.wzimage.wzfileparent.md) |  | [WzFile](./wz.wzfile.md) \| null |  |
+|  [WzImageHeaderByte\_WithOffset](./wz.wzimage.wzimageheaderbyte_withoffset.md) | <code>static</code> | number |  |
+|  [WzImageHeaderByte\_WithoutOffset](./wz.wzimage.wzimageheaderbyte_withoutoffset.md) | <code>static</code> | number |  |
 |  [wzProperties](./wz.wzimage.wzproperties.md) |  | Set&lt;[WzImageProperty](./wz.wzimageproperty.md)<!-- -->&gt; |  |
 
 ## Methods

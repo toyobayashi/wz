@@ -159,10 +159,10 @@ export abstract class WzImageProperty extends WzObject {
     const type = await reader.readUInt8()
     switch (type) {
       case 0x01:
-      case 0x1B:
+      case WzImage.WzImageHeaderByte_WithOffset:
         return await WzImageProperty.extractMore(reader, offset, endOfBlock, name, await reader.readWzStringAtOffset(offset + await reader.readInt32LE()), parent, imgParent)
       case 0x00:
-      case 0x73:
+      case WzImage.WzImageHeaderByte_WithoutOffset:
         return await WzImageProperty.extractMore(reader, offset, endOfBlock, name, '', parent, imgParent)
       default:
         throw new Error('Invalid byte read at ParseExtendedProp')
@@ -247,5 +247,18 @@ export abstract class WzImageProperty extends WzObject {
       default:
         throw new Error('Unknown iname: ' + iname)
     }
+  }
+
+  public getLinkedWzImageProperty (): WzImageProperty {
+    let thisWzImage: WzImageProperty = this
+    const WzUOLProperty = require('./properties/WzUOLProperty').WzUOLProperty as typeof import('./properties/WzUOLProperty').WzUOLProperty
+    while ((thisWzImage instanceof WzUOLProperty)) {
+      if (thisWzImage.linkValue instanceof WzImageProperty) {
+        thisWzImage = thisWzImage.linkValue
+      } else {
+        return this
+      }
+    }
+    return thisWzImage
   }
 }

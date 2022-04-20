@@ -14,7 +14,7 @@ getImage(saveInMemory?: boolean): Promise<Canvas | null>;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  saveInMemory | boolean |  |
+|  saveInMemory | boolean | <i>(Optional)</i> |
 
 <b>Returns:</b>
 

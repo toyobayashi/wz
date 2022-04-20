@@ -14,7 +14,7 @@ parseImage(forceReadFromData?: boolean): Promise<boolean>;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  forceReadFromData | boolean |  |
+|  forceReadFromData | boolean | <i>(Optional)</i> |
 
 <b>Returns:</b>
 
