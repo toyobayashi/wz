@@ -2,20 +2,21 @@ const { defineFunctionConfig } = require('@tybys/cgen')
 
 function createTarget (name, asm, isDebug) {
   const compilerFlags = [
-    ...(isDebug ? ['-sDISABLE_EXCEPTION_CATCHING=0'] : [])
+    // ...(isDebug ? ['-sDISABLE_EXCEPTION_CATCHING=0'] : [])
   ]
   const linkerFlags = [
-    '--bind',
+    // '--bind',
     '-sALLOW_MEMORY_GROWTH=1',
+    "-sEXPORTED_FUNCTIONS=['_malloc','_free']",
     ...(asm ? ['-sWASM=0'] : []),
-    ...(isDebug ? ['-sDISABLE_EXCEPTION_CATCHING=0', '-sSAFE_HEAP=1'] : [])
+    ...(isDebug ? [/* '-sDISABLE_EXCEPTION_CATCHING=0',  */'-sSAFE_HEAP=1'] : [])
   ]
 
   return {
     name: name,
     type: 'exe',
     sources: [
-      './src/main.cpp'
+      './src/main.c'
     ],
     defines: [
       'AES256=1',

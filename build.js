@@ -55,7 +55,9 @@ async function main () {
   cp(p(wasmoutdir, 'wzasm.js'), asm)
   fs.writeFileSync(asm, fs.readFileSync(asm, 'utf8').replace('wzasm.js.mem', 'wz.js.mem').replace('wzasm.wasm', 'wz.wasm'), 'utf8')
   ts.compile(p('tsconfig.esm.json'))
-  cp(p(wasmoutdir, 'wzasm.js.mem'), p('./lib/esm/util/wz.js.mem'))
+  if (fs.existsSync(p(wasmoutdir, 'wzasm.js.mem'))) {
+    cp(p(wasmoutdir, 'wzasm.js.mem'), p('./lib/esm/util/wz.js.mem'))
+  }
 
   await bundler.webpack(tsgoConfig)
   await bundler.webpack(readConfigNoCache(p('./tsgo.es5.config.js')))

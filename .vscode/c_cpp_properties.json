@@ -2,7 +2,7 @@
   "env": {
     "includePath": [
       "${default}",
-      "${env:EMSDK}/upstream/emscripten/system/include",
+      "${env:EMSDK}/upstream/emscripten/cache/sysroot/include",
       "${workspaceFolder}/wasm/deps/zlib",
       "${workspaceFolder}/wasm/deps/openssl/include"
     ],
@@ -58,6 +58,24 @@
       "cStandard": "c11",
       "cppStandard": "c++11",
       "intelliSenseMode": "${default}"
+    },
+    {
+      "name": "Emscripten",
+      "defines": ["${defines}"],
+      "compilerPath": "${env:EMSDK}/upstream/emscripten/emcc",
+      "intelliSenseMode": "clang-x86",
+      "cStandard": "c99",
+      "cppStandard": "c++11",
+      "includePath": ["${includePath}"]
+    },
+    {
+      "name": "Emscripten (Win32)",
+      "defines": ["${defines}"],
+      "compilerPath": "${env:EMSDK}/upstream/emscripten/emcc.bat",
+      "intelliSenseMode": "clang-x86",
+      "cStandard": "c99",
+      "cppStandard": "c++11",
+      "includePath": ["${includePath}"]
     }
   ],
   "version": 4

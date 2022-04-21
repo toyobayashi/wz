@@ -534,8 +534,8 @@ function inflate (data: Uint8Array, len: number): Promise<Uint8Array> {
 async function inflateWasm (data: Uint8Array, len: number): Promise<Uint8Array> {
   if (wasmInflate === null) {
     const wzWasm = await import('../util/wz')
-    const { Module } = await wzWasm.default()
-    wasmInflate = Module.inflate
+    /* const { Module } =  */await wzWasm.default()
+    wasmInflate = wzWasm.inflate
   }
   const buf = wasmInflate(data, len)
   return buf

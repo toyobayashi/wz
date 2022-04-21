@@ -32,14 +32,27 @@ if (!HTMLCanvasElement.prototype.toBlob) {
   ];
 
   var input = document.getElementById('file');
+  var mapleVersion = wz.WzMapleVersion.GMS;
 
   input.addEventListener('change', function (e) {
     console.log(e.target.files[0]);
     if (!e.target.files[0]) return;
-    const f = e.target.files[0];
+    var f = e.target.files[0];
 
-    let n = 0;
-    wz.walkWzFileAsync(f, wz.WzMapleVersion.GMS, function (obj) {
+    if (f.name.indexOf('.img') !== -1) {
+      wz.init().then(function () {
+        var image = wz.WzImage.createFromFile(f, mapleVersion);
+        image.parseImage().then(function (parsed) {
+          if (parsed) {
+            console.log('parsed');
+          }
+        });
+      });
+      return;
+    }
+
+    var n = 0;
+    wz.walkWzFileAsync(f, mapleVersion, function (obj) {
       return new Promise(function (resolve, reject) {
         // if (n >= 10) return true
         // n++
@@ -50,9 +63,9 @@ if (!HTMLCanvasElement.prototype.toBlob) {
           console.log(n, wz.WzPropertyType[obj.propertyType], obj.fullPath);
 
           return resolve(obj.getBytes(false).then(function (buf) {
-            const blob = new Blob([buf.buffer], { type: 'audio/mp3' });
-            const src = URL.createObjectURL(blob);
-            const audio = new Audio();
+            var blob = new Blob([buf.buffer], { type: 'audio/mp3' });
+            var src = URL.createObjectURL(blob);
+            var audio = new Audio();
             audio.src = src;
             audio.play();
 
