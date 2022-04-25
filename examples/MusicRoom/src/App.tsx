@@ -1,10 +1,26 @@
 import * as React from 'react'
+import { RecoilRoot } from 'recoil'
 import FileInput from './FileInput'
 import MapleVersionSelect from './MapleVersionSelect'
 import Player from './Player'
+import { useDeleteTree } from './store'
 import Tree from './Tree'
 
 const App: React.FC<{}> = function () {
+  const deleteTree = useDeleteTree()
+
+  React.useEffect(() => {
+    const onKeyUp = (e: KeyboardEvent) => {
+      if (e.key === 'Delete') {
+        deleteTree()
+      }
+    }
+    document.addEventListener('keyup', onKeyUp)
+    return () => {
+      document.removeEventListener('keyup', onKeyUp)
+    }
+  }, [deleteTree])
+
   return <>
     <div style={stypes.topLine}>
       <React.Suspense fallback={false} >
@@ -20,6 +36,14 @@ const App: React.FC<{}> = function () {
   </>
 }
 
+const AppRecoilRoot: React.FC<{}> = () => {
+  return (
+    <RecoilRoot>
+      <App />
+    </RecoilRoot>
+  )
+}
+
 const stypes = {
   topLine: {
     display: 'flex',
@@ -29,4 +53,4 @@ const stypes = {
   }
 }
 
-export default App
+export default AppRecoilRoot

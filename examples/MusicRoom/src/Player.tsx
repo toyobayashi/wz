@@ -1,67 +1,54 @@
-import { useData, useForceUpdate, useRender } from '@tybys/reactive-react'
-import { computed, ref } from '@vue/reactivity'
+// import { useData, useForceUpdate, useRender } from '@tybys/reactive-react'
+// import { computed, ref } from '@vue/reactivity'
 import * as React from 'react'
+import { useRecoilState, useRecoilValue } from 'recoil'
 import { audio } from './audio'
-import store from './store'
+import { useSaveMp3, playingName, isPlaying } from './store'
 import { filterTime } from './util'
 
 const Player: React.FC<{}> = function () {
-  const forceUpdate = useForceUpdate()
+  // const forceUpdate = useForceUpdate()
 
   const rangeInput = React.useRef<HTMLInputElement>(null)
 
-  const data = useData(() => {
-    const duration = ref(0)
-    const currentTime = ref(0)
-    const rangeInputMouseDown = ref(false)
+  const [isPlayingValue, setIsPlaying] = useRecoilState(isPlaying)
+  const [duration, setDuration] = React.useState(0)
+  const [currentTime, setCurrentTime] = React.useState(0)
+  const [rangeInputMouseDown, setRangeInputMouseDown] = React.useState(false)
+  const timeString = React.useMemo(() => {
+    return `${filterTime(Math.floor(currentTime))} / ${filterTime(Math.floor(duration))}`
+  }, [currentTime, duration])
+  const saveMp3 = useSaveMp3()
+  const playingNameValue = useRecoilValue(playingName)
 
-    const timeString = computed(() => {
-      return `${filterTime(Math.floor(currentTime.value))} / ${filterTime(Math.floor(duration.value))}`
-    })
-
-    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      currentTime.value = Number(e.target.value)
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCurrentTime(Number(e.target.value))
+  }
+  const onMouseUp = (e: React.MouseEvent<HTMLInputElement, MouseEvent>) => {
+    setRangeInputMouseDown(false)
+    audio.currentTime = Number((e.target as HTMLInputElement).value)
+  }
+  const onMouseDown = () => {
+    setRangeInputMouseDown(true)
+  }
+  const onClickPause = async () => {
+    if (audio.isPlaying) {
+      audio.pause()
+      setIsPlaying(false)
+    } else {
+      try {
+        await audio.play()
+        setIsPlaying(true)
+      } catch (_) {}
     }
-    const onMouseUp = (e: React.MouseEvent<HTMLInputElement, MouseEvent>) => {
-      rangeInputMouseDown.value = false
-      audio.currentTime = Number((e.target as HTMLInputElement).value)
-    }
-    const onMouseDown = () => {
-      rangeInputMouseDown.value = true
-    }
-
-    const onClickPause = async () => {
-      if (audio.isPlaying) {
-        audio.pause()
-        forceUpdate()
-      } else {
-        try {
-          await audio.play()
-          forceUpdate()
-        } catch (_) {}
-      }
-    }
-
-    const onSaveMp3 = () => {
-      return store.actions.saveMp3()
-    }
-
-    return {
-      duration,
-      currentTime,
-      rangeInputMouseDown,
-      timeString,
-      onChange,
-      onMouseUp,
-      onMouseDown,
-      onClickPause,
-      onSaveMp3
-    }
-  })
+  }
+  const onSaveMp3 = () => {
+    return saveMp3()
+  }
 
   React.useEffect(() => {
     const onDurationChange = () => {
-      data.duration.value = audio.duration
+      setDuration(audio.duration)
     }
     audio.on('durationchange', onDurationChange)
     return () => {
@@ -71,8 +58,8 @@ const Player: React.FC<{}> = function () {
 
   React.useEffect(() => {
     const onTimeupdate = () => {
-      if (!data.rangeInputMouseDown.value) {
-        data.currentTime.value = audio.currentTime
+      if (!rangeInputMouseDown) {
+        setCurrentTime(audio.currentTime)
         rangeInput.current!.value = audio.currentTime.toString()
       }
     }
@@ -80,24 +67,24 @@ const Player: React.FC<{}> = function () {
     return () => {
       audio.off('timeupdate', onTimeupdate)
     }
-  }, [])
+  }, [rangeInputMouseDown])
 
-  return useRender(() => <div>
-    <button style={styles.btn} onClick={data.onClickPause}>{audio.isPlaying ? 'PAUSE' : 'PLAY'}</button>
+  return <div>
+    <button style={styles.btn} onClick={onClickPause}>{isPlayingValue ? 'PAUSE' : 'PLAY'}</button>
     <input
       style={styles.vam}
       ref={rangeInput}
       type='range'
       min={0}
-      max={data.duration.value}
-      onChange={data.onChange}
-      onMouseUp={data.onMouseUp}
-      onMouseDown={data.onMouseDown}
+      max={duration}
+      onChange={onChange}
+      onMouseUp={onMouseUp}
+      onMouseDown={onMouseDown}
     />
     <span style={styles.vam}>
-      {data.timeString.value} {store.getters.playingName.value}
-    </span> {store.getters.playingName.value ? <button style={styles.btn} onClick={data.onSaveMp3}>SAVE</button> : null}
-  </div>)
+      {timeString} {playingNameValue}
+    </span> {playingNameValue ? <button style={styles.btn} onClick={onSaveMp3}>SAVE</button> : null}
+  </div>
 }
 
 const styles = {

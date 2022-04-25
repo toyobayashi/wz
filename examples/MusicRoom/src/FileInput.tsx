@@ -1,8 +1,13 @@
 import * as React from 'react'
+import { useRecoilValue } from 'recoil'
 import { audio } from './audio'
-import store from './store'
+import { useParseWz, useParseImg, treeLoading } from './store'
 
 const FileInput: React.FC<{}> = function () {
+  const parseWz = useParseWz()
+  const parseImg = useParseImg()
+  const treeLoadingValue = useRecoilValue(treeLoading)
+
   const onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target
     const files = input.files
@@ -11,14 +16,14 @@ const FileInput: React.FC<{}> = function () {
       input.value = ''
       if (file.name.endsWith('.wz')) {
         try {
-          await store.actions.parseWz(file)
+          await parseWz(file)
         } catch (err: any) {
           input.value = ''
           window.alert(err.message)
         }
       } else if (file.name.endsWith('.img')) {
         try {
-          await store.actions.parseImg(file)
+          await parseImg(file)
         } catch (err: any) {
           input.value = ''
           window.alert(err.message)
@@ -31,7 +36,7 @@ const FileInput: React.FC<{}> = function () {
   }
 
   const onLabelClick = async (e: React.MouseEvent<HTMLLabelElement, MouseEvent>) => {
-    if (store.state.treeLoading) {
+    if (treeLoadingValue) {
       e.preventDefault()
     }
     await audio.resume()

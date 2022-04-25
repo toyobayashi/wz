@@ -1,58 +1,59 @@
 import * as React from 'react'
 import type { ITreeNode } from 'react-treebeard'
-import { useRender, useData, makeReactive } from '@tybys/reactive-react'
-import store from './store'
+import { useRecoilValue } from 'recoil'
+// import { useRender, useData, makeReactive } from '@tybys/reactive-react'
+import { trees, treeLoading, useTryExpandNode, useUpdateTrees } from './store'
 import { debugError, debugLog } from './util'
 
 const Tree = React.lazy(async () => {
   const { Treebeard } = await import('react-treebeard')
-  const ReactiveTreebeard = makeReactive<{
-    data: ITreeNode
-    style?: any
-    onToggle?: (node: ITreeNode, toggled: boolean) => any
-  }>(Treebeard, (props) => props.data)
 
   return {
     default: function () {
       debugLog('<Tree>')
-      const data = useData(() => {
-        let lastNode: ITreeNode | null = null
-        const onToggle = async (node: ITreeNode, toggled: boolean): Promise<void> => {
-          if (lastNode === node) {
-            if (node.children) {
-              node.toggled = toggled;
+
+      const [lastNode, setLastNode] = React.useState<ITreeNode | null>(null)
+      const tryExpandNode = useTryExpandNode()
+      const treesValue = useRecoilValue(trees)
+      const treeLoadingValue = useRecoilValue(treeLoading)
+      const updateTrees = useUpdateTrees()
+
+      const onToggle = async (node: ITreeNode, toggled: boolean): Promise<void> => {
+        await updateTrees([node, lastNode!], async (newNode, origin) => {
+          if (origin === node) {
+            if (lastNode === node) {
+              if (node.children) {
+                newNode.toggled = toggled;
+              }
+              return newNode
             }
-            return
+            newNode.active = true
+            if (node.children) {
+              newNode.toggled = toggled;
+            }
+            setLastNode(newNode)
+            try {
+              await tryExpandNode(newNode)
+            } catch (err: any) {
+              debugError(err)
+              window.alert(err.message)
+            }
+          } else if (origin === lastNode) {
+            newNode.active = false
           }
-          if (lastNode) {
-            lastNode.active = false
-          }
-          node.active = true
-          if (node.children) {
-            node.toggled = toggled;
-          }
-          lastNode = node
-          try {
-            await store.actions.tryExpandNode(node)
-          } catch (err: any) {
-            debugError(err)
-            window.alert(err.message)
-          }
+
+          return newNode
+        })
+      }
+
+      return <div style={styles.treeContainer}>
+        {
+          treesValue.map(tree => {
+            return <Treebeard data={tree} onToggle={onToggle} key={tree.id} />
+          })
         }
-        return {
-          onToggle
-        }
-      })
-      return useRender(() => {
-        return <div style={styles.treeContainer}>
-          {
-            store.state.trees.map(tree => {
-              return <ReactiveTreebeard data={tree} onToggle={data.onToggle} key={tree.id} />
-            })
-          }
-          {store.state.treeLoading ? <p>Loading...</p> : null}
-        </div>
-      })
+        {treeLoadingValue ? <p>Loading...</p> : null}
+      </div>
     }
   }
 })
