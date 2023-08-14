@@ -37,6 +37,7 @@ export { WzImageProperty } from './WzImageProperty'
 export { WzExtended } from './WzExtended'
 export { WzImage } from './WzImage'
 export { WzDirectory } from './WzDirectory'
+export { WzDirectoryType } from './WzDirectoryType'
 export { WzFileParseStatus, getErrorDescription } from './WzFileParseStatus'
 export { IWzParseResult, WzFile, MapleStoryLocalisation } from './WzFile'
 

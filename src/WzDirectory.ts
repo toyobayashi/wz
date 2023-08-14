@@ -1,4 +1,5 @@
 import type { WzBinaryReader } from './util/WzBinaryReader'
+import { WzDirectoryType } from './WzDirectoryType'
 import type { WzFile } from './WzFile'
 import { WzImage } from './WzImage'
 import { WzObject } from './WzObject'
@@ -171,25 +172,23 @@ export class WzDirectory extends WzObject {
       // let unk_GMS230 = 0
       let rememberPos = 0
       switch (type) {
-        case 1: {
+        case WzDirectoryType.UnknownType_1: {
           /* const unknown =  */await reader.readInt32LE()
           await reader.readInt16LE()
           /* const offs =  */await reader.readWzOffset()
           continue
         }
-        case 2: {
+        case WzDirectoryType.RetrieveStringFromOffset_2: {
           const stringOffset = await reader.readInt32LE()
           rememberPos = reader.pos
           reader.pos = reader.header.fstart + stringOffset
-          if (this.wzFile.is64BitWzFile) {
-            /* unk_GMS230 =  */await reader.readUInt8() // something added in GMS v230/ SEA v212
-          }
+
           type = await reader.readUInt8()
           fname = await reader.readWzString()
           break
         }
-        case 3:
-        case 4: {
+        case WzDirectoryType.WzDirectory_3:
+        case WzDirectoryType.WzImage_4: {
           fname = await reader.readWzString()
           rememberPos = reader.pos
           break
@@ -205,7 +204,7 @@ export class WzDirectory extends WzObject {
       checksum = await reader.readWzInt()
       // eslint-disable-next-line prefer-const
       offset = await reader.readWzOffset()
-      if (type === 3) {
+      if (type === WzDirectoryType.WzDirectory_3) {
         const subDir = new WzDirectory(reader, fname, this.hash, this.wzIv, this.wzFile)
         subDir.blockSize = fsize
         subDir.checksum = checksum
