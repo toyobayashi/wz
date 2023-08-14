@@ -364,7 +364,7 @@ export class WzFile extends WzObject {
   }
 
   private _checkAndGetVersionHash (wzVersionHeader: number, maplestoryPatchVersion: number): number {
-    const VersionNumber = maplestoryPatchVersion
+    /* const VersionNumber = maplestoryPatchVersion
     let VersionHash = 0
     const VersionNumberStr = VersionNumber.toString()
 
@@ -383,7 +383,23 @@ export class WzFile extends WzObject {
     const d = VersionHash & 0xFF
     const DecryptedVersionNumber = (0xff ^ a ^ b ^ c ^ d)
 
-    if (wzVersionHeader === DecryptedVersionNumber) return (VersionHash >>> 0)
+    if (wzVersionHeader === DecryptedVersionNumber) return (VersionHash >>> 0) */
+
+    let versionHash = 0
+    const versionNumberStr = maplestoryPatchVersion.toString()
+    for (let i = 0; i < versionNumberStr.length; i++) {
+      versionHash = (versionHash * 32) + versionNumberStr.charCodeAt(i) + 1
+    }
+
+    if (wzVersionHeader === this._wzVersionHeader64bit_start) {
+      return versionHash >>> 0 // always 59192
+    }
+
+    const decryptedVersionNumber = ((~((versionHash >> 24) & 0xFF ^ (versionHash >> 16) & 0xFF ^ (versionHash >> 8) & 0xFF ^ versionHash & 0xFF)) & 0xFF) >>> 0
+
+    if (wzVersionHeader === decryptedVersionNumber) {
+      return versionHash >>> 0
+    }
 
     return 0
   }

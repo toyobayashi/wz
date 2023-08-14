@@ -10,6 +10,10 @@ export class WzMutableKey {
 
   public constructor (private readonly _iv: Uint8Array, private readonly _aesUserKey: Uint8Array) {}
 
+  public get keyLength (): number {
+    return (this._keys != null) ? this._keys.length : 0
+  }
+
   public at (index: number): number {
     if (this._keys == null || this._keys.length <= index) {
       this.ensureKeySize(index + 1)
