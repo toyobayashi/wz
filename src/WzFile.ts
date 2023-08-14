@@ -159,7 +159,7 @@ export class WzFile extends WzObject {
 
     // the value of wzVersionHeader is less important. It is used for reading/writing from/to WzFile Header, and calculating the versionHash.
     // it can be any number if the client is 64-bit. Assigning 777 is just for convenience when calculating the versionHash.
-    this._wzVersionHeader = this._wz_withEncryptVersionHeader ? await reader.readUInt16() : this._wzVersionHeader64bit_start
+    this._wzVersionHeader = this._wz_withEncryptVersionHeader ? await reader.readUInt16LE() : this._wzVersionHeader64bit_start
 
     if (this.mapleStoryPatchVersion === -1) {
       // for 64-bit client, return immediately if version 777 works correctly.
@@ -339,7 +339,7 @@ export class WzFile extends WzObject {
   private async _check64BitClient (reader: WzBinaryReader): Promise<void> {
     if (this.header.fsize >= 2) {
       reader.seek(this.header.fstart) // go back to 0x3C
-      const encver = await reader.readUInt16()
+      const encver = await reader.readUInt16LE()
       if (encver > 0xff) { // encver always less than 256
         this._wz_withEncryptVersionHeader = false
       } else if (encver === 0x80) {
@@ -349,7 +349,7 @@ export class WzFile extends WzObject {
         // so we additional check the int value, at most time the child node count in a wz won't greater than 65536.
         if (this.header.fsize >= 5) {
           reader.seek(this.header.fstart) // go back to 0x3C
-          const propCount = await reader.readInt32()
+          const propCount = await reader.readInt32LE()
           if (propCount > 0 && (propCount & 0xff) === 0 && propCount <= 0xffff) {
             this._wz_withEncryptVersionHeader = false
           }
