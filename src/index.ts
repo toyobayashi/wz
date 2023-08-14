@@ -40,6 +40,7 @@ export { WzDirectory } from './WzDirectory'
 export { WzDirectoryType } from './WzDirectoryType'
 export { WzFileParseStatus, getErrorDescription } from './WzFileParseStatus'
 export { IWzParseResult, WzFile, MapleStoryLocalisation } from './WzFile'
+export { WzMainDirectory } from './WzMainDirectory'
 
 export { walkWzFileAsync, walkDirectory, walkPropertyContainer } from './walk'
 export { init } from './init'
