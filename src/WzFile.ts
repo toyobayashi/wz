@@ -264,7 +264,7 @@ export class WzFile extends WzObject {
       } else { // if there's no image in the WZ file (new KMST Base.wz), test the directory instead
         // coincidentally in msea v194 Map001.wz, the hash matches exactly using mapleStoryPatchVersion of 113, and it fails to decrypt later on (probably 1 in a million chance? o_O).
         // damn, technical debt accumulating here
-        if (this.mapleStoryPatchVersion === 113) {
+        if (this.is64BitWzFile && this.mapleStoryPatchVersion === 113) {
           // hack for now
           reader.pos = fallbackOffsetPosition // reset
           return false
