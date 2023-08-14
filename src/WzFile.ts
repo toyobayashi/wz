@@ -391,13 +391,25 @@ export class WzFile extends WzObject {
   public getObjectFromPath (path: string, checkFirstDirectoryName: boolean = true): WzObject | null {
     if (this._wzDir == null) return null
     const seperatedPath = path.split(/[\\/]/)
-
-    if (checkFirstDirectoryName) {
-      if (seperatedPath[0].toLowerCase() !== this._wzDir.name.toLowerCase() && seperatedPath[0].toLowerCase() !== this._wzDir.name.substring(0, this._wzDir.name.length - 3).toLowerCase()) return null
+    if (seperatedPath.length === 1) {
+      return this.wzDirectory
     }
 
-    if (seperatedPath.length === 1) return this.wzDirectory
-    let curObj: WzObject | null = this.wzDirectory
+    const checkObjInOtherWzFile: WzObject | null = null
+
+    if (checkFirstDirectoryName) {
+      if (seperatedPath[0].toLowerCase() !== this._wzDir.name.toLowerCase() && seperatedPath[0].toLowerCase() !== this._wzDir.name.substring(0, this._wzDir.name.length - 3).toLowerCase()) {
+        return null
+      }
+    }
+
+    let curObj: WzObject | null
+    if (checkObjInOtherWzFile != null) {
+      curObj = checkObjInOtherWzFile
+    } else {
+      curObj = this.wzDirectory
+    }
+
     for (let i = 1; i < seperatedPath.length; i++) {
       if (curObj == null) {
         return null
