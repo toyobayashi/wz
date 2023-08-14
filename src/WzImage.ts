@@ -35,7 +35,7 @@ export class WzImage extends WzObject implements IPropertyContainer {
     return this.name.endsWith('.lua')
   }
 
-  private readonly properties: Set<WzImageProperty> = new Set()
+  private readonly properties = new Set<WzImageProperty>()
   public get wzProperties (): Set<WzImageProperty> {
     if (!this.parsed) throw new Error('Image has not been parsed yet')
     return this.properties

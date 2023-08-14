@@ -30,6 +30,7 @@ MapleStory WZ reader.
 |  [WzIntProperty](./wz.wzintproperty.md) |  |
 |  [WzLongProperty](./wz.wzlongproperty.md) |  |
 |  [WzLuaProperty](./wz.wzluaproperty.md) |  |
+|  [WzMainDirectory](./wz.wzmaindirectory.md) |  |
 |  [WzMutableKey](./wz.wzmutablekey.md) |  |
 |  [WzNullProperty](./wz.wznullproperty.md) |  |
 |  [WzObject](./wz.wzobject.md) |  |
@@ -47,6 +48,7 @@ MapleStory WZ reader.
 |  [ErrorLevel](./wz.errorlevel.md) |  |
 |  [MapleStoryLocalisation](./wz.maplestorylocalisation.md) |  |
 |  [WzBinaryPropertyType](./wz.wzbinarypropertytype.md) |  |
+|  [WzDirectoryType](./wz.wzdirectorytype.md) |  |
 |  [WzFileParseStatus](./wz.wzfileparsestatus.md) |  |
 |  [WzMapleVersion](./wz.wzmapleversion.md) |  |
 |  [WzObjectType](./wz.wzobjecttype.md) |  |

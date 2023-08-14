@@ -26,6 +26,7 @@ export declare class WzFile extends WzObject
 |  [fullPath](./wz.wzfile.fullpath.md) |  | string |  |
 |  [header](./wz.wzfile.header.md) |  | [WzHeader](./wz.wzheader.md) |  |
 |  [is64BitWzFile](./wz.wzfile.is64bitwzfile.md) |  | boolean |  |
+|  [isUnloaded](./wz.wzfile.isunloaded.md) |  | boolean |  |
 |  [mapleLocaleVersion](./wz.wzfile.maplelocaleversion.md) |  | [MapleStoryLocalisation](./wz.maplestorylocalisation.md) |  |
 |  [maplepLocalVersion](./wz.wzfile.mapleplocalversion.md) |  | [WzMapleVersion](./wz.wzmapleversion.md) |  |
 |  [mapleStoryPatchVersion](./wz.wzfile.maplestorypatchversion.md) |  | number |  |

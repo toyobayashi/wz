@@ -4,14 +4,14 @@
  * @packageDocumentation
  */
 
-export { IDisposable } from './util/IDisposable'
+export type { IDisposable } from './util/IDisposable'
 export { BaseError } from './util/BaseError'
 export { ErrorLevel, ErrorLogger, WzError } from './util/ErrorLogger'
 export { WzMutableKey } from './util/WzMutableKey'
 export { WzBinaryReader } from './util/WzBinaryReader'
 export { NotImplementedError } from './util/NotImplementedError'
 export { Canvas } from './util/Canvas'
-export { IPropertyContainer } from './IPropertyContainer'
+export type { IPropertyContainer } from './IPropertyContainer'
 export { WzLuaProperty } from './properties/WzLuaProperty'
 export { WzBinaryPropertyType } from './properties/WzBinaryPropertyType'
 export { WzBinaryProperty } from './properties/WzBinaryProperty'
@@ -39,7 +39,7 @@ export { WzImage } from './WzImage'
 export { WzDirectory } from './WzDirectory'
 export { WzDirectoryType } from './WzDirectoryType'
 export { WzFileParseStatus, getErrorDescription } from './WzFileParseStatus'
-export { IWzParseResult, WzFile, MapleStoryLocalisation } from './WzFile'
+export { type IWzParseResult, WzFile, MapleStoryLocalisation } from './WzFile'
 export { WzMainDirectory } from './WzMainDirectory'
 
 export { walkWzFileAsync, walkDirectory, walkPropertyContainer } from './walk'

@@ -9,8 +9,8 @@ import { WzObjectType } from './WzObjectType'
  * @public
  */
 export class WzDirectory extends WzObject {
-  private readonly images: Set<WzImage> = new Set()
-  private readonly subDirs: Set<WzDirectory> = new Set()
+  private readonly images = new Set<WzImage>()
+  private readonly subDirs = new Set<WzDirectory>()
   public reader: WzBinaryReader
   public offset: number = 0
   public name: string

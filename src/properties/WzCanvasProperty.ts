@@ -20,7 +20,7 @@ export class WzCanvasProperty extends WzExtended implements IPropertyContainer {
   public get ltPropertyName (): string { return 'lt' }
   public get animationDelayPropertyName (): string { return 'delay' }
 
-  private readonly properties: Set<WzImageProperty> = new Set()
+  private readonly properties = new Set<WzImageProperty>()
 
   public get wzProperties (): Set<WzImageProperty> {
     return this.properties

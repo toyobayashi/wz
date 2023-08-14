@@ -1,6 +1,7 @@
 import type { WzDirectory } from './WzDirectory'
 import type { WzFile } from './WzFile'
 
+/** @public */
 export class WzMainDirectory {
   public file: WzFile
   private readonly _directory: WzDirectory | undefined

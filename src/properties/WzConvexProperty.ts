@@ -9,7 +9,7 @@ import { NotImplementedError } from '../util/NotImplementedError'
  * @public
  */
 export class WzConvexProperty extends WzExtended implements IPropertyContainer {
-  private readonly properties: Set<WzImageProperty> = new Set()
+  private readonly properties = new Set<WzImageProperty>()
 
   public get wzProperties (): Set<WzImageProperty> {
     return this.properties

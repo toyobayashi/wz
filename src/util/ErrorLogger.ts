@@ -21,7 +21,7 @@ export class WzError extends BaseError {
 
 /** @public */
 export class ErrorLogger {
-  private static readonly _errorList: Set<WzError> = new Set()
+  private static readonly _errorList = new Set<WzError>()
 
   public static log (level: ErrorLevel, message: string): void {
     this._errorList.add(new WzError(level, message))
@@ -36,7 +36,7 @@ export class ErrorLogger {
   }
 
   public static clearErrors (): void {
-    return this._errorList.clear()
+    this._errorList.clear()
   }
 
   public static saveToFile (file: string): void {
