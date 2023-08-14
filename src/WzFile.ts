@@ -57,8 +57,7 @@ export class WzFile extends WzObject {
   public maplepLocalVersion: WzMapleVersion
   private _mapleLocaleVersion: MapleStoryLocalisation = MapleStoryLocalisation.Not_Known
 
-  private _b64BitClient = false // KMS update after Q4 2021, ver 1.2.357
-  private _b64BitClient_withVerHeader = false
+  private _wz_withEncryptVersionHeader = true
   private _wzIv: Uint8Array
   private _wzDir: WzDirectory | null = null
 
@@ -67,7 +66,7 @@ export class WzFile extends WzObject {
   }
 
   public get is64BitWzFile (): boolean {
-    return this._b64BitClient
+    return !this._wz_withEncryptVersionHeader
   }
 
   public get wzDirectory (): WzDirectory | null {
@@ -88,14 +87,6 @@ export class WzFile extends WzObject {
       r.close()
     } else {
       this._wzIv = getIvByMapleVersion(version)
-    }
-
-    // TODO: Find a better way of identifying 64-bit client/ WZ from the WZ files instead.
-    // This might break if it isnt installed in the right path, esp. private servers
-    if (typeof this.filepath === 'string') {
-      this._b64BitClient = this.filepath.split(path.sep).includes('Data')
-    } else {
-      this._b64BitClient = this.filepath.name.split(path.sep).includes('Data')
     }
   }
 
@@ -162,13 +153,13 @@ export class WzFile extends WzObject {
 
     // the value of wzVersionHeader is less important. It is used for reading/writing from/to WzFile Header, and calculating the versionHash.
     // it can be any number if the client is 64-bit. Assigning 777 is just for convenience when calculating the versionHash.
-    this._wzVersionHeader = this._b64BitClient && !this._b64BitClient_withVerHeader ? this._wzVersionHeader64bit_start : await reader.readInt16LE()
+    this._wzVersionHeader = this._wz_withEncryptVersionHeader ? await reader.readUInt16() : this._wzVersionHeader64bit_start
 
     if (this.mapleStoryPatchVersion === -1) {
       // for 64-bit client, return immediately if version 777 works correctly.
       // -- the latest KMS update seems to have changed it to 778? 779?
-      if (this._b64BitClient) {
-        for (let maplestoryVerToDecode = this._wzVersionHeader64bit_start; maplestoryVerToDecode < this._wzVersionHeader64bit_start + 20; maplestoryVerToDecode++) {
+      if (!this._wz_withEncryptVersionHeader) {
+        for (let maplestoryVerToDecode = this._wzVersionHeader64bit_start; maplestoryVerToDecode < this._wzVersionHeader64bit_start + 10; maplestoryVerToDecode++) {
           if (await this._tryDecodeWithWZVersionNumber(reader, this._wzVersionHeader, maplestoryVerToDecode, lazyParse)) {
             return WzFileParseStatus.SUCCESS
           }
@@ -339,30 +330,27 @@ export class WzFile extends WzObject {
 
   private async _check64BitClient (reader: WzBinaryReader): Promise<void> {
     if (this.header.fsize >= 2) {
-      this._wzVersionHeader = await reader.readUInt16LE()
-      if (this._wzVersionHeader > 0xff) {
-        this._b64BitClient = true
-      } else if (this._wzVersionHeader === 0x80) {
-        // there's an exceptional case that the first field of data part is a compressed int which determines the property count,
+      reader.seek(this.header.fstart) // go back to 0x3C
+      const encver = await reader.readUInt16()
+      if (encver > 0xff) { // encver always less than 256
+        this._wz_withEncryptVersionHeader = false
+      } else if (encver === 0x80) {
+        // there's an exceptional case that the first field of data part is a compressed int which determined property count,
         // if the value greater than 127 and also to be a multiple of 256, the first 5 bytes will become to
-        // 80 00 xx xx xx
-        // so we additional check the int value, at most time the child node count in a WzFile won't greater than 65536 (0xFFFF).
+        //   80 00 xx xx xx
+        // so we additional check the int value, at most time the child node count in a wz won't greater than 65536.
         if (this.header.fsize >= 5) {
-          reader.seek(this.header.fstart)
-          const propCount = await reader.readWzInt()
-          if (propCount > 0 && (propCount & 0xFF) === 0 && propCount <= 0xFFFF) {
-            this._b64BitClient = true
+          reader.seek(this.header.fstart) // go back to 0x3C
+          const propCount = await reader.readInt32()
+          if (propCount > 0 && (propCount & 0xff) === 0 && propCount <= 0xffff) {
+            this._wz_withEncryptVersionHeader = false
           }
         }
-      } else if (this._wzVersionHeader === 0x21) { // or 33
-        this._b64BitClient = true
-        // but read the header
-        // the latest KMS seems to include this back in again.. damn
-        this._b64BitClient_withVerHeader = true // ugly hack, but until i've found a better way without breaking compatibility of old WZs.
+      } else {
+        // old wz file with header version
       }
     } else {
-      // Obviously, if data part have only 1 byte, encVer must be deleted.
-      this._b64BitClient = true
+      this._wz_withEncryptVersionHeader = false
     }
 
     // reset position
