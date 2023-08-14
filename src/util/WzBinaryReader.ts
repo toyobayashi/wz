@@ -62,11 +62,10 @@ export class WzBinaryReader extends AsyncBinaryReader implements IDisposable {
         return ''
       }
 
-      const wzKeyLength = this.wzKey.keyLength
       for (let i = 0; i < length; i++) {
         let encryptedChar = await this.readUInt16LE()
         encryptedChar = ((encryptedChar ^ mask) >>> 0) & 0xffff
-        encryptedChar = ((encryptedChar ^ (((this.wzKey.at((i * 2 + 1) % wzKeyLength) << 8) >>> 0) + this.wzKey.at((i * 2) % wzKeyLength))) >>> 0) & 0xffff
+        encryptedChar = ((encryptedChar ^ (((this.wzKey.at(i * 2 + 1) << 8) >>> 0) + this.wzKey.at(i * 2))) >>> 0) & 0xffff
         u8arr.push(encryptedChar & 0xff)
         u8arr.push(encryptedChar >>> 8)
         mask++
@@ -83,11 +82,10 @@ export class WzBinaryReader extends AsyncBinaryReader implements IDisposable {
         return ''
       }
 
-      const wzKeyLength = this.wzKey.keyLength
       for (let i = 0; i < length; i++) {
         let encryptedChar = await this.readUInt8()
         encryptedChar = (encryptedChar ^ mask) >>> 0
-        encryptedChar = (encryptedChar ^ this.wzKey.at(i % wzKeyLength)) >>> 0
+        encryptedChar = (encryptedChar ^ this.wzKey.at(i)) >>> 0
         u8arr.push(encryptedChar)
         mask++
       }
