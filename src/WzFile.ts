@@ -277,7 +277,9 @@ export class WzFile extends WzObject {
       }
     } finally {
       if (bCloseTestDirectory) {
-        testDirectory.dispose()
+        try {
+          testDirectory.dispose()
+        } catch (_) {}
       }
     }
   }
