@@ -60,6 +60,11 @@ export class WzFile extends WzObject {
   private _wz_withEncryptVersionHeader = true
   private _wzIv: Uint8Array
   private _wzDir: WzDirectory | null = null
+  private _isUnloaded = false
+
+  public get isUnloaded (): boolean {
+    return this._isUnloaded
+  }
 
   public get mapleLocaleVersion (): MapleStoryLocalisation {
     return this._mapleLocaleVersion
@@ -92,6 +97,7 @@ export class WzFile extends WzObject {
 
   public dispose (): void {
     if (this._disposed) return
+    this._isUnloaded = true
     if (this._wzDir != null) {
       this._wzDir.reader.dispose()
       this._wzDir.reader = null!
