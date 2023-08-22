@@ -289,17 +289,20 @@ export class WzPngProperty extends WzExtended {
   }
 
   private static getPixelDataBgra4444 (rawData: Uint8Array, width: number, height: number): Uint8Array {
-    let b: number, g: number
+    let b = 0
+    let g = 0
+    let byteAtPosition = 0
 
     const uncompressedSize = width * height * 2
     const argb = new Uint8Array(uncompressedSize * 2)
     for (let i = 0; i < uncompressedSize; i++) {
-      b = rawData[i] & 0x0F
+      byteAtPosition = rawData[i]
+      b = byteAtPosition & 0x0F
       b |= (b << 4)
 
       argb[i * 2] = (b >>> 0) & 0xff
 
-      g = rawData[i] & 0xF0
+      g = byteAtPosition & 0xF0
       g |= (g >> 4)
 
       argb[i * 2 + 1] = (g >>> 0) & 0xff
