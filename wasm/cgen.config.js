@@ -6,6 +6,7 @@ function createTarget (name, asm, isDebug) {
   ]
   const linkerFlags = [
     // '--bind',
+    '--no-entry',
     '-sALLOW_MEMORY_GROWTH=1',
     "-sEXPORTED_FUNCTIONS=['_malloc','_free']",
     ...(asm ? ['-sWASM=0'] : []),
@@ -18,13 +19,13 @@ function createTarget (name, asm, isDebug) {
     sources: [
       './src/main.c'
     ],
+    properties: {
+      SUFFIX: '.wasm'
+    },
     defines: [
       'AES256=1',
       'ECB=1'
     ],
-    emwrap: {
-      script: './export.js',
-    },
     compileOptions: [
       ...compilerFlags
     ],
@@ -50,8 +51,7 @@ module.exports = defineFunctionConfig(function (_options, { isDebug }) {
       './deps/zlib': {}
     },
     targets: [
-      createTarget('wz', false, isDebug),
-      createTarget('wzasm', true, isDebug)
+      createTarget('wz', false, isDebug)
     ]
   }
 })
