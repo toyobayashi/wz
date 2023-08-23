@@ -43,8 +43,8 @@ int wz_aes_ecb_encrypt(const uint8_t* data,
   if (padding != 0) {
     padding = 16 - padding;
     encrypt_len = data_len + padding;
+    *out_len = encrypt_len;
     if (out == NULL) {
-      *out_len = encrypt_len;
       return 0;
     }
     if (key == NULL) return 2;
@@ -53,8 +53,8 @@ int wz_aes_ecb_encrypt(const uint8_t* data,
     memset(data_buf + data_len, padding, padding);
   } else {
     encrypt_len = data_len;
+    *out_len = encrypt_len;
     if (out == NULL) {
-      *out_len = encrypt_len;
       return 0;
     }
     if (key == NULL) return 2;

@@ -33,15 +33,11 @@ exports.aesEnc = function (data, key) {
   var srcMemory = new Uint8Array(Module.HEAPU8.buffer, source, srclen);
   srcMemory.set(data);
 
+  var defaultOutLen = data.length + 16;
   var outLenPointer = Module._malloc(4);
-  if (!source) {
-    Module._free(source);
-    throw new Error('malloc failed');
-  }
-  Module._wz_aes_ecb_encrypt(source, srclen, 0, 0, outLenPointer);
+  Module.HEAPU32[outLenPointer >> 2] = defaultOutLen;
   
-  var outLen = Module.HEAPU32[outLenPointer >> 2]
-  var out = Module._malloc(outLen);
+  var out = Module._malloc(defaultOutLen);
   if (!out) {
     Module._free(source);
     Module._free(outLenPointer);
@@ -59,6 +55,7 @@ exports.aesEnc = function (data, key) {
   keyMemory.set(key);
 
   Module._wz_aes_ecb_encrypt(source, srclen, keyPointer, out, outLenPointer);
+  var outLen = Module.HEAPU32[outLenPointer >> 2];
 
   var ret = new Uint8Array(Module.HEAPU8.buffer, out, outLen).slice();
   Module._free(source);
