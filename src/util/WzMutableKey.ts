@@ -66,5 +66,6 @@ export class WzMutableKey {
     }
 
     this._keys = newKeys
+    aes.destroy()
   }
 }

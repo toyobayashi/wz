@@ -27,46 +27,26 @@ int wz_zlib_inflate(uint8_t *source,
 }
 
 EMSCRIPTEN_KEEPALIVE
-int wz_aes_ecb_encrypt(const uint8_t* data,
-                       size_t data_len,
-                       const uint8_t* key,
+AES_KEY* wz_aes_ecb_create_key(const uint8_t* key) {
+  if (key == NULL) return NULL;
+  AES_KEY* k = (AES_KEY*) malloc(sizeof(AES_KEY));
+  if (k == NULL) return NULL;
+  int r = AES_set_encrypt_key(key, 256, k);
+  if (r != 0) {
+    free(k);
+    return NULL;
+  }
+  return k;
+}
+
+EMSCRIPTEN_KEEPALIVE
+void wz_aes_ecb_destroy_key(AES_KEY* k) {
+  free(k);
+}
+
+EMSCRIPTEN_KEEPALIVE
+void wz_aes_ecb_encrypt(const uint8_t* in,
                        uint8_t* out,
-                       size_t* out_len) {
-  if (data == NULL || out_len == NULL) {
-    return 1;
-  }
-
-  uint8_t* data_buf = NULL;
-
-  size_t padding = data_len % 16;
-  size_t encrypt_len = 0;
-  if (padding != 0) {
-    padding = 16 - padding;
-    encrypt_len = data_len + padding;
-    *out_len = encrypt_len;
-    if (out == NULL) {
-      return 0;
-    }
-    if (key == NULL) return 2;
-    data_buf = (uint8_t*) malloc(encrypt_len);  // NOLINT
-    memcpy(data_buf, data, data_len);
-    memset(data_buf + data_len, padding, padding);
-  } else {
-    encrypt_len = data_len;
-    *out_len = encrypt_len;
-    if (out == NULL) {
-      return 0;
-    }
-    if (key == NULL) return 2;
-    data_buf = (uint8_t*) malloc(encrypt_len);  // NOLINT=
-    memcpy(data_buf, data, data_len);
-  }
-
-  AES_KEY k;
-  AES_set_encrypt_key(key, 256, &k);
-  AES_ecb_encrypt(data_buf, out, &k, AES_ENCRYPT);
-
-  free(data_buf);
-
-  return 0;
+                       const AES_KEY* k) {
+  AES_ecb_encrypt(in, out, k, AES_ENCRYPT);
 }

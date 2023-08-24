@@ -11,7 +11,14 @@ declare namespace mod {
 
 declare function init (moduleOverrides?: Partial<EmscriptenModule>): Promise<{ Module: typeof mod }>
 
+export interface ICipher {
+  setAutoPadding (autoPadding: boolean): this
+  update (data: Uint8Array): Uint8Array
+  final (): Uint8Array
+  destroy (): this
+}
+
 export declare function inflate (data: Uint8Array, len: number): Uint8Array
-export declare function aesEnc (data: Uint8Array, key: Uint8Array): Uint8Array
+export declare function aesCreate (key: Uint8Array): ICipher
 
 export default init
