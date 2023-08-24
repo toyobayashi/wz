@@ -77,24 +77,24 @@ Cipher.prototype.update = function (data) {
 };
 
 Cipher.prototype.final = function () {
-  if (this.remain.length === 0) {
-    return new Uint8Array([
-      159,  59, 117,  4, 146, 111,
-      139, 211, 110, 49,  24, 233,
-        3, 164, 205, 74
-    ]);
+  var data;
+  if (!this.autoPadding) {
+    if ((this.remain.length % 16) !== 0) {
+      throw new Error('wrong final block length');
+    }
+    if (this.remain.length === 0) {
+      return new Uint8Array(0);
+    }
+    data = this.remain;
+  } else {
+    data = new Uint8Array(16);
+    data.set(this.remain);
+    var pad = 16 - this.remain.length;
+    for (var i = this.remain.length; i < 16; ++i) {
+      data[i] = pad;
+    }
   }
 
-  if (!this.autoPadding && ((this.remain.length % 16) !== 0)) {
-    throw new Error('wrong final block length')
-  }
-
-  var data = new Uint8Array(16);
-  data.set(this.remain);
-  var pad = 16 - this.remain.length;
-  for (var i = this.remain.length; i < 16; ++i) {
-    data[i] = pad;
-  }
   var source = Module._malloc(16);
   if (!source) throw new Error('malloc failed');
   Module.HEAPU8.set(data, source);

@@ -29,26 +29,38 @@ function testAutoPadding (input, key) {
   const expected = new Uint8Array(nodeAes.update(input))
   assert.deepStrictEqual(actual, expected);
 
-  assert.throws(() => {
-    aes.final()
-  }, /wrong final block length/)
-
-  assert.throws(() => {
-    nodeAes.final()
-  }, /wrong final block length/)
+  if (input.length % 16 === 0) {
+    const actualFinal = aes.final()
+    const expectedFinal = new Uint8Array(nodeAes.final())
+    assert.deepStrictEqual(actualFinal, expectedFinal)
+  } else {
+    assert.throws(() => {
+      aes.final()
+    })
+  
+    assert.throws(() => {
+      nodeAes.final()
+    })
+  }
 
   aes.destroy()
   nodeAes.destroy()
 }
 
 wzwasm.default({}).then(() => {
+  test(new Uint8Array(Array.from({ length: 0 }, (_, k) => k)), key)
   test(new Uint8Array(Array.from({ length: 7 }, (_, k) => k)), key)
   test(new Uint8Array(Array.from({ length: 16 }, (_, k) => k)), key)
   test(new Uint8Array(Array.from({ length: 31 }, (_, k) => k)), key)
   test(new Uint8Array(Array.from({ length: 32 }, (_, k) => k)), key)
-  test(new Uint8Array(Array.from({ length: 126 }, (_, k) => k)), key)
-  test(new Uint8Array(Array.from({ length: 256 }, (_, k) => k)), key)
   test(new Uint8Array(Array.from({ length: 65536 }, (_, k) => k)), key)
+  test(new Uint8Array(Array.from({ length: 999999 }, (_, k) => k)), key)
+  testAutoPadding(new Uint8Array(Array.from({ length: 0 }, (_, k) => k)), key)
   testAutoPadding(new Uint8Array(Array.from({ length: 7 }, (_, k) => k)), key)
+  testAutoPadding(new Uint8Array(Array.from({ length: 16 }, (_, k) => k)), key)
+  testAutoPadding(new Uint8Array(Array.from({ length: 31 }, (_, k) => k)), key)
+  testAutoPadding(new Uint8Array(Array.from({ length: 32 }, (_, k) => k)), key)
+  testAutoPadding(new Uint8Array(Array.from({ length: 65536 }, (_, k) => k)), key)
+  testAutoPadding(new Uint8Array(Array.from({ length: 999999 }, (_, k) => k)), key)
   console.log('all test passed')
 })
