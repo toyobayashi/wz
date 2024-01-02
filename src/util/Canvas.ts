@@ -71,6 +71,10 @@ export class Canvas {
     return (this._canvas as HTMLCanvasElement).width
   }
 
+  public getCanvas (): HTMLCanvasElement | InstanceType<typeof Jimp> {
+    return this._canvas;
+  }
+
   public getBufferAsync (mime: string): Promise<Uint8Array> {
     if (typeof window === 'undefined') {
       return (this._canvas as InstanceType<typeof Jimp>).getBufferAsync(mime)
