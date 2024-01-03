@@ -4,7 +4,7 @@
 
 ## WzDirectory.offset property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 offset: number;

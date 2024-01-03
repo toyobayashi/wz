@@ -4,12 +4,12 @@
 
 ## WzCanvasProperty.getLinkedWzCanvasBitmap() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 getLinkedWzCanvasBitmap(): Promise<Canvas | null>;
 ```
-<b>Returns:</b>
+**Returns:**
 
 Promise&lt;[Canvas](./wz.canvas.md) \| null&gt;
 

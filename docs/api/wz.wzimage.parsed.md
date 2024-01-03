@@ -4,7 +4,7 @@
 
 ## WzImage.parsed property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 parsed: boolean;

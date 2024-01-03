@@ -4,7 +4,7 @@
 
 ## WzDirectory.addImage() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 addImage(img: WzImage): void;
@@ -16,7 +16,7 @@ addImage(img: WzImage): void;
 |  --- | --- | --- |
 |  img | [WzImage](./wz.wzimage.md) |  |
 
-<b>Returns:</b>
+**Returns:**
 
 void
 

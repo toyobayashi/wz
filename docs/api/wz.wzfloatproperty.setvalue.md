@@ -4,7 +4,7 @@
 
 ## WzFloatProperty.setValue() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 setValue(value: number): void;
@@ -16,7 +16,7 @@ setValue(value: number): void;
 |  --- | --- | --- |
 |  value | number |  |
 
-<b>Returns:</b>
+**Returns:**
 
 void
 

@@ -6,7 +6,7 @@
 
 Constructs a new instance of the `WzMainDirectory` class
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 constructor(file: WzFile, directory?: WzDirectory);
@@ -17,5 +17,5 @@ constructor(file: WzFile, directory?: WzDirectory);
 |  Parameter | Type | Description |
 |  --- | --- | --- |
 |  file | [WzFile](./wz.wzfile.md) |  |
-|  directory | [WzDirectory](./wz.wzdirectory.md) | <i>(Optional)</i> |
+|  directory | [WzDirectory](./wz.wzdirectory.md) | _(Optional)_ |
 

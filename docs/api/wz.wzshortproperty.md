@@ -5,12 +5,12 @@
 ## WzShortProperty class
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export declare class WzShortProperty extends WzImageProperty 
 ```
-<b>Extends:</b> [WzImageProperty](./wz.wzimageproperty.md)
+**Extends:** [WzImageProperty](./wz.wzimageproperty.md)
 
 ## Constructors
 
@@ -24,9 +24,9 @@ export declare class WzShortProperty extends WzImageProperty
 |  --- | --- | --- | --- |
 |  [name](./wz.wzshortproperty.name.md) |  | string |  |
 |  [parent](./wz.wzshortproperty.parent.md) |  | [WzObject](./wz.wzobject.md) \| null |  |
-|  [propertyType](./wz.wzshortproperty.propertytype.md) |  | [WzPropertyType](./wz.wzpropertytype.md) |  |
-|  [value](./wz.wzshortproperty.value.md) |  | number |  |
-|  [wzValue](./wz.wzshortproperty.wzvalue.md) |  | number |  |
+|  [propertyType](./wz.wzshortproperty.propertytype.md) | <code>readonly</code> | [WzPropertyType](./wz.wzpropertytype.md) |  |
+|  [value](./wz.wzshortproperty.value.md) | <code>readonly</code> | number |  |
+|  [wzValue](./wz.wzshortproperty.wzvalue.md) | <code>readonly</code> | number |  |
 
 ## Methods
 

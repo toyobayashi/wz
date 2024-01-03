@@ -4,7 +4,7 @@
 
 ## WzShortProperty.wzValue property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 get wzValue(): number;

@@ -4,7 +4,7 @@
 
 ## WzConvexProperty.getProperty() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 getProperty(name: string): WzImageProperty | null;
@@ -16,7 +16,7 @@ getProperty(name: string): WzImageProperty | null;
 |  --- | --- | --- |
 |  name | string |  |
 
-<b>Returns:</b>
+**Returns:**
 
 [WzImageProperty](./wz.wzimageproperty.md) \| null
 

@@ -4,7 +4,7 @@
 
 ## WzFile.is64BitWzFile property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 get is64BitWzFile(): boolean;

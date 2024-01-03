@@ -4,12 +4,12 @@
 
 ## ErrorLogger.numberOfErrorsPresent() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 static numberOfErrorsPresent(): number;
 ```
-<b>Returns:</b>
+**Returns:**
 
 number
 

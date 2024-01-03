@@ -5,12 +5,12 @@
 ## WzDirectory class
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export declare class WzDirectory extends WzObject 
 ```
-<b>Extends:</b> [WzObject](./wz.wzobject.md)
+**Extends:** [WzObject](./wz.wzobject.md)
 
 ## Constructors
 
@@ -26,14 +26,14 @@ export declare class WzDirectory extends WzObject
 |  [checksum](./wz.wzdirectory.checksum.md) |  | number |  |
 |  [hash](./wz.wzdirectory.hash.md) |  | number |  |
 |  [name](./wz.wzdirectory.name.md) |  | string |  |
-|  [objectType](./wz.wzdirectory.objecttype.md) |  | [WzObjectType](./wz.wzobjecttype.md) |  |
+|  [objectType](./wz.wzdirectory.objecttype.md) | <code>readonly</code> | [WzObjectType](./wz.wzobjecttype.md) |  |
 |  [offset](./wz.wzdirectory.offset.md) |  | number |  |
 |  [parent](./wz.wzdirectory.parent.md) |  | [WzObject](./wz.wzobject.md) \| null |  |
 |  [reader](./wz.wzdirectory.reader.md) |  | [WzBinaryReader](./wz.wzbinaryreader.md) |  |
-|  [wzDirectories](./wz.wzdirectory.wzdirectories.md) |  | Set&lt;[WzDirectory](./wz.wzdirectory.md)<!-- -->&gt; |  |
+|  [wzDirectories](./wz.wzdirectory.wzdirectories.md) | <code>readonly</code> | Set&lt;[WzDirectory](./wz.wzdirectory.md)<!-- -->&gt; |  |
 |  [wzFile](./wz.wzdirectory.wzfile.md) |  | [WzFile](./wz.wzfile.md) |  |
-|  [wzFileParent](./wz.wzdirectory.wzfileparent.md) |  | [WzFile](./wz.wzfile.md) \| null |  |
-|  [wzImages](./wz.wzdirectory.wzimages.md) |  | Set&lt;[WzImage](./wz.wzimage.md)<!-- -->&gt; |  |
+|  [wzFileParent](./wz.wzdirectory.wzfileparent.md) | <code>readonly</code> | [WzFile](./wz.wzfile.md) \| null |  |
+|  [wzImages](./wz.wzdirectory.wzimages.md) | <code>readonly</code> | Set&lt;[WzImage](./wz.wzimage.md)<!-- -->&gt; |  |
 
 ## Methods
 

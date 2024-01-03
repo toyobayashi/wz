@@ -4,7 +4,7 @@
 
 ## WzHeader.fstart property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 fstart: number;

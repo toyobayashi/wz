@@ -5,12 +5,12 @@
 ## WzFloatProperty class
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export declare class WzFloatProperty extends WzImageProperty 
 ```
-<b>Extends:</b> [WzImageProperty](./wz.wzimageproperty.md)
+**Extends:** [WzImageProperty](./wz.wzimageproperty.md)
 
 ## Constructors
 
@@ -24,9 +24,9 @@ export declare class WzFloatProperty extends WzImageProperty
 |  --- | --- | --- | --- |
 |  [name](./wz.wzfloatproperty.name.md) |  | string |  |
 |  [parent](./wz.wzfloatproperty.parent.md) |  | [WzObject](./wz.wzobject.md) \| null |  |
-|  [propertyType](./wz.wzfloatproperty.propertytype.md) |  | [WzPropertyType](./wz.wzpropertytype.md) |  |
-|  [value](./wz.wzfloatproperty.value.md) |  | number |  |
-|  [wzValue](./wz.wzfloatproperty.wzvalue.md) |  | number |  |
+|  [propertyType](./wz.wzfloatproperty.propertytype.md) | <code>readonly</code> | [WzPropertyType](./wz.wzpropertytype.md) |  |
+|  [value](./wz.wzfloatproperty.value.md) | <code>readonly</code> | number |  |
+|  [wzValue](./wz.wzfloatproperty.wzvalue.md) | <code>readonly</code> | number |  |
 
 ## Methods
 

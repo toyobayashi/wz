@@ -5,7 +5,7 @@
 ## Canvas class
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export declare class Canvas 
@@ -23,6 +23,7 @@ export declare class Canvas
 |  --- | --- | --- |
 |  [dispose()](./wz.canvas.dispose.md) |  |  |
 |  [getBufferAsync(mime)](./wz.canvas.getbufferasync.md) |  |  |
+|  [getCanvas()](./wz.canvas.getcanvas.md) |  |  |
 |  [getWidth()](./wz.canvas.getwidth.md) |  |  |
 |  [rgbaToInt(r, g, b, a)](./wz.canvas.rgbatoint.md) | <code>static</code> |  |
 |  [setPixelColor(rgba, x, y)](./wz.canvas.setpixelcolor.md) |  |  |

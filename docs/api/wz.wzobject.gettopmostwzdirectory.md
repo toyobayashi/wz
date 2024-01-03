@@ -4,12 +4,12 @@
 
 ## WzObject.getTopMostWzDirectory() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 getTopMostWzDirectory(): WzObject;
 ```
-<b>Returns:</b>
+**Returns:**
 
 [WzObject](./wz.wzobject.md)
 

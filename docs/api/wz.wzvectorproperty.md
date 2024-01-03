@@ -5,12 +5,12 @@
 ## WzVectorProperty class
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export declare class WzVectorProperty extends WzExtended 
 ```
-<b>Extends:</b> [WzExtended](./wz.wzextended.md)
+**Extends:** [WzExtended](./wz.wzextended.md)
 
 ## Constructors
 
@@ -24,8 +24,8 @@ export declare class WzVectorProperty extends WzExtended
 |  --- | --- | --- | --- |
 |  [name](./wz.wzvectorproperty.name.md) |  | string |  |
 |  [parent](./wz.wzvectorproperty.parent.md) |  | [WzObject](./wz.wzobject.md) \| null |  |
-|  [propertyType](./wz.wzvectorproperty.propertytype.md) |  | [WzPropertyType](./wz.wzpropertytype.md) |  |
-|  [wzValue](./wz.wzvectorproperty.wzvalue.md) |  | { x: number; y: number; } |  |
+|  [propertyType](./wz.wzvectorproperty.propertytype.md) | <code>readonly</code> | [WzPropertyType](./wz.wzpropertytype.md) |  |
+|  [wzValue](./wz.wzvectorproperty.wzvalue.md) | <code>readonly</code> | { x: number; y: number; } |  |
 |  [x](./wz.wzvectorproperty.x.md) |  | [WzIntProperty](./wz.wzintproperty.md) \| null |  |
 |  [y](./wz.wzvectorproperty.y.md) |  | [WzIntProperty](./wz.wzintproperty.md) \| null |  |
 

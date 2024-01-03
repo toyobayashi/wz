@@ -4,7 +4,7 @@
 
 ## WzDirectory.checksum property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 checksum: number;

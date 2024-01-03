@@ -4,7 +4,7 @@
 
 ## WzImageProperty.propertyType property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 abstract get propertyType(): WzPropertyType;

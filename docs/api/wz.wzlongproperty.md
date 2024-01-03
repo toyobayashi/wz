@@ -5,12 +5,12 @@
 ## WzLongProperty class
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export declare class WzLongProperty extends WzImageProperty 
 ```
-<b>Extends:</b> [WzImageProperty](./wz.wzimageproperty.md)
+**Extends:** [WzImageProperty](./wz.wzimageproperty.md)
 
 ## Constructors
 
@@ -24,9 +24,9 @@ export declare class WzLongProperty extends WzImageProperty
 |  --- | --- | --- | --- |
 |  [name](./wz.wzlongproperty.name.md) |  | string |  |
 |  [parent](./wz.wzlongproperty.parent.md) |  | [WzObject](./wz.wzobject.md) \| null |  |
-|  [propertyType](./wz.wzlongproperty.propertytype.md) |  | [WzPropertyType](./wz.wzpropertytype.md) |  |
-|  [value](./wz.wzlongproperty.value.md) |  | bigint |  |
-|  [wzValue](./wz.wzlongproperty.wzvalue.md) |  | bigint |  |
+|  [propertyType](./wz.wzlongproperty.propertytype.md) | <code>readonly</code> | [WzPropertyType](./wz.wzpropertytype.md) |  |
+|  [value](./wz.wzlongproperty.value.md) | <code>readonly</code> | bigint |  |
+|  [wzValue](./wz.wzlongproperty.wzvalue.md) | <code>readonly</code> | bigint |  |
 
 ## Methods
 

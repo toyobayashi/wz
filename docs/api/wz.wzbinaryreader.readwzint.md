@@ -4,12 +4,12 @@
 
 ## WzBinaryReader.readWzInt() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 readWzInt(): Promise<number>;
 ```
-<b>Returns:</b>
+**Returns:**
 
 Promise&lt;number&gt;
 

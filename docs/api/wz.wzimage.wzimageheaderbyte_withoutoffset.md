@@ -4,7 +4,7 @@
 
 ## WzImage.WzImageHeaderByte\_WithoutOffset property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 static WzImageHeaderByte_WithoutOffset: number;

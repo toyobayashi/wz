@@ -5,7 +5,7 @@
 ## WzMainDirectory class
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export declare class WzMainDirectory 
@@ -21,6 +21,6 @@ export declare class WzMainDirectory
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [directory](./wz.wzmaindirectory.directory.md) |  | [WzDirectory](./wz.wzdirectory.md) \| null |  |
+|  [directory](./wz.wzmaindirectory.directory.md) | <code>readonly</code> | [WzDirectory](./wz.wzdirectory.md) \| null |  |
 |  [file](./wz.wzmaindirectory.file.md) |  | [WzFile](./wz.wzfile.md) |  |
 

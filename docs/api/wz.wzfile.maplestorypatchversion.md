@@ -4,7 +4,7 @@
 
 ## WzFile.mapleStoryPatchVersion property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 mapleStoryPatchVersion: number;

@@ -4,7 +4,7 @@
 
 ## WzBinaryReader.decryptNonUnicodeString() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 decryptNonUnicodeString(stringToDecrypt: string): string;
@@ -16,7 +16,7 @@ decryptNonUnicodeString(stringToDecrypt: string): string;
 |  --- | --- | --- |
 |  stringToDecrypt | string |  |
 
-<b>Returns:</b>
+**Returns:**
 
 string
 

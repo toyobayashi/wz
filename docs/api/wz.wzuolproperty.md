@@ -5,12 +5,12 @@
 ## WzUOLProperty class
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export declare class WzUOLProperty extends WzExtended 
 ```
-<b>Extends:</b> [WzExtended](./wz.wzextended.md)
+**Extends:** [WzExtended](./wz.wzextended.md)
 
 ## Constructors
 
@@ -22,14 +22,14 @@ export declare class WzUOLProperty extends WzExtended
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [linkValue](./wz.wzuolproperty.linkvalue.md) |  | [WzObject](./wz.wzobject.md) \| null |  |
+|  [linkValue](./wz.wzuolproperty.linkvalue.md) | <code>readonly</code> | [WzObject](./wz.wzobject.md) \| null |  |
 |  [name](./wz.wzuolproperty.name.md) |  | string |  |
 |  [parent](./wz.wzuolproperty.parent.md) |  | [WzObject](./wz.wzobject.md) \| null |  |
-|  [propertyType](./wz.wzuolproperty.propertytype.md) |  | [WzPropertyType](./wz.wzpropertytype.md) |  |
+|  [propertyType](./wz.wzuolproperty.propertytype.md) | <code>readonly</code> | [WzPropertyType](./wz.wzpropertytype.md) |  |
 |  [UOLRES](./wz.wzuolproperty.uolres.md) | <code>static</code> | boolean |  |
-|  [value](./wz.wzuolproperty.value.md) |  | string |  |
-|  [wzProperties](./wz.wzuolproperty.wzproperties.md) |  | Set&lt;[WzImageProperty](./wz.wzimageproperty.md)<!-- -->&gt; \| null |  |
-|  [wzValue](./wz.wzuolproperty.wzvalue.md) |  | [WzObject](./wz.wzobject.md) \| null |  |
+|  [value](./wz.wzuolproperty.value.md) | <code>readonly</code> | string |  |
+|  [wzProperties](./wz.wzuolproperty.wzproperties.md) | <code>readonly</code> | Set&lt;[WzImageProperty](./wz.wzimageproperty.md)<!-- -->&gt; \| null |  |
+|  [wzValue](./wz.wzuolproperty.wzvalue.md) | <code>readonly</code> | [WzObject](./wz.wzobject.md) \| null |  |
 
 ## Methods
 

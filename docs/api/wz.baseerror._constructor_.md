@@ -6,7 +6,7 @@
 
 Constructs a new instance of the `BaseError` class
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 constructor(message?: string);
@@ -16,5 +16,5 @@ constructor(message?: string);
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  message | string | <i>(Optional)</i> |
+|  message | string | _(Optional)_ |
 

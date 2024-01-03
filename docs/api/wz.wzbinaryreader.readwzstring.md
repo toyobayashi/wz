@@ -4,12 +4,12 @@
 
 ## WzBinaryReader.readWzString() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 readWzString(): Promise<string>;
 ```
-<b>Returns:</b>
+**Returns:**
 
 Promise&lt;string&gt;
 

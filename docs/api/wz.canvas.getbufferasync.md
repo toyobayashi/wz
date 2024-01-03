@@ -4,7 +4,7 @@
 
 ## Canvas.getBufferAsync() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 getBufferAsync(mime: string): Promise<Uint8Array>;
@@ -16,7 +16,7 @@ getBufferAsync(mime: string): Promise<Uint8Array>;
 |  --- | --- | --- |
 |  mime | string |  |
 
-<b>Returns:</b>
+**Returns:**
 
 Promise&lt;Uint8Array&gt;
 

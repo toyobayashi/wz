@@ -5,12 +5,12 @@
 ## WzBinaryProperty class
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export declare class WzBinaryProperty extends WzExtended 
 ```
-<b>Extends:</b> [WzExtended](./wz.wzextended.md)
+**Extends:** [WzExtended](./wz.wzextended.md)
 
 ## Properties
 
@@ -20,9 +20,9 @@ export declare class WzBinaryProperty extends WzExtended
 |  [length](./wz.wzbinaryproperty.length.md) |  | number |  |
 |  [name](./wz.wzbinaryproperty.name.md) |  | string |  |
 |  [parent](./wz.wzbinaryproperty.parent.md) |  | [WzObject](./wz.wzobject.md) \| null |  |
-|  [propertyType](./wz.wzbinaryproperty.propertytype.md) |  | [WzPropertyType](./wz.wzpropertytype.md) |  |
+|  [propertyType](./wz.wzbinaryproperty.propertytype.md) | <code>readonly</code> | [WzPropertyType](./wz.wzpropertytype.md) |  |
 |  [soundHeader](./wz.wzbinaryproperty.soundheader.md) | <code>static</code> | number\[\] |  |
-|  [wzValue](./wz.wzbinaryproperty.wzvalue.md) |  | Promise&lt;Uint8Array&gt; |  |
+|  [wzValue](./wz.wzbinaryproperty.wzvalue.md) | <code>readonly</code> | Promise&lt;Uint8Array&gt; |  |
 
 ## Methods
 

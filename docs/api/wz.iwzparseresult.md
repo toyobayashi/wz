@@ -5,7 +5,7 @@
 ## IWzParseResult interface
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export interface IWzParseResult 
@@ -13,7 +13,7 @@ export interface IWzParseResult
 
 ## Properties
 
-|  Property | Type | Description |
-|  --- | --- | --- |
-|  [message](./wz.iwzparseresult.message.md) | string |  |
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [message](./wz.iwzparseresult.message.md) |  | string |  |
 

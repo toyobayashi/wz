@@ -5,7 +5,7 @@
 ## getErrorDescription() function
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export declare function getErrorDescription(status: WzFileParseStatus): string;
@@ -17,7 +17,7 @@ export declare function getErrorDescription(status: WzFileParseStatus): string;
 |  --- | --- | --- |
 |  status | [WzFileParseStatus](./wz.wzfileparsestatus.md) |  |
 
-<b>Returns:</b>
+**Returns:**
 
 string
 

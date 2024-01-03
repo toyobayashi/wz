@@ -4,12 +4,12 @@
 
 ## WzSubProperty.dispose() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 dispose(): void;
 ```
-<b>Returns:</b>
+**Returns:**
 
 void
 

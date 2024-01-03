@@ -4,7 +4,7 @@
 
 ## WzBinaryProperty.create() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 static create(name: string, reader: WzBinaryReader, parseNow: boolean): Promise<WzBinaryProperty>;
@@ -18,7 +18,7 @@ static create(name: string, reader: WzBinaryReader, parseNow: boolean): Promise<
 |  reader | [WzBinaryReader](./wz.wzbinaryreader.md) |  |
 |  parseNow | boolean |  |
 
-<b>Returns:</b>
+**Returns:**
 
 Promise&lt;[WzBinaryProperty](./wz.wzbinaryproperty.md)<!-- -->&gt;
 

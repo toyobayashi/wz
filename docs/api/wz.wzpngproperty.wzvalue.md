@@ -4,7 +4,7 @@
 
 ## WzPngProperty.wzValue property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 get wzValue(): Promise<Canvas | null>;

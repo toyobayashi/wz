@@ -4,7 +4,7 @@
 
 ## WzPngProperty.getCompressedBytes() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 getCompressedBytes(saveInMemory?: boolean): Promise<Uint8Array>;
@@ -14,9 +14,9 @@ getCompressedBytes(saveInMemory?: boolean): Promise<Uint8Array>;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  saveInMemory | boolean | <i>(Optional)</i> |
+|  saveInMemory | boolean | _(Optional)_ |
 
-<b>Returns:</b>
+**Returns:**
 
 Promise&lt;Uint8Array&gt;
 

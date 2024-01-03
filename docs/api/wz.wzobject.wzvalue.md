@@ -5,7 +5,7 @@
 ## WzObject.wzValue property
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 /** @virtual */

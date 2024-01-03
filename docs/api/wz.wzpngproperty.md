@@ -5,12 +5,12 @@
 ## WzPngProperty class
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export declare class WzPngProperty extends WzExtended 
 ```
-<b>Extends:</b> [WzExtended](./wz.wzextended.md)
+**Extends:** [WzExtended](./wz.wzextended.md)
 
 ## Properties
 
@@ -19,12 +19,12 @@ export declare class WzPngProperty extends WzExtended
 |  [format1](./wz.wzpngproperty.format1.md) |  | number |  |
 |  [format2](./wz.wzpngproperty.format2.md) |  | number |  |
 |  [height](./wz.wzpngproperty.height.md) |  | number |  |
-|  [name](./wz.wzpngproperty.name.md) |  | string |  |
+|  [name](./wz.wzpngproperty.name.md) | <code>readonly</code> | string |  |
 |  [offs](./wz.wzpngproperty.offs.md) |  | number |  |
 |  [parent](./wz.wzpngproperty.parent.md) |  | [WzObject](./wz.wzobject.md) \| null |  |
-|  [propertyType](./wz.wzpngproperty.propertytype.md) |  | [WzPropertyType](./wz.wzpropertytype.md) |  |
+|  [propertyType](./wz.wzpngproperty.propertytype.md) | <code>readonly</code> | [WzPropertyType](./wz.wzpropertytype.md) |  |
 |  [width](./wz.wzpngproperty.width.md) |  | number |  |
-|  [wzValue](./wz.wzpngproperty.wzvalue.md) |  | Promise&lt;[Canvas](./wz.canvas.md) \| null&gt; |  |
+|  [wzValue](./wz.wzpngproperty.wzvalue.md) | <code>readonly</code> | Promise&lt;[Canvas](./wz.canvas.md) \| null&gt; |  |
 
 ## Methods
 

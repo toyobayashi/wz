@@ -4,7 +4,7 @@
 
 ## WzObject.objectType property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 abstract get objectType(): WzObjectType;

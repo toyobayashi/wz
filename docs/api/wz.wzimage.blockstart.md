@@ -4,7 +4,7 @@
 
 ## WzImage.blockStart property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 blockStart: number;

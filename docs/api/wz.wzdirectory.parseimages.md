@@ -4,12 +4,12 @@
 
 ## WzDirectory.parseImages() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 parseImages(): Promise<void>;
 ```
-<b>Returns:</b>
+**Returns:**
 
 Promise&lt;void&gt;
 

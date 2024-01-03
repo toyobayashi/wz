@@ -4,7 +4,7 @@
 
 ## WzImageProperty.parsePropertyList() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 static parsePropertyList<P extends WzObject>(offset: number, reader: WzBinaryReader, parent: P, parentImg: WzImage): Promise<Set<WzImageProperty>>;
@@ -19,7 +19,7 @@ static parsePropertyList<P extends WzObject>(offset: number, reader: WzBinaryRea
 |  parent | P |  |
 |  parentImg | [WzImage](./wz.wzimage.md) |  |
 
-<b>Returns:</b>
+**Returns:**
 
 Promise&lt;Set&lt;[WzImageProperty](./wz.wzimageproperty.md)<!-- -->&gt;&gt;
 

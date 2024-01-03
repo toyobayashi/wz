@@ -5,7 +5,7 @@
 ## WzImageProperty.set() method
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 /** @virtual */
@@ -19,7 +19,7 @@ set(_name: string, _value: WzImageProperty): void;
 |  \_name | string |  |
 |  \_value | [WzImageProperty](./wz.wzimageproperty.md) |  |
 
-<b>Returns:</b>
+**Returns:**
 
 void
 

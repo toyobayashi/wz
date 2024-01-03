@@ -5,10 +5,10 @@
 ## WzExtended class
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export declare abstract class WzExtended extends WzImageProperty 
 ```
-<b>Extends:</b> [WzImageProperty](./wz.wzimageproperty.md)
+**Extends:** [WzImageProperty](./wz.wzimageproperty.md)
 

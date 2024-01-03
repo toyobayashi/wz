@@ -4,7 +4,7 @@
 
 ## WzObject.parent property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 abstract parent: WzObject | null;

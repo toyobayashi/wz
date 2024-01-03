@@ -4,7 +4,7 @@
 
 ## WzCanvasProperty.headPropertyName property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 get headPropertyName(): string;

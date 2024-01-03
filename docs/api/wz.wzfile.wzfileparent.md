@@ -4,7 +4,7 @@
 
 ## WzFile.wzFileParent property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 get wzFileParent(): WzFile;

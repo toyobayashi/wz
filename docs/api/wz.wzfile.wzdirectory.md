@@ -4,7 +4,7 @@
 
 ## WzFile.wzDirectory property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 get wzDirectory(): WzDirectory | null;

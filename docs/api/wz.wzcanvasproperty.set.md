@@ -4,7 +4,7 @@
 
 ## WzCanvasProperty.set() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 set(name: string, value: WzImageProperty | null): void;
@@ -17,7 +17,7 @@ set(name: string, value: WzImageProperty | null): void;
 |  name | string |  |
 |  value | [WzImageProperty](./wz.wzimageproperty.md) \| null |  |
 
-<b>Returns:</b>
+**Returns:**
 
 void
 

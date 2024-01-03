@@ -6,7 +6,7 @@
 
 Constructs a new instance of the `WzStringProperty` class
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 constructor(name?: string, val?: string);
@@ -16,6 +16,6 @@ constructor(name?: string, val?: string);
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  name | string | <i>(Optional)</i> |
-|  val | string | <i>(Optional)</i> |
+|  name | string | _(Optional)_ |
+|  val | string | _(Optional)_ |
 

@@ -4,7 +4,7 @@
 
 ## WzPngProperty.offs property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 offs: number;

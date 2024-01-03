@@ -4,7 +4,7 @@
 
 ## WzImage.createFromFile() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 static createFromFile(filepath: string | File, version: WzMapleVersion): WzImage;
@@ -17,7 +17,7 @@ static createFromFile(filepath: string | File, version: WzMapleVersion): WzImage
 |  filepath | string \| File |  |
 |  version | [WzMapleVersion](./wz.wzmapleversion.md) |  |
 
-<b>Returns:</b>
+**Returns:**
 
 [WzImage](./wz.wzimage.md)
 

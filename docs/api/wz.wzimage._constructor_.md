@@ -6,7 +6,7 @@
 
 Constructs a new instance of the `WzImage` class
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 constructor(name: string, reader: WzBinaryReader, checksum?: number);
@@ -18,5 +18,5 @@ constructor(name: string, reader: WzBinaryReader, checksum?: number);
 |  --- | --- | --- |
 |  name | string |  |
 |  reader | [WzBinaryReader](./wz.wzbinaryreader.md) |  |
-|  checksum | number | <i>(Optional)</i> |
+|  checksum | number | _(Optional)_ |
 

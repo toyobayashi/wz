@@ -4,12 +4,12 @@
 
 ## WzDirectory.clearImages() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 clearImages(): void;
 ```
-<b>Returns:</b>
+**Returns:**
 
 void
 

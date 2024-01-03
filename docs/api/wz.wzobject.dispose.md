@@ -4,12 +4,12 @@
 
 ## WzObject.dispose() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 abstract dispose(): void;
 ```
-<b>Returns:</b>
+**Returns:**
 
 void
 

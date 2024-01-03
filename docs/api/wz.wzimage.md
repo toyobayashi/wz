@@ -5,14 +5,14 @@
 ## WzImage class
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export declare class WzImage extends WzObject implements IPropertyContainer 
 ```
-<b>Extends:</b> [WzObject](./wz.wzobject.md)
+**Extends:** [WzObject](./wz.wzobject.md)
 
-<b>Implements:</b> [IPropertyContainer](./wz.ipropertycontainer.md)
+**Implements:** [IPropertyContainer](./wz.ipropertycontainer.md)
 
 ## Constructors
 
@@ -28,9 +28,9 @@ export declare class WzImage extends WzObject implements IPropertyContainer
 |  [blockStart](./wz.wzimage.blockstart.md) |  | number |  |
 |  [changed](./wz.wzimage.changed.md) |  | boolean |  |
 |  [checksum](./wz.wzimage.checksum.md) |  | number |  |
-|  [isLuaImage](./wz.wzimage.isluaimage.md) |  | boolean |  |
+|  [isLuaImage](./wz.wzimage.isluaimage.md) | <code>readonly</code> | boolean |  |
 |  [name](./wz.wzimage.name.md) |  | string |  |
-|  [objectType](./wz.wzimage.objecttype.md) |  | [WzObjectType](./wz.wzobjecttype.md) |  |
+|  [objectType](./wz.wzimage.objecttype.md) | <code>readonly</code> | [WzObjectType](./wz.wzobjecttype.md) |  |
 |  [offset](./wz.wzimage.offset.md) |  | number |  |
 |  [parent](./wz.wzimage.parent.md) |  | [WzObject](./wz.wzobject.md) \| null |  |
 |  [parsed](./wz.wzimage.parsed.md) |  | boolean |  |
@@ -38,10 +38,10 @@ export declare class WzImage extends WzObject implements IPropertyContainer
 |  [reader](./wz.wzimage.reader.md) |  | [WzBinaryReader](./wz.wzbinaryreader.md) |  |
 |  [tempFileEnd](./wz.wzimage.tempfileend.md) |  | bigint |  |
 |  [tempFileStart](./wz.wzimage.tempfilestart.md) |  | bigint |  |
-|  [wzFileParent](./wz.wzimage.wzfileparent.md) |  | [WzFile](./wz.wzfile.md) \| null |  |
+|  [wzFileParent](./wz.wzimage.wzfileparent.md) | <code>readonly</code> | [WzFile](./wz.wzfile.md) \| null |  |
 |  [WzImageHeaderByte\_WithOffset](./wz.wzimage.wzimageheaderbyte_withoffset.md) | <code>static</code> | number |  |
 |  [WzImageHeaderByte\_WithoutOffset](./wz.wzimage.wzimageheaderbyte_withoutoffset.md) | <code>static</code> | number |  |
-|  [wzProperties](./wz.wzimage.wzproperties.md) |  | Set&lt;[WzImageProperty](./wz.wzimageproperty.md)<!-- -->&gt; |  |
+|  [wzProperties](./wz.wzimage.wzproperties.md) | <code>readonly</code> | Set&lt;[WzImageProperty](./wz.wzimageproperty.md)<!-- -->&gt; |  |
 
 ## Methods
 

@@ -4,7 +4,7 @@
 
 ## WzPngProperty.create() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 static create(reader: WzBinaryReader): Promise<WzPngProperty>;
@@ -16,7 +16,7 @@ static create(reader: WzBinaryReader): Promise<WzPngProperty>;
 |  --- | --- | --- |
 |  reader | [WzBinaryReader](./wz.wzbinaryreader.md) |  |
 
-<b>Returns:</b>
+**Returns:**
 
 Promise&lt;[WzPngProperty](./wz.wzpngproperty.md)<!-- -->&gt;
 

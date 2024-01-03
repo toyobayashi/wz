@@ -4,7 +4,7 @@
 
 ## WzVectorProperty.x property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 x: WzIntProperty | null;

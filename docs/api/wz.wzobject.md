@@ -5,31 +5,31 @@
 ## WzObject class
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export declare abstract class WzObject implements IDisposable 
 ```
-<b>Implements:</b> [IDisposable](./wz.idisposable.md)
+**Implements:** [IDisposable](./wz.idisposable.md)
 
 ## Properties
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [\_disposed](./wz.wzobject._disposed.md) |  | boolean |  |
-|  [fullPath](./wz.wzobject.fullpath.md) |  | string |  |
-|  [name](./wz.wzobject.name.md) |  | string |  |
-|  [objectType](./wz.wzobject.objecttype.md) |  | [WzObjectType](./wz.wzobjecttype.md) |  |
-|  [parent](./wz.wzobject.parent.md) |  | [WzObject](./wz.wzobject.md) \| null |  |
-|  [wzFileParent](./wz.wzobject.wzfileparent.md) |  | [WzFile](./wz.wzfile.md) \| null |  |
-|  [wzValue](./wz.wzobject.wzvalue.md) |  | any |  |
+|  [\_disposed](./wz.wzobject._disposed.md) | <code>protected</code> | boolean |  |
+|  [fullPath](./wz.wzobject.fullpath.md) | <code>readonly</code> | string |  |
+|  [name](./wz.wzobject.name.md) | <code>abstract</code> | string |  |
+|  [objectType](./wz.wzobject.objecttype.md) | <p><code>abstract</code></p><p><code>readonly</code></p> | [WzObjectType](./wz.wzobjecttype.md) |  |
+|  [parent](./wz.wzobject.parent.md) | <code>abstract</code> | [WzObject](./wz.wzobject.md) \| null |  |
+|  [wzFileParent](./wz.wzobject.wzfileparent.md) | <p><code>abstract</code></p><p><code>readonly</code></p> | [WzFile](./wz.wzfile.md) \| null |  |
+|  [wzValue](./wz.wzobject.wzvalue.md) | <code>readonly</code> | any |  |
 
 ## Methods
 
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
-|  [at(name)](./wz.wzobject.at.md) |  |  |
-|  [dispose()](./wz.wzobject.dispose.md) |  |  |
+|  [at(name)](./wz.wzobject.at.md) | <code>abstract</code> |  |
+|  [dispose()](./wz.wzobject.dispose.md) | <code>abstract</code> |  |
 |  [getBitmap()](./wz.wzobject.getbitmap.md) |  |  |
 |  [getTopMostWzDirectory()](./wz.wzobject.gettopmostwzdirectory.md) |  |  |
 

@@ -4,7 +4,7 @@
 
 ## WzBinaryProperty.soundHeader property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 static soundHeader: number[];

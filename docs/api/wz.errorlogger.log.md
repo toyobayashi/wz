@@ -4,7 +4,7 @@
 
 ## ErrorLogger.log() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 static log(level: ErrorLevel, message: string): void;
@@ -17,7 +17,7 @@ static log(level: ErrorLevel, message: string): void;
 |  level | [ErrorLevel](./wz.errorlevel.md) |  |
 |  message | string |  |
 
-<b>Returns:</b>
+**Returns:**
 
 void
 

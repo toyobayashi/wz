@@ -4,12 +4,12 @@
 
 ## WzHeader.getDefault() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 static getDefault(): WzHeader;
 ```
-<b>Returns:</b>
+**Returns:**
 
 [WzHeader](./wz.wzheader.md)
 

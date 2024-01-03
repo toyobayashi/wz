@@ -4,12 +4,12 @@
 
 ## WzBinaryReader.readWzOffset() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 readWzOffset(): Promise<number>;
 ```
-<b>Returns:</b>
+**Returns:**
 
 Promise&lt;number&gt;
 

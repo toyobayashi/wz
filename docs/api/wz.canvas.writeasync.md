@@ -4,7 +4,7 @@
 
 ## Canvas.writeAsync() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 writeAsync(file: string): Promise<Canvas>;
@@ -16,7 +16,7 @@ writeAsync(file: string): Promise<Canvas>;
 |  --- | --- | --- |
 |  file | string |  |
 
-<b>Returns:</b>
+**Returns:**
 
 Promise&lt;[Canvas](./wz.canvas.md)<!-- -->&gt;
 

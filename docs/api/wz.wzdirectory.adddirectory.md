@@ -4,7 +4,7 @@
 
 ## WzDirectory.addDirectory() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 addDirectory(dir: WzDirectory): void;
@@ -16,7 +16,7 @@ addDirectory(dir: WzDirectory): void;
 |  --- | --- | --- |
 |  dir | [WzDirectory](./wz.wzdirectory.md) |  |
 
-<b>Returns:</b>
+**Returns:**
 
 void
 

@@ -5,12 +5,12 @@
 ## WzFile class
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export declare class WzFile extends WzObject 
 ```
-<b>Extends:</b> [WzObject](./wz.wzobject.md)
+**Extends:** [WzObject](./wz.wzobject.md)
 
 ## Constructors
 
@@ -23,18 +23,18 @@ export declare class WzFile extends WzObject
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
 |  [filepath](./wz.wzfile.filepath.md) |  | string \| File |  |
-|  [fullPath](./wz.wzfile.fullpath.md) |  | string |  |
+|  [fullPath](./wz.wzfile.fullpath.md) | <code>readonly</code> | string |  |
 |  [header](./wz.wzfile.header.md) |  | [WzHeader](./wz.wzheader.md) |  |
-|  [is64BitWzFile](./wz.wzfile.is64bitwzfile.md) |  | boolean |  |
-|  [isUnloaded](./wz.wzfile.isunloaded.md) |  | boolean |  |
-|  [mapleLocaleVersion](./wz.wzfile.maplelocaleversion.md) |  | [MapleStoryLocalisation](./wz.maplestorylocalisation.md) |  |
+|  [is64BitWzFile](./wz.wzfile.is64bitwzfile.md) | <code>readonly</code> | boolean |  |
+|  [isUnloaded](./wz.wzfile.isunloaded.md) | <code>readonly</code> | boolean |  |
+|  [mapleLocaleVersion](./wz.wzfile.maplelocaleversion.md) | <code>readonly</code> | [MapleStoryLocalisation](./wz.maplestorylocalisation.md) |  |
 |  [maplepLocalVersion](./wz.wzfile.mapleplocalversion.md) |  | [WzMapleVersion](./wz.wzmapleversion.md) |  |
 |  [mapleStoryPatchVersion](./wz.wzfile.maplestorypatchversion.md) |  | number |  |
 |  [name](./wz.wzfile.name.md) |  | string |  |
-|  [objectType](./wz.wzfile.objecttype.md) |  | [WzObjectType](./wz.wzobjecttype.md) |  |
+|  [objectType](./wz.wzfile.objecttype.md) | <code>readonly</code> | [WzObjectType](./wz.wzobjecttype.md) |  |
 |  [parent](./wz.wzfile.parent.md) |  | [WzObject](./wz.wzobject.md) \| null |  |
-|  [wzDirectory](./wz.wzfile.wzdirectory.md) |  | [WzDirectory](./wz.wzdirectory.md) \| null |  |
-|  [wzFileParent](./wz.wzfile.wzfileparent.md) |  | [WzFile](./wz.wzfile.md) |  |
+|  [wzDirectory](./wz.wzfile.wzdirectory.md) | <code>readonly</code> | [WzDirectory](./wz.wzdirectory.md) \| null |  |
+|  [wzFileParent](./wz.wzfile.wzfileparent.md) | <code>readonly</code> | [WzFile](./wz.wzfile.md) |  |
 
 ## Methods
 

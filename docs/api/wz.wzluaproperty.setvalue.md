@@ -4,7 +4,7 @@
 
 ## WzLuaProperty.setValue() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 setValue(value: Uint8Array): void;
@@ -16,7 +16,7 @@ setValue(value: Uint8Array): void;
 |  --- | --- | --- |
 |  value | Uint8Array |  |
 
-<b>Returns:</b>
+**Returns:**
 
 void
 

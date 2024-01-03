@@ -4,7 +4,7 @@
 
 ## WzLuaProperty.encryptedBytes property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 encryptedBytes: Uint8Array | null;

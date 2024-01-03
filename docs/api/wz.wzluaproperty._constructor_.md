@@ -6,7 +6,7 @@
 
 Constructs a new instance of the `WzLuaProperty` class
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 constructor(name: string, encryptedBytes: Uint8Array | null);

@@ -4,7 +4,7 @@
 
 ## WzFile.filepath property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 filepath: string | File;

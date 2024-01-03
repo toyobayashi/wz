@@ -4,12 +4,12 @@
 
 ## WzHeader.recalculateFileStart() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 recalculateFileStart(): void;
 ```
-<b>Returns:</b>
+**Returns:**
 
 void
 

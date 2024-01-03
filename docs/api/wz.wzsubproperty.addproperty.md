@@ -4,7 +4,7 @@
 
 ## WzSubProperty.addProperty() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 addProperty(prop: WzImageProperty): void;
@@ -16,7 +16,7 @@ addProperty(prop: WzImageProperty): void;
 |  --- | --- | --- |
 |  prop | [WzImageProperty](./wz.wzimageproperty.md) |  |
 
-<b>Returns:</b>
+**Returns:**
 
 void
 

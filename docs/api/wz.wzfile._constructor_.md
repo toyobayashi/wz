@@ -6,7 +6,7 @@
 
 Constructs a new instance of the `WzFile` class
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 constructor(filepath: string | File, version: WzMapleVersion, gameVersion?: number);
@@ -18,5 +18,5 @@ constructor(filepath: string | File, version: WzMapleVersion, gameVersion?: numb
 |  --- | --- | --- |
 |  filepath | string \| File |  |
 |  version | [WzMapleVersion](./wz.wzmapleversion.md) |  |
-|  gameVersion | number | <i>(Optional)</i> |
+|  gameVersion | number | _(Optional)_ |
 

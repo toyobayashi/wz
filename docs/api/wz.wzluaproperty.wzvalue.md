@@ -4,7 +4,7 @@
 
 ## WzLuaProperty.wzValue property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 get wzValue(): Uint8Array | null;

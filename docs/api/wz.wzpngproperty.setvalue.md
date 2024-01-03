@@ -4,7 +4,7 @@
 
 ## WzPngProperty.setValue() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 setValue(_value: Uint8Array): void;
@@ -16,7 +16,7 @@ setValue(_value: Uint8Array): void;
 |  --- | --- | --- |
 |  \_value | Uint8Array |  |
 
-<b>Returns:</b>
+**Returns:**
 
 void
 

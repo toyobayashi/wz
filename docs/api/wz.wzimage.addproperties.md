@@ -4,7 +4,7 @@
 
 ## WzImage.addProperties() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 addProperties(props: Set<WzImageProperty>): void;
@@ -16,7 +16,7 @@ addProperties(props: Set<WzImageProperty>): void;
 |  --- | --- | --- |
 |  props | Set&lt;[WzImageProperty](./wz.wzimageproperty.md)<!-- -->&gt; |  |
 
-<b>Returns:</b>
+**Returns:**
 
 void
 

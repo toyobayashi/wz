@@ -4,12 +4,12 @@
 
 ## WzBinaryReader.readWzLong() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 readWzLong(): Promise<bigint>;
 ```
-<b>Returns:</b>
+**Returns:**
 
 Promise&lt;bigint&gt;
 

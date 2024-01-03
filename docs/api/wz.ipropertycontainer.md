@@ -5,7 +5,7 @@
 ## IPropertyContainer interface
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export interface IPropertyContainer 
@@ -13,9 +13,9 @@ export interface IPropertyContainer
 
 ## Properties
 
-|  Property | Type | Description |
-|  --- | --- | --- |
-|  [wzProperties](./wz.ipropertycontainer.wzproperties.md) | Set&lt;[WzImageProperty](./wz.wzimageproperty.md)<!-- -->&gt; |  |
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [wzProperties](./wz.ipropertycontainer.wzproperties.md) | <code>readonly</code> | Set&lt;[WzImageProperty](./wz.wzimageproperty.md)<!-- -->&gt; |  |
 
 ## Methods
 

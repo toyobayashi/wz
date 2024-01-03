@@ -4,7 +4,7 @@
 
 ## WzMutableKey.ensureKeySize() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 ensureKeySize(size: number): void;
@@ -16,7 +16,7 @@ ensureKeySize(size: number): void;
 |  --- | --- | --- |
 |  size | number |  |
 
-<b>Returns:</b>
+**Returns:**
 
 void
 

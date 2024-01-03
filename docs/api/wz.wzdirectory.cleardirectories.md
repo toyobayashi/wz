@@ -4,12 +4,12 @@
 
 ## WzDirectory.clearDirectories() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 clearDirectories(): void;
 ```
-<b>Returns:</b>
+**Returns:**
 
 void
 

@@ -5,12 +5,12 @@
 ## WzNullProperty class
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export declare class WzNullProperty extends WzImageProperty 
 ```
-<b>Extends:</b> [WzImageProperty](./wz.wzimageproperty.md)
+**Extends:** [WzImageProperty](./wz.wzimageproperty.md)
 
 ## Constructors
 
@@ -24,7 +24,7 @@ export declare class WzNullProperty extends WzImageProperty
 |  --- | --- | --- | --- |
 |  [name](./wz.wznullproperty.name.md) |  | string |  |
 |  [parent](./wz.wznullproperty.parent.md) |  | [WzObject](./wz.wzobject.md) \| null |  |
-|  [propertyType](./wz.wznullproperty.propertytype.md) |  | [WzPropertyType](./wz.wzpropertytype.md) |  |
+|  [propertyType](./wz.wznullproperty.propertytype.md) | <code>readonly</code> | [WzPropertyType](./wz.wzpropertytype.md) |  |
 
 ## Methods
 

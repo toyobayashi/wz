@@ -4,7 +4,7 @@
 
 ## WzDirectory.getDirectoryByName() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 getDirectoryByName(name: string): WzDirectory | null;
@@ -16,7 +16,7 @@ getDirectoryByName(name: string): WzDirectory | null;
 |  --- | --- | --- |
 |  name | string |  |
 
-<b>Returns:</b>
+**Returns:**
 
 [WzDirectory](./wz.wzdirectory.md) \| null
 

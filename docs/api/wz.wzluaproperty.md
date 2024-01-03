@@ -5,12 +5,12 @@
 ## WzLuaProperty class
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export declare class WzLuaProperty extends WzImageProperty 
 ```
-<b>Extends:</b> [WzImageProperty](./wz.wzimageproperty.md)
+**Extends:** [WzImageProperty](./wz.wzimageproperty.md)
 
 ## Constructors
 
@@ -25,10 +25,10 @@ export declare class WzLuaProperty extends WzImageProperty
 |  [encryptedBytes](./wz.wzluaproperty.encryptedbytes.md) |  | Uint8Array \| null |  |
 |  [name](./wz.wzluaproperty.name.md) |  | string |  |
 |  [parent](./wz.wzluaproperty.parent.md) |  | [WzObject](./wz.wzobject.md) \| null |  |
-|  [propertyType](./wz.wzluaproperty.propertytype.md) |  | [WzPropertyType](./wz.wzpropertytype.md) |  |
-|  [value](./wz.wzluaproperty.value.md) |  | Uint8Array \| null |  |
+|  [propertyType](./wz.wzluaproperty.propertytype.md) | <code>readonly</code> | [WzPropertyType](./wz.wzpropertytype.md) |  |
+|  [value](./wz.wzluaproperty.value.md) | <code>readonly</code> | Uint8Array \| null |  |
 |  [wzKey](./wz.wzluaproperty.wzkey.md) |  | [WzMutableKey](./wz.wzmutablekey.md) |  |
-|  [wzValue](./wz.wzluaproperty.wzvalue.md) |  | Uint8Array \| null |  |
+|  [wzValue](./wz.wzluaproperty.wzvalue.md) | <code>readonly</code> | Uint8Array \| null |  |
 
 ## Methods
 

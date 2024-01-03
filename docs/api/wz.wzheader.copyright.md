@@ -4,7 +4,7 @@
 
 ## WzHeader.copyright property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 copyright: string;

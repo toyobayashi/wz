@@ -5,7 +5,7 @@
 ## WzImageProperty.getFromPath() method
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 /** @virtual */
@@ -18,7 +18,7 @@ getFromPath(_path: string): WzImageProperty | null;
 |  --- | --- | --- |
 |  \_path | string |  |
 
-<b>Returns:</b>
+**Returns:**
 
 [WzImageProperty](./wz.wzimageproperty.md) \| null
 

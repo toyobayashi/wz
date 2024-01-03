@@ -6,7 +6,7 @@
 
 Constructs a new instance of the `WzVectorProperty` class
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 constructor(name?: string, x?: number, y?: number);
@@ -16,7 +16,7 @@ constructor(name?: string, x?: number, y?: number);
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  name | string | <i>(Optional)</i> |
-|  x | number | <i>(Optional)</i> |
-|  y | number | <i>(Optional)</i> |
+|  name | string | _(Optional)_ |
+|  x | number | _(Optional)_ |
+|  y | number | _(Optional)_ |
 

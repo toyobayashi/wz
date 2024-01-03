@@ -4,7 +4,7 @@
 
 ## WzCanvasProperty.pngProperty property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 pngProperty: WzPngProperty | null;

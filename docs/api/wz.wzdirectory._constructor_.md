@@ -6,7 +6,7 @@
 
 Constructs a new instance of the `WzDirectory` class
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 constructor(reader: WzBinaryReader, name: string, hash: number, wzIv: Uint8Array, wzFile: WzFile);

@@ -4,12 +4,12 @@
 
 ## ErrorLogger.clearErrors() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 static clearErrors(): void;
 ```
-<b>Returns:</b>
+**Returns:**
 
 void
 

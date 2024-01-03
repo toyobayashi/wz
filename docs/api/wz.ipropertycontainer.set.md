@@ -4,7 +4,7 @@
 
 ## IPropertyContainer.set() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 set<T extends WzImageProperty>(name: string, value: T): void;
@@ -17,7 +17,7 @@ set<T extends WzImageProperty>(name: string, value: T): void;
 |  name | string |  |
 |  value | T |  |
 
-<b>Returns:</b>
+**Returns:**
 
 void
 

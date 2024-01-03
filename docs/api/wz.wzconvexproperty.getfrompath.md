@@ -4,7 +4,7 @@
 
 ## WzConvexProperty.getFromPath() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 getFromPath(path: string): WzImageProperty | null;
@@ -16,7 +16,7 @@ getFromPath(path: string): WzImageProperty | null;
 |  --- | --- | --- |
 |  path | string |  |
 
-<b>Returns:</b>
+**Returns:**
 
 [WzImageProperty](./wz.wzimageproperty.md) \| null
 

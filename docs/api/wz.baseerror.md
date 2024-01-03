@@ -5,12 +5,12 @@
 ## BaseError class
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export declare class BaseError extends Error 
 ```
-<b>Extends:</b> Error
+**Extends:** Error
 
 ## Constructors
 

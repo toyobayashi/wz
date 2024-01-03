@@ -5,14 +5,14 @@
 ## WzConvexProperty class
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export declare class WzConvexProperty extends WzExtended implements IPropertyContainer 
 ```
-<b>Extends:</b> [WzExtended](./wz.wzextended.md)
+**Extends:** [WzExtended](./wz.wzextended.md)
 
-<b>Implements:</b> [IPropertyContainer](./wz.ipropertycontainer.md)
+**Implements:** [IPropertyContainer](./wz.ipropertycontainer.md)
 
 ## Constructors
 
@@ -26,8 +26,8 @@ export declare class WzConvexProperty extends WzExtended implements IPropertyCon
 |  --- | --- | --- | --- |
 |  [name](./wz.wzconvexproperty.name.md) |  | string |  |
 |  [parent](./wz.wzconvexproperty.parent.md) |  | [WzObject](./wz.wzobject.md) \| null |  |
-|  [propertyType](./wz.wzconvexproperty.propertytype.md) |  | [WzPropertyType](./wz.wzpropertytype.md) |  |
-|  [wzProperties](./wz.wzconvexproperty.wzproperties.md) |  | Set&lt;[WzImageProperty](./wz.wzimageproperty.md)<!-- -->&gt; |  |
+|  [propertyType](./wz.wzconvexproperty.propertytype.md) | <code>readonly</code> | [WzPropertyType](./wz.wzpropertytype.md) |  |
+|  [wzProperties](./wz.wzconvexproperty.wzproperties.md) | <code>readonly</code> | Set&lt;[WzImageProperty](./wz.wzimageproperty.md)<!-- -->&gt; |  |
 
 ## Methods
 

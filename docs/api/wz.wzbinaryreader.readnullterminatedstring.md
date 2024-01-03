@@ -4,12 +4,12 @@
 
 ## WzBinaryReader.readNullTerminatedString() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 readNullTerminatedString(): Promise<string>;
 ```
-<b>Returns:</b>
+**Returns:**
 
 Promise&lt;string&gt;
 

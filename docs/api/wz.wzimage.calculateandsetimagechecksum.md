@@ -4,7 +4,7 @@
 
 ## WzImage.calculateAndSetImageChecksum() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 calculateAndSetImageChecksum(bytes: Uint8Array): void;
@@ -16,7 +16,7 @@ calculateAndSetImageChecksum(bytes: Uint8Array): void;
 |  --- | --- | --- |
 |  bytes | Uint8Array |  |
 
-<b>Returns:</b>
+**Returns:**
 
 void
 

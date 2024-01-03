@@ -6,7 +6,7 @@
 
 Constructs a new instance of the `WzLongProperty` class
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 constructor(name?: string, val?: bigint);
@@ -16,6 +16,6 @@ constructor(name?: string, val?: bigint);
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  name | string | <i>(Optional)</i> |
-|  val | bigint | <i>(Optional)</i> |
+|  name | string | _(Optional)_ |
+|  val | bigint | _(Optional)_ |
 

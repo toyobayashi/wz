@@ -4,7 +4,7 @@
 
 ## WzBinaryReader.header property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 header: WzHeader;

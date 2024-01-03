@@ -4,7 +4,7 @@
 
 ## WzDirectory.set() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 set(name: string, value: WzObject): void;
@@ -17,7 +17,7 @@ set(name: string, value: WzObject): void;
 |  name | string |  |
 |  value | [WzObject](./wz.wzobject.md) |  |
 
-<b>Returns:</b>
+**Returns:**
 
 void
 

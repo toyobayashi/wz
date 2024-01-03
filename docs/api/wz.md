@@ -21,25 +21,30 @@ MapleStory WZ reader.
 |  [WzDirectory](./wz.wzdirectory.md) |  |
 |  [WzDoubleProperty](./wz.wzdoubleproperty.md) |  |
 |  [WzError](./wz.wzerror.md) |  |
-|  [WzExtended](./wz.wzextended.md) |  |
 |  [WzFile](./wz.wzfile.md) |  |
 |  [WzFloatProperty](./wz.wzfloatproperty.md) |  |
 |  [WzHeader](./wz.wzheader.md) |  |
 |  [WzImage](./wz.wzimage.md) |  |
-|  [WzImageProperty](./wz.wzimageproperty.md) |  |
 |  [WzIntProperty](./wz.wzintproperty.md) |  |
 |  [WzLongProperty](./wz.wzlongproperty.md) |  |
 |  [WzLuaProperty](./wz.wzluaproperty.md) |  |
 |  [WzMainDirectory](./wz.wzmaindirectory.md) |  |
 |  [WzMutableKey](./wz.wzmutablekey.md) |  |
 |  [WzNullProperty](./wz.wznullproperty.md) |  |
-|  [WzObject](./wz.wzobject.md) |  |
 |  [WzPngProperty](./wz.wzpngproperty.md) |  |
 |  [WzShortProperty](./wz.wzshortproperty.md) |  |
 |  [WzStringProperty](./wz.wzstringproperty.md) |  |
 |  [WzSubProperty](./wz.wzsubproperty.md) |  |
 |  [WzUOLProperty](./wz.wzuolproperty.md) |  |
 |  [WzVectorProperty](./wz.wzvectorproperty.md) |  |
+
+## Abstract Classes
+
+|  Abstract Class | Description |
+|  --- | --- |
+|  [WzExtended](./wz.wzextended.md) |  |
+|  [WzImageProperty](./wz.wzimageproperty.md) |  |
+|  [WzObject](./wz.wzobject.md) |  |
 
 ## Enumerations
 

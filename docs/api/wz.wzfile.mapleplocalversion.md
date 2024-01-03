@@ -4,7 +4,7 @@
 
 ## WzFile.maplepLocalVersion property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 maplepLocalVersion: WzMapleVersion;

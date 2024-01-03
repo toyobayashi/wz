@@ -4,7 +4,7 @@
 
 ## WzMainDirectory.file property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 file: WzFile;

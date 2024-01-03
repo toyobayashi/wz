@@ -4,7 +4,7 @@
 
 ## WzUOLProperty.setValue() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 setValue(value: string): void;
@@ -16,7 +16,7 @@ setValue(value: string): void;
 |  --- | --- | --- |
 |  value | string |  |
 
-<b>Returns:</b>
+**Returns:**
 
 void
 

@@ -4,7 +4,7 @@
 
 ## WzBinaryReader.size property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 get size(): number;

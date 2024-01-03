@@ -4,7 +4,7 @@
 
 ## IPropertyContainer.at() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 at(name: string): WzImageProperty | null;
@@ -16,7 +16,7 @@ at(name: string): WzImageProperty | null;
 |  --- | --- | --- |
 |  name | string |  |
 
-<b>Returns:</b>
+**Returns:**
 
 [WzImageProperty](./wz.wzimageproperty.md) \| null
 

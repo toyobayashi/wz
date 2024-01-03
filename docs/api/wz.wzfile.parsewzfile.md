@@ -4,7 +4,7 @@
 
 ## WzFile.parseWzFile() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 parseWzFile(wzIv?: Uint8Array | null): Promise<WzFileParseStatus>;
@@ -14,9 +14,9 @@ parseWzFile(wzIv?: Uint8Array | null): Promise<WzFileParseStatus>;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  wzIv | Uint8Array \| null | <i>(Optional)</i> |
+|  wzIv | Uint8Array \| null | _(Optional)_ |
 
-<b>Returns:</b>
+**Returns:**
 
 Promise&lt;[WzFileParseStatus](./wz.wzfileparsestatus.md)<!-- -->&gt;
 

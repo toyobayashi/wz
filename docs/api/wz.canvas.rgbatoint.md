@@ -4,7 +4,7 @@
 
 ## Canvas.rgbaToInt() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 static rgbaToInt(r: number, g: number, b: number, a: number): number;
@@ -19,7 +19,7 @@ static rgbaToInt(r: number, g: number, b: number, a: number): number;
 |  b | number |  |
 |  a | number |  |
 
-<b>Returns:</b>
+**Returns:**
 
 number
 

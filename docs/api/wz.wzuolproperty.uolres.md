@@ -4,7 +4,7 @@
 
 ## WzUOLProperty.UOLRES property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 static UOLRES: boolean;

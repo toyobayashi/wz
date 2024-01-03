@@ -4,7 +4,7 @@
 
 ## WzObject.at() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 abstract at(name: string): WzObject | null;
@@ -16,7 +16,7 @@ abstract at(name: string): WzObject | null;
 |  --- | --- | --- |
 |  name | string |  |
 
-<b>Returns:</b>
+**Returns:**
 
 [WzObject](./wz.wzobject.md) \| null
 

@@ -4,7 +4,7 @@
 
 ## WzLongProperty.setValue() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 setValue(value: bigint | number): void;
@@ -16,7 +16,7 @@ setValue(value: bigint | number): void;
 |  --- | --- | --- |
 |  value | bigint \| number |  |
 
-<b>Returns:</b>
+**Returns:**
 
 void
 

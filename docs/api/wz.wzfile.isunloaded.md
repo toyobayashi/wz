@@ -4,7 +4,7 @@
 
 ## WzFile.isUnloaded property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 get isUnloaded(): boolean;

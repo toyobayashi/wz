@@ -5,14 +5,14 @@
 ## WzCanvasProperty class
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export declare class WzCanvasProperty extends WzExtended implements IPropertyContainer 
 ```
-<b>Extends:</b> [WzExtended](./wz.wzextended.md)
+**Extends:** [WzExtended](./wz.wzextended.md)
 
-<b>Implements:</b> [IPropertyContainer](./wz.ipropertycontainer.md)
+**Implements:** [IPropertyContainer](./wz.ipropertycontainer.md)
 
 ## Constructors
 
@@ -24,18 +24,18 @@ export declare class WzCanvasProperty extends WzExtended implements IPropertyCon
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [animationDelayPropertyName](./wz.wzcanvasproperty.animationdelaypropertyname.md) |  | string |  |
-|  [headPropertyName](./wz.wzcanvasproperty.headpropertyname.md) |  | string |  |
-|  [inlinkPropertyName](./wz.wzcanvasproperty.inlinkpropertyname.md) |  | string |  |
-|  [ltPropertyName](./wz.wzcanvasproperty.ltpropertyname.md) |  | string |  |
+|  [animationDelayPropertyName](./wz.wzcanvasproperty.animationdelaypropertyname.md) | <code>readonly</code> | string |  |
+|  [headPropertyName](./wz.wzcanvasproperty.headpropertyname.md) | <code>readonly</code> | string |  |
+|  [inlinkPropertyName](./wz.wzcanvasproperty.inlinkpropertyname.md) | <code>readonly</code> | string |  |
+|  [ltPropertyName](./wz.wzcanvasproperty.ltpropertyname.md) | <code>readonly</code> | string |  |
 |  [name](./wz.wzcanvasproperty.name.md) |  | string |  |
-|  [originPropertyName](./wz.wzcanvasproperty.originpropertyname.md) |  | string |  |
-|  [outlinkPropertyName](./wz.wzcanvasproperty.outlinkpropertyname.md) |  | string |  |
+|  [originPropertyName](./wz.wzcanvasproperty.originpropertyname.md) | <code>readonly</code> | string |  |
+|  [outlinkPropertyName](./wz.wzcanvasproperty.outlinkpropertyname.md) | <code>readonly</code> | string |  |
 |  [parent](./wz.wzcanvasproperty.parent.md) |  | [WzObject](./wz.wzobject.md) \| null |  |
 |  [pngProperty](./wz.wzcanvasproperty.pngproperty.md) |  | [WzPngProperty](./wz.wzpngproperty.md) \| null |  |
-|  [propertyType](./wz.wzcanvasproperty.propertytype.md) |  | [WzPropertyType](./wz.wzpropertytype.md) |  |
-|  [wzProperties](./wz.wzcanvasproperty.wzproperties.md) |  | Set&lt;[WzImageProperty](./wz.wzimageproperty.md)<!-- -->&gt; |  |
-|  [wzValue](./wz.wzcanvasproperty.wzvalue.md) |  | [WzPngProperty](./wz.wzpngproperty.md) \| null |  |
+|  [propertyType](./wz.wzcanvasproperty.propertytype.md) | <code>readonly</code> | [WzPropertyType](./wz.wzpropertytype.md) |  |
+|  [wzProperties](./wz.wzcanvasproperty.wzproperties.md) | <code>readonly</code> | Set&lt;[WzImageProperty](./wz.wzimageproperty.md)<!-- -->&gt; |  |
+|  [wzValue](./wz.wzcanvasproperty.wzvalue.md) | <code>readonly</code> | [WzPngProperty](./wz.wzpngproperty.md) \| null |  |
 
 ## Methods
 

@@ -6,7 +6,7 @@
 
 Constructs a new instance of the `WzMutableKey` class
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 constructor(_iv: Uint8Array, _aesUserKey: Uint8Array);

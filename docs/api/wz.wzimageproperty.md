@@ -5,22 +5,22 @@
 ## WzImageProperty class
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export declare abstract class WzImageProperty extends WzObject 
 ```
-<b>Extends:</b> [WzObject](./wz.wzobject.md)
+**Extends:** [WzObject](./wz.wzobject.md)
 
 ## Properties
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [objectType](./wz.wzimageproperty.objecttype.md) |  | [WzObjectType](./wz.wzobjecttype.md) |  |
-|  [parentImage](./wz.wzimageproperty.parentimage.md) |  | [WzImage](./wz.wzimage.md) \| null |  |
-|  [propertyType](./wz.wzimageproperty.propertytype.md) |  | [WzPropertyType](./wz.wzpropertytype.md) |  |
-|  [wzFileParent](./wz.wzimageproperty.wzfileparent.md) |  | [WzFile](./wz.wzfile.md) \| null |  |
-|  [wzProperties](./wz.wzimageproperty.wzproperties.md) |  | Set&lt;[WzImageProperty](./wz.wzimageproperty.md)<!-- -->&gt; \| null |  |
+|  [objectType](./wz.wzimageproperty.objecttype.md) | <code>readonly</code> | [WzObjectType](./wz.wzobjecttype.md) |  |
+|  [parentImage](./wz.wzimageproperty.parentimage.md) | <code>readonly</code> | [WzImage](./wz.wzimage.md) \| null |  |
+|  [propertyType](./wz.wzimageproperty.propertytype.md) | <p><code>abstract</code></p><p><code>readonly</code></p> | [WzPropertyType](./wz.wzpropertytype.md) |  |
+|  [wzFileParent](./wz.wzimageproperty.wzfileparent.md) | <code>readonly</code> | [WzFile](./wz.wzfile.md) \| null |  |
+|  [wzProperties](./wz.wzimageproperty.wzproperties.md) | <code>readonly</code> | Set&lt;[WzImageProperty](./wz.wzimageproperty.md)<!-- -->&gt; \| null |  |
 
 ## Methods
 

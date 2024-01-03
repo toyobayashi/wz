@@ -4,7 +4,7 @@
 
 ## WzPngProperty.getImage() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 getImage(saveInMemory?: boolean): Promise<Canvas | null>;
@@ -14,9 +14,9 @@ getImage(saveInMemory?: boolean): Promise<Canvas | null>;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  saveInMemory | boolean | <i>(Optional)</i> |
+|  saveInMemory | boolean | _(Optional)_ |
 
-<b>Returns:</b>
+**Returns:**
 
 Promise&lt;[Canvas](./wz.canvas.md) \| null&gt;
 

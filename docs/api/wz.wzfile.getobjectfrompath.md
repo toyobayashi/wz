@@ -4,7 +4,7 @@
 
 ## WzFile.getObjectFromPath() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 getObjectFromPath(path: string, checkFirstDirectoryName?: boolean): WzObject | null;
@@ -15,9 +15,9 @@ getObjectFromPath(path: string, checkFirstDirectoryName?: boolean): WzObject | n
 |  Parameter | Type | Description |
 |  --- | --- | --- |
 |  path | string |  |
-|  checkFirstDirectoryName | boolean | <i>(Optional)</i> |
+|  checkFirstDirectoryName | boolean | _(Optional)_ |
 
-<b>Returns:</b>
+**Returns:**
 
 [WzObject](./wz.wzobject.md) \| null
 

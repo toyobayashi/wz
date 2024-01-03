@@ -4,7 +4,7 @@
 
 ## WzImage.parseImage() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 parseImage(forceReadFromData?: boolean): Promise<boolean>;
@@ -14,9 +14,9 @@ parseImage(forceReadFromData?: boolean): Promise<boolean>;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  forceReadFromData | boolean | <i>(Optional)</i> |
+|  forceReadFromData | boolean | _(Optional)_ |
 
-<b>Returns:</b>
+**Returns:**
 
 Promise&lt;boolean&gt;
 

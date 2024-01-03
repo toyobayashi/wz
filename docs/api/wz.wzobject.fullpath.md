@@ -4,7 +4,7 @@
 
 ## WzObject.fullPath property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 get fullPath(): string;

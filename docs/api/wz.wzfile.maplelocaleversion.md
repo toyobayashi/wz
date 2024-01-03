@@ -4,7 +4,7 @@
 
 ## WzFile.mapleLocaleVersion property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 get mapleLocaleVersion(): MapleStoryLocalisation;

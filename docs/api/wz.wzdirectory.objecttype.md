@@ -4,7 +4,7 @@
 
 ## WzDirectory.objectType property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 get objectType(): WzObjectType;

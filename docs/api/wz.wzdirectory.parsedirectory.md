@@ -4,7 +4,7 @@
 
 ## WzDirectory.parseDirectory() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 parseDirectory(lazyParse?: boolean): Promise<void>;
@@ -14,9 +14,9 @@ parseDirectory(lazyParse?: boolean): Promise<void>;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  lazyParse | boolean | <i>(Optional)</i> |
+|  lazyParse | boolean | _(Optional)_ |
 
-<b>Returns:</b>
+**Returns:**
 
 Promise&lt;void&gt;
 

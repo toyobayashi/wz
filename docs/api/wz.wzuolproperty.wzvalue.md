@@ -4,7 +4,7 @@
 
 ## WzUOLProperty.wzValue property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 get wzValue(): WzObject | null;

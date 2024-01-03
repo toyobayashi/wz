@@ -5,7 +5,7 @@
 ## init() function
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export declare function init(moduleOverrides?: Partial<EmscriptenModule>): Promise<void>;
@@ -15,9 +15,9 @@ export declare function init(moduleOverrides?: Partial<EmscriptenModule>): Promi
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  moduleOverrides | Partial&lt;EmscriptenModule&gt; | <i>(Optional)</i> |
+|  moduleOverrides | Partial&lt;EmscriptenModule&gt; | _(Optional)_ |
 
-<b>Returns:</b>
+**Returns:**
 
 Promise&lt;void&gt;
 

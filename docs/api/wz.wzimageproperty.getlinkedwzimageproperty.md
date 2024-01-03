@@ -4,12 +4,12 @@
 
 ## WzImageProperty.getLinkedWzImageProperty() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 getLinkedWzImageProperty(): WzImageProperty;
 ```
-<b>Returns:</b>
+**Returns:**
 
 [WzImageProperty](./wz.wzimageproperty.md)
 

@@ -4,7 +4,7 @@
 
 ## WzBinaryReader.wzKey property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 wzKey: WzMutableKey;

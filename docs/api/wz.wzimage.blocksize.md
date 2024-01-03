@@ -4,7 +4,7 @@
 
 ## WzImage.blockSize property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 blockSize: number;

@@ -4,7 +4,7 @@
 
 ## WzBinaryReader.hash property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 hash: number;

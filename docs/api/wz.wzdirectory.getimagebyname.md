@@ -4,7 +4,7 @@
 
 ## WzDirectory.getImageByName() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 getImageByName(name: string): WzImage | null;
@@ -16,7 +16,7 @@ getImageByName(name: string): WzImage | null;
 |  --- | --- | --- |
 |  name | string |  |
 
-<b>Returns:</b>
+**Returns:**
 
 [WzImage](./wz.wzimage.md) \| null
 

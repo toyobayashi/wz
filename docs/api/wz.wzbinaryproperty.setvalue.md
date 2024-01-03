@@ -4,7 +4,7 @@
 
 ## WzBinaryProperty.setValue() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 setValue(_value: unknown): void;
@@ -16,7 +16,7 @@ setValue(_value: unknown): void;
 |  --- | --- | --- |
 |  \_value | unknown |  |
 
-<b>Returns:</b>
+**Returns:**
 
 void
 

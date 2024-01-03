@@ -4,7 +4,7 @@
 
 ## WzImage.tempFileStart property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 tempFileStart: bigint;

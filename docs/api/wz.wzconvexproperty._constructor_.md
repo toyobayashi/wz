@@ -6,7 +6,7 @@
 
 Constructs a new instance of the `WzConvexProperty` class
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 constructor(name?: string);
@@ -16,5 +16,5 @@ constructor(name?: string);
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  name | string | <i>(Optional)</i> |
+|  name | string | _(Optional)_ |
 

@@ -4,7 +4,7 @@
 
 ## WzHeader.fsize property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 fsize: bigint;

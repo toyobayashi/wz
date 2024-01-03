@@ -4,12 +4,12 @@
 
 ## WzBinaryReader.available() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 available(): number;
 ```
-<b>Returns:</b>
+**Returns:**
 
 number
 

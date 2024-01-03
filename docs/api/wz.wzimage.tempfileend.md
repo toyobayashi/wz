@@ -4,7 +4,7 @@
 
 ## WzImage.tempFileEnd property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 tempFileEnd: bigint;

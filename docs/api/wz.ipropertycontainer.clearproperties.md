@@ -4,12 +4,12 @@
 
 ## IPropertyContainer.clearProperties() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 clearProperties(): void;
 ```
-<b>Returns:</b>
+**Returns:**
 
 void
 

@@ -5,12 +5,12 @@
 ## NotImplementedError class
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export declare class NotImplementedError extends BaseError 
 ```
-<b>Extends:</b> [BaseError](./wz.baseerror.md)
+**Extends:** [BaseError](./wz.baseerror.md)
 
 ## Constructors
 

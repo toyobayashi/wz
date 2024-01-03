@@ -6,7 +6,7 @@
 
 Constructs a new instance of the `WzShortProperty` class
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 constructor(name?: string, val?: number);
@@ -16,6 +16,6 @@ constructor(name?: string, val?: number);
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  name | string | <i>(Optional)</i> |
-|  val | number | <i>(Optional)</i> |
+|  name | string | _(Optional)_ |
+|  val | number | _(Optional)_ |
 

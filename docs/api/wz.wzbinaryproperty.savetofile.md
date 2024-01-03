@@ -4,7 +4,7 @@
 
 ## WzBinaryProperty.saveToFile() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 saveToFile(file: string): Promise<void>;
@@ -16,7 +16,7 @@ saveToFile(file: string): Promise<void>;
 |  --- | --- | --- |
 |  file | string |  |
 
-<b>Returns:</b>
+**Returns:**
 
 Promise&lt;void&gt;
 

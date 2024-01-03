@@ -4,7 +4,7 @@
 
 ## WzVectorProperty.setValue() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 setValue(value: {
@@ -19,7 +19,7 @@ setValue(value: {
 |  --- | --- | --- |
 |  value | { x: number; y: number; } |  |
 
-<b>Returns:</b>
+**Returns:**
 
 void
 

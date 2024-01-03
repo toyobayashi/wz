@@ -5,14 +5,14 @@
 ## WzBinaryReader class
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export declare class WzBinaryReader extends AsyncBinaryReader implements IDisposable 
 ```
-<b>Extends:</b> AsyncBinaryReader
+**Extends:** AsyncBinaryReader
 
-<b>Implements:</b> [IDisposable](./wz.idisposable.md)
+**Implements:** [IDisposable](./wz.idisposable.md)
 
 ## Constructors
 
@@ -26,7 +26,7 @@ export declare class WzBinaryReader extends AsyncBinaryReader implements IDispos
 |  --- | --- | --- | --- |
 |  [hash](./wz.wzbinaryreader.hash.md) |  | number |  |
 |  [header](./wz.wzbinaryreader.header.md) |  | [WzHeader](./wz.wzheader.md) |  |
-|  [size](./wz.wzbinaryreader.size.md) |  | number |  |
+|  [size](./wz.wzbinaryreader.size.md) | <code>readonly</code> | number |  |
 |  [wzKey](./wz.wzbinaryreader.wzkey.md) |  | [WzMutableKey](./wz.wzmutablekey.md) |  |
 
 ## Methods

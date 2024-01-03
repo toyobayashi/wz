@@ -4,7 +4,7 @@
 
 ## WzCanvasProperty.originPropertyName property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 get originPropertyName(): string;

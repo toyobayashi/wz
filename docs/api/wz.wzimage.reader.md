@@ -4,7 +4,7 @@
 
 ## WzImage.reader property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 reader: WzBinaryReader;

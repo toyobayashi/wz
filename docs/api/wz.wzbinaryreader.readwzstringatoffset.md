@@ -4,7 +4,7 @@
 
 ## WzBinaryReader.readWzStringAtOffset() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 readWzStringAtOffset(offset: number, readByte?: boolean): Promise<string>;
@@ -15,9 +15,9 @@ readWzStringAtOffset(offset: number, readByte?: boolean): Promise<string>;
 |  Parameter | Type | Description |
 |  --- | --- | --- |
 |  offset | number |  |
-|  readByte | boolean | <i>(Optional)</i> |
+|  readByte | boolean | _(Optional)_ |
 
-<b>Returns:</b>
+**Returns:**
 
 Promise&lt;string&gt;
 

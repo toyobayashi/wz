@@ -4,7 +4,7 @@
 
 ## WzBinaryReader.readStringBlock() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 readStringBlock(offset: number): Promise<string>;
@@ -16,7 +16,7 @@ readStringBlock(offset: number): Promise<string>;
 |  --- | --- | --- |
 |  offset | number |  |
 
-<b>Returns:</b>
+**Returns:**
 
 Promise&lt;string&gt;
 

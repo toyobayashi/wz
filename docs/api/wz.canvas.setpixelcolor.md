@@ -4,7 +4,7 @@
 
 ## Canvas.setPixelColor() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 setPixelColor(rgba: number, x: number, y: number): Canvas;
@@ -18,7 +18,7 @@ setPixelColor(rgba: number, x: number, y: number): Canvas;
 |  x | number |  |
 |  y | number |  |
 
-<b>Returns:</b>
+**Returns:**
 
 [Canvas](./wz.canvas.md)
 

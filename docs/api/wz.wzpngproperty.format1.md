@@ -4,7 +4,7 @@
 
 ## WzPngProperty.format1 property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 format1: number;

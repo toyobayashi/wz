@@ -4,7 +4,7 @@
 
 ## WzConvexProperty.removeProperty() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 removeProperty(prop: WzImageProperty): void;
@@ -16,7 +16,7 @@ removeProperty(prop: WzImageProperty): void;
 |  --- | --- | --- |
 |  prop | [WzImageProperty](./wz.wzimageproperty.md) |  |
 
-<b>Returns:</b>
+**Returns:**
 
 void
 

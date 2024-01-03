@@ -4,12 +4,12 @@
 
 ## WzUOLProperty.getBitmap() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 getBitmap(): Promise<Canvas | null>;
 ```
-<b>Returns:</b>
+**Returns:**
 
 Promise&lt;[Canvas](./wz.canvas.md) \| null&gt;
 

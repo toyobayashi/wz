@@ -4,7 +4,7 @@
 
 ## ErrorLogger.saveToFile() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 static saveToFile(file: string): void;
@@ -16,7 +16,7 @@ static saveToFile(file: string): void;
 |  --- | --- | --- |
 |  file | string |  |
 
-<b>Returns:</b>
+**Returns:**
 
 void
 

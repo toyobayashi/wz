@@ -4,7 +4,7 @@
 
 ## WzImageProperty.parentImage property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 get parentImage(): WzImage | null;

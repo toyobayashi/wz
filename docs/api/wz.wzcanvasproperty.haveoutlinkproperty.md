@@ -4,12 +4,12 @@
 
 ## WzCanvasProperty.haveOutlinkProperty() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 haveOutlinkProperty(): boolean;
 ```
-<b>Returns:</b>
+**Returns:**
 
 boolean
 

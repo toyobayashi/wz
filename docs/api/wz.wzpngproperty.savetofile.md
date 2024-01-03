@@ -4,7 +4,7 @@
 
 ## WzPngProperty.saveToFile() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 saveToFile(file: string): Promise<boolean>;
@@ -16,7 +16,7 @@ saveToFile(file: string): Promise<boolean>;
 |  --- | --- | --- |
 |  file | string |  |
 
-<b>Returns:</b>
+**Returns:**
 
 Promise&lt;boolean&gt;
 

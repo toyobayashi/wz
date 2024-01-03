@@ -6,7 +6,7 @@
 
 Constructs a new instance of the `Canvas` class
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 constructor(width: number, height: number);

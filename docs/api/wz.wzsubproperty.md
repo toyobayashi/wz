@@ -5,14 +5,14 @@
 ## WzSubProperty class
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export declare class WzSubProperty extends WzExtended implements IPropertyContainer 
 ```
-<b>Extends:</b> [WzExtended](./wz.wzextended.md)
+**Extends:** [WzExtended](./wz.wzextended.md)
 
-<b>Implements:</b> [IPropertyContainer](./wz.ipropertycontainer.md)
+**Implements:** [IPropertyContainer](./wz.ipropertycontainer.md)
 
 ## Constructors
 
@@ -26,8 +26,8 @@ export declare class WzSubProperty extends WzExtended implements IPropertyContai
 |  --- | --- | --- | --- |
 |  [name](./wz.wzsubproperty.name.md) |  | string |  |
 |  [parent](./wz.wzsubproperty.parent.md) |  | [WzObject](./wz.wzobject.md) \| null |  |
-|  [propertyType](./wz.wzsubproperty.propertytype.md) |  | [WzPropertyType](./wz.wzpropertytype.md) |  |
-|  [wzProperties](./wz.wzsubproperty.wzproperties.md) |  | Set&lt;[WzImageProperty](./wz.wzimageproperty.md)<!-- -->&gt; |  |
+|  [propertyType](./wz.wzsubproperty.propertytype.md) | <code>readonly</code> | [WzPropertyType](./wz.wzpropertytype.md) |  |
+|  [wzProperties](./wz.wzsubproperty.wzproperties.md) | <code>readonly</code> | Set&lt;[WzImageProperty](./wz.wzimageproperty.md)<!-- -->&gt; |  |
 
 ## Methods
 

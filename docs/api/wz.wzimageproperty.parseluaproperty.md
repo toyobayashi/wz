@@ -4,7 +4,7 @@
 
 ## WzImageProperty.parseLuaProperty() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 static parseLuaProperty<P extends WzObject>(_offset: number, reader: WzBinaryReader, parent: P, _parentImg: WzImage): Promise<WzLuaProperty>;
@@ -19,7 +19,7 @@ static parseLuaProperty<P extends WzObject>(_offset: number, reader: WzBinaryRea
 |  parent | P |  |
 |  \_parentImg | [WzImage](./wz.wzimage.md) |  |
 
-<b>Returns:</b>
+**Returns:**
 
 Promise&lt;[WzLuaProperty](./wz.wzluaproperty.md)<!-- -->&gt;
 

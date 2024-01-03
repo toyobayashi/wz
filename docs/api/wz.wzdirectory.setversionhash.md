@@ -4,7 +4,7 @@
 
 ## WzDirectory.setVersionHash() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 setVersionHash(newHash: number): void;
@@ -16,7 +16,7 @@ setVersionHash(newHash: number): void;
 |  --- | --- | --- |
 |  newHash | number |  |
 
-<b>Returns:</b>
+**Returns:**
 
 void
 

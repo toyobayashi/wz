@@ -4,7 +4,7 @@
 
 ## WzObject.\_disposed property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 protected _disposed: boolean;

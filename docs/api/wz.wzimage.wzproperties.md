@@ -4,7 +4,7 @@
 
 ## WzImage.wzProperties property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 get wzProperties(): Set<WzImageProperty>;

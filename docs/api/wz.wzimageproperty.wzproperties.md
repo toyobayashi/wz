@@ -5,7 +5,7 @@
 ## WzImageProperty.wzProperties property
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 /** @virtual */

@@ -4,7 +4,7 @@
 
 ## WzImageProperty.extractMore() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 static extractMore<P extends WzObject>(reader: WzBinaryReader, offset: number, _eob: number, name: string, iname: string, parent: P, imgParent: WzImage): Promise<WzExtended>;
@@ -22,7 +22,7 @@ static extractMore<P extends WzObject>(reader: WzBinaryReader, offset: number, _
 |  parent | P |  |
 |  imgParent | [WzImage](./wz.wzimage.md) |  |
 
-<b>Returns:</b>
+**Returns:**
 
 Promise&lt;[WzExtended](./wz.wzextended.md)<!-- -->&gt;
 

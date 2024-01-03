@@ -4,7 +4,7 @@
 
 ## WzImage.changed property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 changed: boolean;

@@ -4,12 +4,12 @@
 
 ## Canvas.getWidth() method
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 getWidth(): number;
 ```
-<b>Returns:</b>
+**Returns:**
 
 number
 

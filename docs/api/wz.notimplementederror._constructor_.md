@@ -6,7 +6,7 @@
 
 Constructs a new instance of the `NotImplementedError` class
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 constructor(where?: string);
@@ -16,5 +16,5 @@ constructor(where?: string);
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  where | string | <i>(Optional)</i> |
+|  where | string | _(Optional)_ |
 

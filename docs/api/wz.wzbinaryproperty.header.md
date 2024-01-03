@@ -4,7 +4,7 @@
 
 ## WzBinaryProperty.header property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 header: Uint8Array;

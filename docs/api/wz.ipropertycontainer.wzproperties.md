@@ -4,7 +4,7 @@
 
 ## IPropertyContainer.wzProperties property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 readonly wzProperties: Set<WzImageProperty>;

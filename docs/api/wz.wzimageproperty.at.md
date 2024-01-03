@@ -5,7 +5,7 @@
 ## WzImageProperty.at() method
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 /** @virtual */
@@ -18,7 +18,7 @@ at(_name: string): WzImageProperty | null;
 |  --- | --- | --- |
 |  \_name | string |  |
 
-<b>Returns:</b>
+**Returns:**
 
 [WzImageProperty](./wz.wzimageproperty.md) \| null
 
