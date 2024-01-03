@@ -9,16 +9,15 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - uses: mymindstorm/setup-emsdk@v10
+    - uses: actions/checkout@v4
+    - uses: mymindstorm/setup-emsdk@v13
       with:
-        version: '2.0.24'
+        version: '3.1.44'
         actions-cache-folder: 'emsdk-cache'
-    - uses: actions/setup-node@v2
+    - uses: actions/setup-node@v3
       with:
-        node-version: '14.x'
+        node-version: '20.x'
         registry-url: 'https://registry.npmjs.org/'
-        scope: '@tybys'
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
     - run: npm install
@@ -31,4 +30,4 @@ jobs:
     - run: npm run build
     - name: Publish NPM
       if: ${{ startsWith(github.event.ref, 'refs/tags') }}
-      run: npm publish --@tybys:registry=https://registry.npmjs.org/ --access public
+      run: npm publish
