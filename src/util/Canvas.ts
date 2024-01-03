@@ -72,7 +72,7 @@ export class Canvas {
   }
 
   public getCanvas (): HTMLCanvasElement | InstanceType<typeof Jimp> {
-    return this._canvas;
+    return this._canvas
   }
 
   public getBufferAsync (mime: string): Promise<Uint8Array> {
