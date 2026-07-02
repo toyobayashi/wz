@@ -1,4 +1,4 @@
-# node-wz
+# node-wz (Deprecated. See https://github.com/toyobayashi/libwz)
 
 MapleStory wz reader for Node.js and browser.
 
